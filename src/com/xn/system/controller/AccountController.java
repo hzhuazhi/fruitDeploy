@@ -91,20 +91,23 @@ public class AccountController extends BaseController{
 		if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
 			//check是否有重复的账号
 
-			if (bean.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.ROLE_SYS){
-				//管理员账号
-				Account queryBean = new Account();
-				queryBean.setAccountNum(bean.getAccountNum());
-				queryBean = accountService.queryByCondition(queryBean);
-				if (queryBean != null && queryBean.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-					sendFailureMessage(response,"有重复的账号,请重新输入其它账号!");
-				}else {
-					bean.setPassWd(MD5.parseMD5(bean.getPassWd()));
-					bean.setCreateUser(account.getId());
-					bean.setCreateRole(account.getRoleId());
-					accountService.add(bean);
-				}
-			}else if (bean.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.ROLE_TP){
+//			if (bean.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.ROLE_SYS){
+//
+//			}
+
+			//管理员账号
+			Account queryBean = new Account();
+			queryBean.setAccountNum(bean.getAccountNum());
+			queryBean = accountService.queryByCondition(queryBean);
+			if (queryBean != null && queryBean.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+				sendFailureMessage(response,"有重复的账号,请重新输入其它账号!");
+			}else {
+				bean.setPassWd(MD5.parseMD5(bean.getPassWd()));
+				bean.setCreateUser(account.getId());
+				bean.setCreateRole(account.getRoleId());
+				accountService.add(bean);
+			}
+//			else if (bean.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.ROLE_TP){
 //				//渠道账号
 //				AccountTpModel queryBean = new AccountTpModel();
 //				queryBean.setAccountNum(bean.getAccountNum());
@@ -116,7 +119,7 @@ public class AccountController extends BaseController{
 //					dataModel.setPassWd(MD5.parseMD5(bean.getPassWd()));
 //					accountTpService.add(dataModel);
 //				}
-			}
+//			}
 			sendSuccessMessage(response, "保存成功~");
 		}else {
 			sendFailureMessage(response,"登入超时，请重新登入!");
