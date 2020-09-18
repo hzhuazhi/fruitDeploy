@@ -21,6 +21,13 @@ public class ChannelBankModel extends BasePage {
     private String alias;
 
     /**
+     * 添加银行卡id
+     *
+     * @mbggenerated
+     */
+    private String bankIds;
+
+    /**
      * 商户ID：对应表tb_fr_channel的主键ID
      *
      * @mbggenerated
@@ -89,6 +96,18 @@ public class ChannelBankModel extends BasePage {
      * @mbggenerated
      */
     private String  bankCard;
+    /**
+     * 银行名称
+     *
+     * @mbggenerated
+     */
+    private String  bankName;
+    /**
+     * 开户人
+     *
+     * @mbggenerated
+     */
+    private String  accountName;
 
     /**
      * 银行卡id集合
@@ -200,5 +219,29 @@ public class ChannelBankModel extends BasePage {
 
     public void setBankIdList(List<Long> bankIdList) {
         this.bankIdList = bankIdList;
+    }
+
+    public String getBankIds() {
+        return bankIds;
+    }
+
+    public void setBankIds(String bankIds) {
+        this.bankIds = bankIds;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 }

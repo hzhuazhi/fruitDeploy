@@ -14,13 +14,23 @@
         <result column="ts_time" property="tsTime" jdbcType="TIMESTAMP" />
         <result column="yn" property="yn" jdbcType="BIT" />
         <result column="bank_card" property="bankCard" jdbcType="BIT" />
+        <result column="bank_name" property="bankName" jdbcType="BIT" />
+        <result column="account_name" property="accountName" jdbcType="BIT" />
     </resultMap>
     <!-- 定义数据库基本列,只适用代替单表的*-->
     <sql id="Base_Column_List">
-         a.id, a.alias
+        DISTINCT a.id,a.alias,a.use_status,a.create_time
     <!-- a.use_status, a.create_time, a.update_time, a.ts_time, a.yn-->
 
-</sql>
+    </sql>
+
+
+
+
+
+    <sql id="Base_Column_List_All">
+        b.bank_card,b.id as bank_id
+    </sql>
 
 <!-- 查询条件 -->
     <sql id="Example_Where_Clause">
@@ -57,10 +67,46 @@
         </trim>
     </sql>
 
+
+    <sql id="Example_Where_Clause_Not_Id">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="bankIdList != null and bankIdList.size()>0">
+                and b.id not in
+                <foreach item="item" index="index" collection="bankIdList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            and b.yn =  0
+        </trim>
+    </sql>
+
+
+    <!-- 查询所有的数据-->
+    <select id="queryByAll" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List_All"/>
+        from tb_fr_channel_bank a inner JOIN  tb_fr_bank b
+        on  a.bank_id = b.id
+        <include refid="Example_Where_Clause_id"/>
+    </select>
+
+
+    <!-- 查询所有的数据-->
+    <select id="queryNotChannelBankAll" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List_All"/>
+        from  tb_fr_bank b
+        <include refid="Example_Where_Clause_Not_Id"/>
+    </select>
+
+
     <!-- 查询总数-->
     <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
         select count(distinct a.id)
-        from tb_fr_channel_bank a
+        from  tb_fr_channel  a left JOIN
+        tb_fr_channel_bank  b
+        on  a.id =b.channel_id
         <include refid="Example_Where_Clause"/>
     </select>
 
@@ -68,7 +114,9 @@
     <select id="queryByList" resultMap="dataMap"  parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_fr_channel_bank a
+        from tb_fr_channel  a left JOIN
+              tb_fr_channel_bank  b
+              on  a.id =b.channel_id
         <include refid="Example_Where_Clause"/>
         order by a.create_time desc
         limit #{startIndex},#{pageSize}
@@ -86,10 +134,9 @@
 
     <!-- 根据id查询记录 -->
     <select id="queryById"  resultMap="dataMap" parameterType="Object">
-        select
-        <include refid="Base_Column_List" />
+        select  a.id,a.channel_id,a.bank_id,a.remark,a.create_time
         from tb_fr_channel_bank a
-        <include refid="Example_Where_Clause_id"/>
+        where  a.channel_id=#{channelId}
     </select>
 
     <!-- 根据条件查询记录 -->
@@ -185,10 +232,9 @@
             <if test="useStatus != 0 and useStatus >0 " >
                 a.use_status=#{useStatus},
             </if>
-            a.yn=#{yn},
             a.update_time=NOW()
         </trim>
-        <include refid="Example_Where_Clause_id"/>
+        where  a.id=#{id}
     </update>
 
     <!--逻辑删除数据 -->
@@ -204,9 +250,11 @@
 
     <!-- 通过id 查询那些银行卡 -->
     <select id="byIdQueryBank" resultMap="dataMap"  parameterType="java.lang.Long">
-        select distinct a.bank_id
-        from tb_fr_channel_bank a
-       where  a.id=#{id}
+        select  a.id,a.bank_id,b.bank_name,b.bank_card,b.account_name
+         from tb_fr_channel_bank a left JOIN  tb_fr_bank b
+				on  a.bank_id =b.id
+       where  a.channel_id=#{channelId}
+       and a.yn=0
     </select>
 
 

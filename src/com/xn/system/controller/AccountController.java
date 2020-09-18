@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.xn.common.constant.ManagerConstant;
 
+import com.xn.manager.model.MerchantModel;
+import com.xn.manager.service.MerchantService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,6 +45,9 @@ public class AccountController extends BaseController{
 
 	@Autowired
 	private RoleService<Role> roleService;
+
+	@Autowired
+	private MerchantService<MerchantModel> merchantService;
 	
 	/**
 	 * 获取页面
@@ -106,6 +111,15 @@ public class AccountController extends BaseController{
 				bean.setCreateUser(account.getId());
 				bean.setCreateRole(account.getRoleId());
 				accountService.add(bean);
+				if(bean.getRoleId()==2){
+					MerchantModel merchantModel  = new  MerchantModel();
+					merchantModel.setAccountId(bean.getId());
+					merchantModel.setAlias(bean.getAcName());
+					merchantModel.setBalance("0");
+					merchantModel.setLeastMoney("0");
+					merchantModel.setUseStatus(1);
+					merchantService.add(merchantModel);
+				}
 			}
 //			else if (bean.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.ROLE_TP){
 //				//渠道账号

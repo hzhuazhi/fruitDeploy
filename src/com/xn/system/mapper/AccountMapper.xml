@@ -60,6 +60,9 @@
 			<if test="isEnable != 0 and isEnable >0 " >
 				and a.is_enable = #{isEnable}
 			</if>
+			<if test="createUser != 0 and createUser >0 " >
+				and a.create_user = #{createUser}
+			</if>
 			and a.yn =  0
 		</trim>
 	</sql>

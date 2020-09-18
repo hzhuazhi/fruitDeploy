@@ -59,4 +59,14 @@ public class Constant {
 //	public static String APP_PATH="D:\\opt";
     
     public static String APP_DOWN_URL="http://116.62.102.4:13008/fileServer/file/fStart.do?fiNa=###fileName###&fiAres=&fiNaAres=###filePath###";
+
+	/**
+	 * 存放文件路径地址
+	 */
+    public  static String FOREIGN_ADDRESS="http://47.116.98.162:8002/img/";
+	/**
+	 * 本地存放地址
+	 */
+//    public  static String STORE_ADDRESS="D:/test/";
+    public  static String STORE_ADDRESS="/opt/app/tomcat01/webapps/img";
 }

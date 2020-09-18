@@ -55,6 +55,12 @@ public class BankModel extends BasePage {
      * @mbggenerated
      */
     private Long merchantId;
+    /**
+     * 卡站点id
+     *
+     * @mbggenerated
+     */
+    private Long cardSiteId;
 
     /**
      * 银行名称/归属开户行
@@ -475,5 +481,13 @@ public class BankModel extends BasePage {
 
     public void setBankStrategyList(List<Long> bankStrategyList) {
         this.bankStrategyList = bankStrategyList;
+    }
+
+    public Long getCardSiteId() {
+        return cardSiteId;
+    }
+
+    public void setCardSiteId(Long cardSiteId) {
+        this.cardSiteId = cardSiteId;
     }
 }

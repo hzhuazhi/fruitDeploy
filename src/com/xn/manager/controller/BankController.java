@@ -6,12 +6,10 @@ import com.xn.common.controller.BaseController;
 import com.xn.common.util.BeanUtils;
 import com.xn.common.util.ExcelUtil;
 import com.xn.common.util.HtmlUtil;
-import com.xn.manager.model.AccountTpModel;
-import com.xn.manager.model.BankModel;
-import com.xn.manager.model.MobileCardModel;
-import com.xn.manager.model.TestExecl;
+import com.xn.manager.model.*;
 import com.xn.manager.model.excel.BankExcelModel;
 import com.xn.manager.service.BankService;
+import com.xn.manager.service.BankTypeService;
 import com.xn.manager.service.MobileCardService;
 import com.xn.system.entity.Account;
 import org.apache.commons.lang.StringUtils;
@@ -49,6 +47,10 @@ public class BankController extends BaseController {
     @Autowired
     private MobileCardService<MobileCardModel> mobileCardService;
 
+
+    @Autowired
+    private BankTypeService<BankTypeModel> bankTypeService;
+
     /**
      * 获取页面
      */
@@ -70,8 +72,11 @@ public class BankController extends BaseController {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
             if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
-                //不是管理员，只能查询自己的数据
-                model.setId(account.getId());
+                if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                    model.setAccountId(account.getId());
+                }else if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+                    model.setCardSiteId(account.getId());
+                }
             }
             dataList = bankService.queryByList(model);
         }
@@ -88,9 +93,10 @@ public class BankController extends BaseController {
         List<BankModel> dataList = new ArrayList<BankModel>();
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
-                //不是管理员，只能查询自己的数据
-                model.setId(account.getId());
+            if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                model.setAccountId(account.getId());
+            }else if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+                model.setCardSiteId(account.getId());
             }
             dataList = bankService.queryAllList(model);
         }
@@ -104,11 +110,14 @@ public class BankController extends BaseController {
     public String jumpAdd(HttpServletRequest request, HttpServletResponse response, Model model) {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.ROLE_SYS){
-                sendFailureMessage(response,"只允许管理员操作!");
-            }else {
-//                model.addAttribute("agent", agentService.queryAllList());
+            MobileCardModel  mobileCardModel = new  MobileCardModel();
+            if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                mobileCardModel.setAccountId(account.getId());
+            }else if(account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE) {
+                mobileCardModel.setCardSiteId(account.getId());
             }
+            model.addAttribute("mobile",mobileCardService.queryAllList(mobileCardModel));
+            model.addAttribute("type",bankTypeService.queryAllList());
         }else {
             sendFailureMessage(response,"登录超时,请重新登录在操作!");
         }
@@ -122,6 +131,12 @@ public class BankController extends BaseController {
     public void add(HttpServletRequest request, HttpServletResponse response, BankModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                bean.setAccountId(account.getId());
+            }else if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+                bean.setAccountId(account.getCreateUser());
+                bean.setCardSiteId(account.getId());
+            }
             Map<String, Object>   bankMap= bankService.isCheckCardsBank(bean,account);
             if(bankMap.get("type").equals("0")){
                 bankService.add((BankModel)bankMap.get("bankModel"));
@@ -142,11 +157,25 @@ public class BankController extends BaseController {
      * 获取修改页面
      */
     @RequestMapping("/jumpUpdate")
-    public String jumpUpdate(Model model, long id, Integer op) {
-        AccountTpModel atModel = new AccountTpModel();
+    public String jumpUpdate(HttpServletRequest request, HttpServletResponse response, Model model, long id, Integer op) {
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        BankModel atModel = new BankModel();
         atModel.setId(id);
-        model.addAttribute("account", bankService.queryById(atModel));
-        model.addAttribute("op", op);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            MobileCardModel  mobileCardModel = new  MobileCardModel();
+            if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                mobileCardModel.setAccountId(account.getId());
+            }else if(account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE) {
+                mobileCardModel.setCardSiteId(account.getId());
+            }
+            model.addAttribute("mobile",mobileCardService.queryAllList(mobileCardModel));
+            model.addAttribute("account", bankService.queryById(atModel));
+            model.addAttribute("op", op);
+            model.addAttribute("type",bankTypeService.queryAllList());
+        }else {
+            sendFailureMessage(response,"登录超时,请重新登录在操作!");
+        }
+
         return "manager/bank/bankEdit";
     }
 
@@ -160,6 +189,28 @@ public class BankController extends BaseController {
 //            if ("2".equals(op)) {
 //                bean.setPassWd(MD5.parseMD5(bean.getPassWd()));
 //            }
+            BankTypeModel queryBankTypeBean  = new  BankTypeModel();
+            queryBankTypeBean.setId(bean.getBankTypeId());
+            BankTypeModel queryBean1 = (BankTypeModel) bankTypeService.queryByCondition(queryBankTypeBean);
+            if(queryBean1 != null && queryBean1.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+                bean.setBankName(queryBean1.getBankName());
+                bean.setBankTypeId(queryBean1.getId());
+                bean.setBankCode(queryBean1.getBankCode());
+                bean.setSmsNum(queryBean1.getSmsNum());
+            }else{
+                sendFailureMessage(response, "该银行名称未部署，请联系管理员！");
+            }
+
+            MobileCardModel mobileCardModel = new MobileCardModel();
+            mobileCardModel.setId(bean.getMobileCardId());
+            MobileCardModel queryMobileBean =(MobileCardModel)mobileCardService.queryByCondition(mobileCardModel);
+
+            if(queryMobileBean != null && queryMobileBean.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+                bean.setPhoneNum(queryMobileBean.getPhoneNum());
+            }else{
+                sendFailureMessage(response, "该手机号未部署，请联系管理员！");
+            }
+
             bankService.update(bean);
             sendSuccessMessage(response, "保存成功~");
         }else {
@@ -210,6 +261,7 @@ public class BankController extends BaseController {
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
             String    rsString  =  "";
             List<BankModel>     addList =  new ArrayList<>();
+
             try {
                 if(file == null  || file.getInputStream() == null || StringUtils.isBlank(file.getName())){
                     sendFailureMessage(response, "该文件为空，请上传正确的文件！");
@@ -223,6 +275,7 @@ public class BankController extends BaseController {
 
                     BankModel bean= new BankModel();
                     BeanUtils.copy(testExecl,bean);
+
                     Map<String, Object>   bankMap= bankService.isCheckCardsBank(bean,account);
                     if(bankMap.get("type").equals("0")){//成功的结果
                         addList.add((BankModel)bankMap.get("bankModel"));
@@ -256,5 +309,18 @@ public class BankController extends BaseController {
         }else{
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
         }
+    }
+
+    /***
+     * 获取卡商信息
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping("/queryBankType")
+    public void queryAccount(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<BankTypeModel> dataList = new ArrayList<BankTypeModel>();
+        dataList = bankTypeService.queryAllList();
+        HtmlUtil.writerJson(response, dataList);
     }
 }

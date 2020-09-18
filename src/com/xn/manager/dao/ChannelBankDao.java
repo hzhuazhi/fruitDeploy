@@ -23,4 +23,18 @@ public interface ChannelBankDao<T> extends BaseDao<T> {
      * @return
      */
     public List<ChannelBankModel> byBankIdQueryBankCard(ChannelBankModel channelBankModel);
+
+    /**
+     * 根据条件查询有的数据
+     * @param channelBankModel
+     * @return
+     */
+    public List<ChannelBankModel> queryByAll(ChannelBankModel channelBankModel);
+
+    /**
+     * 查询不包含的银行卡信息
+     * @param channelBankModel
+     * @return
+     */
+    public List<ChannelBankModel> queryNotChannelBankAll(ChannelBankModel channelBankModel);
 }

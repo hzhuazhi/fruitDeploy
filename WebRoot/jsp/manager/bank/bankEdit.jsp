@@ -40,7 +40,21 @@
                             <span class="require" ><font color="red">*</font>手机号</span>
                         </div>
                         <div class="formCtrlDiv">
-                            <input type="text" class="formInput" id="phoneNum" name="phoneNum" value="${dl.phoneNum}"	maxlength="240" />
+                            <select id="mobileCardId" name="mobileCardId" class='text-input medium-input' >
+                                <option value="">===请选择===</option>
+                                <c:forEach items="${mobile}" var="dataList">
+                                    <c:choose>
+                                        <c:when test="${dl.mobileCardId == dataList.id}">
+                                            <option selected="selected" value="${dataList.id}">${dataList.phoneNum}</option>
+                                        </c:when>
+                                        <c:when test="${dl.mobileCardId != dataList.id}">
+                                            <option value="${dataList.id}">${dataList.phoneNum}</option>
+                                        </c:when>
+                                    </c:choose>
+                                </c:forEach>
+                            </select>
+
+                            <%--<input type="text" class="formInput" id="phoneNum" name="phoneNum" value="${dl.phoneNum}"	maxlength="240" />--%>
                         </div>
                     </li>
                     <li style="border-top: none;">
@@ -56,7 +70,20 @@
                             <span class="require"><font color="red">*</font>银行名称</span>
                         </div>
                         <div class="formCtrlDiv">
-                            <input type="text" class="formInput" id="bankName" name="bankName" value="${dl.bankName}" disabled maxlength="240" />
+                            <select id="bankTypeId" name="bankTypeId" class='text-input medium-input' >
+                                <option value="">===请选择===</option>
+                                <c:forEach items="${type}" var="dataList">
+                                    <c:choose>
+                                        <c:when test="${dl.bankTypeId == dataList.id}">
+                                            <option selected="selected" value="${dataList.id}">${dataList.bankName}</option>
+                                        </c:when>
+                                        <c:when test="${dl.bankTypeId != dataList.id}">
+                                            <option value="${dataList.id}">${dataList.bankName}</option>
+                                        </c:when>
+                                    </c:choose>
+                                </c:forEach>
+                            </select>
+                            <%--<input type="text" class="formInput" id="bankName" name="bankName" value="${dl.bankName}" disabled maxlength="240" />--%>
                         </div>
                     </li>
                     <li style="border-top: none;">
@@ -221,9 +248,9 @@
                     required:true,
                     maxlength:20
                 },
-                bankName:{
+                bankTypeId:{
                     required:true,
-                    maxlength:20,
+                    maxlength:2,
                 },
                 accountName:{
                     required:true,
@@ -275,9 +302,9 @@
                     required : "银行卡账号不能为空!",
                     maxlength : "银行卡账号长度最多是20个字符!"
                 },
-                bankName:{
+                bankTypeId:{
                     required : "银行名称不能为空!",
-                    maxlength : "银行名称长度最多是20个字符!",
+                    maxlength : "银行名称长度最多是2个字符!",
                 },
                 accountName:{
                     required : "开户名不能为空!",

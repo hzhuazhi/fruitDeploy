@@ -102,14 +102,20 @@
             <if test="id != null" >
                 id,
             </if>
+            <if test="accountId != null" >
+                account_id,
+            </if>
             <if test="alias != null" >
                 alias,
             </if>
-            <if test="channelId != null" >
-                channel_id,
+            <if test="balance != null" >
+                balance,
             </if>
-            <if test="bankId != null" >
-                bank_id,
+            <if test="leastMoney != null" >
+                least_money,
+            </if>
+            <if test="merchantType != null" >
+                merchant_type,
             </if>
             <if test="remark != null" >
                 remark,
@@ -124,14 +130,20 @@
             <if test="id != null" >
                 #{id,jdbcType=BIGINT},
             </if>
+            <if test="accountId != null" >
+                #{accountId,jdbcType=BIGINT},
+            </if>
             <if test="alias != null" >
                 #{alias,jdbcType=VARCHAR},
             </if>
-            <if test="channelId != null" >
-                #{channelId,jdbcType=BIGINT},
+            <if test="balance != null" >
+                #{balance,jdbcType=VARCHAR},
             </if>
-            <if test="bankId != null" >
-                #{bankId,jdbcType=BIGINT},
+            <if test="leastMoney != null" >
+                #{leastMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="merchantType != null" >
+                #{merchantType,jdbcType=BIT},
             </if>
             <if test="remark != null" >
                 #{remark,jdbcType=VARCHAR},
@@ -148,14 +160,20 @@
     <update id="update" parameterType="Object">
         UPDATE tb_fr_merchant a
         <trim prefix="set" suffixOverrides=",">
+            <if test="accountId != null" >
+                account_id = #{accountId,jdbcType=BIGINT},
+            </if>
             <if test="alias != null" >
                 alias = #{alias,jdbcType=VARCHAR},
             </if>
-            <if test="channelId != null" >
-                channel_id = #{channelId,jdbcType=BIGINT},
+            <if test="balance != null" >
+                balance = #{balance,jdbcType=VARCHAR},
             </if>
-            <if test="bankId != null" >
-                bank_id = #{bankId,jdbcType=BIGINT},
+            <if test="leastMoney != null" >
+                least_money = #{leastMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="merchantType != null" >
+                merchant_type = #{merchantType,jdbcType=BIT},
             </if>
             <if test="remark != null" >
                 remark = #{remark,jdbcType=VARCHAR},

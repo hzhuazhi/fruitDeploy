@@ -74,6 +74,18 @@ public class BankTypeModel   extends BasePage {
      * @mbggenerated
      */
     private Integer yn;
+    /**
+     * 卡商id
+     *
+     * @mbggenerated
+     */
+    public  Long  accountId;
+    /**
+     * 卡站点id
+     *
+     * @mbggenerated
+     */
+    public  Long  cardSiteId;
 
     public Long getId() {
         return id;

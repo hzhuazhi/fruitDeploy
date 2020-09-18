@@ -16,21 +16,32 @@ var account = {
         {"data":"id",},
         {"data":"alias",},
         {"data":"bankCardInfo",},
-        // {"data":"channelId", },
+        // {"data":"createTime", },
+        {"data":"useStatus",
+            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                var html = '';
+                if(oData.useStatus==1){
+                    html+= '<span style="color: #2f9833">正常使用</span>';
+                }else if(oData.useStatus==2){
+                    html+= '<span style="color: #ff3710">暂停使用</span>';
+                }
+                $(nTd).html(html);
+            }
+        },
         {"data":"id",
-            // "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-            //     var html = '';
-            //     var isEnableHtml = '';
-            //     if(oData.useStatus==1){
-            //         html+= '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/channelbank/manyOperation.do?useStatus=2&id='+oData.id+'" > 禁用 </a>';
-            //     }else if(oData.useStatus==2){
-            //         html+= '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/channelbank/manyOperation.do?useStatus=1&id='+oData.id+'" >  启用 </a>';
-            //     }
-            //     html+= '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/channelbank/jumpUpdate.do?op=1&id='+oData.id+'"> 编辑 </a>'
-            //         // +  '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/channel/jumpUpdate.do?op=1&id='+oData.id+'"> 部署 </a>'
-            //         +' <a class = "dataTableBtn dataTableResetBtn"  directkey="' + oData.id + '" href = "javascript:void(0);">删除 </a>';
-            //     $(nTd).html(html);
-            // }
+            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                var html = '';
+                var isEnableHtml = '';
+                // if(oData.useStatus==1){
+                //     html+= '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/channelbank/manyOperation.do?useStatus=2&id='+oData.id+'" > 禁用 </a>';
+                // }else if(oData.useStatus==2){
+                //     html+= '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/channelbank/manyOperation.do?useStatus=1&id='+oData.id+'" >  启用 </a>';
+                // }
+                html+= '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/channelbank/jumpBankUpdate.do?op=1&id='+oData.id+'"> 编辑 </a>'
+                    // +  '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/channel/jumpUpdate.do?op=1&id='+oData.id+'"> 部署 </a>'
+                    +' <a class = "dataTableBtn dataTableResetBtn"  directkey="' + oData.id + '" href = "javascript:void(0);">删除 </a>';
+                $(nTd).html(html);
+            }
         }
     ],
     // 查询条件，aoData是必要的。其他的就是对应的实体类字段名，因为条件查询是把数据封装在实体类中的。

@@ -1,14 +1,6 @@
 package com.xn.common.util.file;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
@@ -206,4 +198,29 @@ public class FileUtils {
 		}
 	}
 
+
+	public static void main(String [] args)throws  Exception{
+        File     file   =  new File("D:\\微信图片_20200616200200.jpg");
+        File     filea   =  new File("D:\\4444.jpg");
+//		FileUtils.copyFileUsingFileStreams(file,filea);
+//		FileOutputStream output = new FileOutputStream(newfilePath);
+	}
+
+
+	public static void copyFileUsingFileStreams(InputStream input, File dest)throws IOException {
+//		  InputStream input = null;
+		  OutputStream output = null;
+		  try {
+//		  	      input = new FileInputStream(source);
+		          output = new FileOutputStream(dest);
+		          byte[] buf = new byte[1024];
+		          int bytesRead;
+				  while ((bytesRead = input.read(buf)) != -1) {
+					  output.write(buf, 0, bytesRead);
+				   }
+		  } finally {
+			   input.close();
+			   output.close();
+		  }
+	}
 }

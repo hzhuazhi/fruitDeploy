@@ -37,18 +37,33 @@ public class ChannelBankServiceImpl<T> extends BaseServiceImpl<T> implements Cha
         if(list.size()==0){
             return rsString;
         }else{
-            ChannelBankModel  channelBankModel  = new  ChannelBankModel();
-            List<Long>     idList = new ArrayList<>();
+//            List<Long>     idList = new ArrayList<>();
             for(ChannelBankModel channelBankModel1:list){
-                idList.add(channelBankModel1.getBankId());
+//                idList.add(channelBankModel1.getBankId());
+                rsString+=channelBankModel1.getBankCard()+"#";
             }
-            channelBankModel.setBankIdList(idList);
-            List<ChannelBankModel> rsList=channelBankDao.byBankIdQueryBankCard(channelBankModel);
-
-            for (ChannelBankModel channelBankModelRs:rsList){
-                rsString=channelBankModelRs.getBankCard()+"";
-            }
+//            channelBankModel.setBankIdList(idList);
+//            List<ChannelBankModel> rsList=channelBankDao.byBankIdQueryBankCard(channelBankModel);
+//
+//            for (ChannelBankModel channelBankModelRs:rsList){
+//                rsString+=channelBankModelRs.getBankCard()+"#";
+//            }
         }
         return rsString;
+    }
+
+    @Override
+    public List<ChannelBankModel> queryByAll(ChannelBankModel channelBankModel) {
+        return channelBankDao.queryByAll(channelBankModel);
+    }
+
+    @Override
+    public List<ChannelBankModel> queryNotChannelBankAll(ChannelBankModel channelBankModel) {
+        return channelBankDao.queryNotChannelBankAll(channelBankModel);
+    }
+
+    @Override
+    public List<ChannelBankModel> byIdQueryBank(ChannelBankModel channelBankModel) {
+        return channelBankDao.byIdQueryBank(channelBankModel.getChannelId());
     }
 }

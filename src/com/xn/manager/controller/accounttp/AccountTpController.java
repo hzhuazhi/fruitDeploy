@@ -6,7 +6,9 @@ import com.xn.common.enums.ManagerEnum;
 import com.xn.common.util.HtmlUtil;
 import com.xn.common.util.MD5;
 import com.xn.manager.model.AccountTpModel;
+import com.xn.manager.model.MerchantModel;
 import com.xn.manager.service.AccountTpService;
+import com.xn.manager.service.MerchantService;
 import com.xn.system.entity.Account;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class AccountTpController extends BaseController {
 
     @Autowired
     private AccountTpService<AccountTpModel> accountTpService;
+
+
+
 
 
 
@@ -120,6 +125,9 @@ public class AccountTpController extends BaseController {
                 bean.setRoleId(ManagerEnum.RoleTypeEnum.TP.getRoleType());
                 bean.setSecretKey(MD5.parseMD5(bean.getAccountNum()));
                 accountTpService.add(bean);
+
+
+
                 sendSuccessMessage(response, "保存成功~");
             }
         }else {

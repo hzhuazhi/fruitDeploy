@@ -131,6 +131,20 @@ public class MobileCardModel extends BasePage {
      */
     private Integer yn;
 
+    /**
+     * 归属卡商ID
+     *
+     * @mbggenerated
+     */
+    private Long accountId;
+
+    /**
+     * 银行卡归属卡站点ID
+     *
+     * @mbggenerated
+     */
+    private Long cardSiteId;
+
     public Long getId() {
         return id;
     }
@@ -275,5 +289,21 @@ public class MobileCardModel extends BasePage {
 
     public void setMerchantId(Long merchantId) {
         this.merchantId = merchantId;
+    }
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+
+    public Long getCardSiteId() {
+        return cardSiteId;
+    }
+
+    public void setCardSiteId(Long cardSiteId) {
+        this.cardSiteId = cardSiteId;
     }
 }

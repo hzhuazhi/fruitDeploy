@@ -8,6 +8,7 @@ import com.xn.manager.model.ChannelModel;
 import com.xn.manager.service.ChannelBankService;
 import com.xn.manager.service.ChannelService;
 import com.xn.system.entity.Account;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,7 +61,9 @@ public class ChannelBankController extends BaseController {
             }
             List<ChannelBankModel> dataListInfo = channelBankService.queryByList(model);
 
+
             for(ChannelBankModel channelBankModel:dataListInfo){
+
                 String bankCardInfo  =  channelBankService.byIdQueryBankCard(channelBankModel.getId());
                 channelBankModel.setBankCardInfo(bankCardInfo);
                 dataList.add(channelBankModel);
@@ -116,6 +119,26 @@ public class ChannelBankController extends BaseController {
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
 //            check是否有重复的账号
             ChannelBankModel queryBean = new ChannelBankModel();
+
+            if(StringUtils.isBlank(bean.getBankIds())){
+                sendFailureMessage(response,"请选中要添加的银行卡号，再进行添加！");
+            }else{
+                String [] bankId = bean.getBankIds().split(",");
+                for(String str:bankId){
+                    queryBean.setBankId(Long.parseLong(str));
+                    ChannelBankModel queryBean1=channelBankService.queryByCondition(queryBean);
+                    if (queryBean1 != null && queryBean1.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+                        continue;
+                    }else{
+                        ChannelBankModel addModel  =  new  ChannelBankModel();
+                        addModel.setBankId(Long.parseLong(str));
+                        addModel.setChannelId(bean.getChannelId());
+                        channelBankService.add(addModel);
+                    }
+                }
+            }
+
+            sendSuccessMessage(response, "保存成功~");
 //            queryBean.setSecretKey(bean.getSecretKey());
 //            ChannelModel queryBean1 = channelService.queryByCondition(queryBean);
 //            if (queryBean1 != null && queryBean1.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
@@ -185,5 +208,56 @@ public class ChannelBankController extends BaseController {
         }else{
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
         }
+    }
+
+
+
+
+
+    @RequestMapping("/jumpBankUpdate")
+    public String jumpBankUpdate(Model model, long id, Integer op) {
+        ChannelBankModel atModel = new ChannelBankModel();
+        atModel.setChannelId(id);
+        model.addAttribute("account", atModel);
+        return "manager/channelbank/channelbankQuery";
+    }
+
+
+    /**
+     * 根据 条件查询 该条件下的银行卡信息
+     */
+    @RequestMapping("/queryIdList")
+    public void queryIdList(HttpServletRequest request, HttpServletResponse response, ChannelBankModel model) throws Exception {
+        List<ChannelBankModel> dataList = new ArrayList<ChannelBankModel>();
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            ChannelBankModel  queryBean = new ChannelBankModel();
+            queryBean.setChannelId(model.getChannelId());
+            dataList = channelBankService.byIdQueryBank(queryBean);
+        }
+        HtmlUtil.writerJson(response, model.getPage(), dataList);
+    }
+
+
+    /**
+     * 根据 条件查询 该条件下的银行卡信息
+     */
+    @RequestMapping("/queryNotChannelBankList")
+    public void queryNotChannelBankList(HttpServletRequest request, HttpServletResponse response, ChannelBankModel model) throws Exception {
+        List<ChannelBankModel> dataList = new ArrayList<ChannelBankModel>();
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+//            queryBean.setId(model.getId());
+
+            ChannelBankModel  queryBean = new ChannelBankModel();
+            dataList = channelBankService.queryByAll(queryBean);
+            List<Long>   bankIdList = new ArrayList<>();
+            for(ChannelBankModel channelBankModel:dataList){
+                bankIdList.add(channelBankModel.getBankId());
+            }
+            queryBean.setBankIdList(bankIdList);
+            dataList = channelBankService.queryNotChannelBankAll(queryBean);
+        }
+        HtmlUtil.writerJson(response, model.getPage(), dataList);
     }
 }

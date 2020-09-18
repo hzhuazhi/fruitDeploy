@@ -67,5 +67,19 @@ public class ManagerConstant {
          */
         public static final int IS_HANDLE_XYCL = 2;
 
+
+        /***
+         * 用于权限
+         * 卡商值
+         */
+        public static final int CARD_MERCHANTS_VALUE = 2;
+
+
+        /***
+         * 用于权限
+         * 卡站点值
+         */
+        public static final int CARD_SITE_VALUE = 3;
+
     }
 }

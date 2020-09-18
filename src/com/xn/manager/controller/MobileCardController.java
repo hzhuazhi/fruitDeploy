@@ -57,9 +57,11 @@ public class MobileCardController extends BaseController {
 //        model.setIsEnable(ManagerConstant.PUBLIC_CONSTANT.IS_ENABLE_ZC);
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
-                //不是管理员，只能查询自己的数据
-                model.setId(account.getId());
+            if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                model.setAccountId(account.getId());
+            }else if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+                model.setAccountId(account.getCreateUser());
+                model.setCardSiteId(account.getId());
             }
             dataList = mobileCardService.queryByList(model);
         }
@@ -76,9 +78,11 @@ public class MobileCardController extends BaseController {
         List<MobileCardModel> dataList = new ArrayList<MobileCardModel>();
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
-                //不是管理员，只能查询自己的数据
-                model.setId(account.getId());
+            if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                model.setAccountId(account.getId());
+            }else if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+                model.setAccountId(account.getCreateUser());
+                model.setCardSiteId(account.getId());
             }
             dataList = mobileCardService.queryAllList(model);
         }
@@ -92,11 +96,11 @@ public class MobileCardController extends BaseController {
     public String jumpAdd(HttpServletRequest request, HttpServletResponse response, Model model) {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.ROLE_SYS){
-                sendFailureMessage(response,"只允许管理员操作!");
-            }else {
-//                model.addAttribute("agent", agentService.queryAllList());
-            }
+//            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.ROLE_SYS){
+//                sendFailureMessage(response,"只允许管理员操作!");
+//            }else {
+////                model.addAttribute("agent", agentService.queryAllList());
+//            }
         }else {
             sendFailureMessage(response,"登录超时,请重新登录在操作!");
         }
@@ -113,15 +117,16 @@ public class MobileCardController extends BaseController {
             //check是否有重复的账号
             MobileCardModel mobileCardModel = new MobileCardModel();
             mobileCardModel.setPhoneNum(bean.getPhoneNum());
-//            bean.setMerchantId(account.getId());
-//            account。
+            if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                bean.setAccountId(account.getId());
+            }else if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+                bean.setAccountId(account.getCreateUser());
+                bean.setCardSiteId(account.getId());
+            }
             MobileCardModel queryBean = mobileCardService.queryByCondition(mobileCardModel);
             if (queryBean != null && queryBean.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
                 sendFailureMessage(response,"有重复的手机号了,请重新输入其它手机号!");
             }else{
-
-
-
                 mobileCardService.add(bean);
                 sendSuccessMessage(response, "保存成功~");
             }

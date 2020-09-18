@@ -2,9 +2,7 @@ package com.xn.manager.service.impl;
 
 import com.xn.common.dao.BaseDao;
 import com.xn.common.service.impl.BaseServiceImpl;
-import com.xn.manager.dao.BankTypeDao;
 import com.xn.manager.dao.MerchantDao;
-import com.xn.manager.service.BankTypeService;
 import com.xn.manager.service.MerchantService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

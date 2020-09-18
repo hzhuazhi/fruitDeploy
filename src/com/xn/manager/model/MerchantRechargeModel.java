@@ -1,7 +1,9 @@
 package com.xn.manager.model;
 
 import com.xn.common.page.BasePage;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Date;
 
 public class MerchantRechargeModel extends BasePage {
@@ -97,6 +99,11 @@ public class MerchantRechargeModel extends BasePage {
     private String remark;
 
     /**
+     * 卡商名字
+     */
+    private String acName;
+
+    /**
      * 创建日期：存的日期格式20160530
      *
      * @mbggenerated
@@ -158,6 +165,14 @@ public class MerchantRechargeModel extends BasePage {
      * @mbggenerated
      */
     private Integer yn;
+
+    /**
+     * 转账图片
+     *
+     * @mbggenerated
+     */
+    private MultipartFile pictureFile;
+
 
     public Long getId() {
         return id;
@@ -335,5 +350,22 @@ public class MerchantRechargeModel extends BasePage {
 
     public void setYn(Integer yn) {
         this.yn = yn;
+    }
+
+
+    public String getAcName() {
+        return acName;
+    }
+
+    public void setAcName(String acName) {
+        this.acName = acName;
+    }
+
+    public MultipartFile getPictureFile() {
+        return pictureFile;
+    }
+
+    public void setPictureFile(MultipartFile pictureFile) {
+        this.pictureFile = pictureFile;
     }
 }
