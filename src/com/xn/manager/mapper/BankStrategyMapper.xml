@@ -125,8 +125,8 @@
           max(update_time) update_time ,a.zfb_in_day_money, a.zfb_in_month_money, a.zfb_in_day_num, a.card_in_day_money,
         a.card_in_month_money, a.card_in_day_num,a.open_time_slot
         from tb_fr_bank_strategy a
-        group  by a.zfb_in_day_money, a.zfb_in_month_money, a.zfb_in_day_num, a.card_in_day_money,
-        a.card_in_month_money, a.card_in_day_num,a.open_time_slot
+--         group  by a.zfb_in_day_money, a.zfb_in_month_money, a.zfb_in_day_num, a.card_in_day_money,
+--         a.card_in_month_money, a.card_in_day_num,a.open_time_slot
     </select>
 
     <!-- 添加记录 -->

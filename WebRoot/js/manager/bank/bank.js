@@ -9,7 +9,8 @@ var account = {
         update_url : ctx+ "/bank/update.do",
         queryId_url: ctx+ "/bank/getId.do",
         delete_url: ctx+ "/bank/delete.do",
-        manyOperation_url: ctx+ "/bank/manyOperation.do"
+        manyOperation_url: ctx+ "/bank/manyOperation.do",
+        exportData_url : ctx +  "/bank/exportData.do"
     },
     //列表显示参数
     list:[
@@ -138,6 +139,8 @@ var account = {
             common.updateStatus(data);
         });
 
+
+
         //启用/禁用
         $(".dataTableEnableBtn").live("click",function(){
             var id = $(this).attr('directkey');
@@ -170,6 +173,11 @@ var account = {
     }
 
 }
+// 数据按照Excel格式导出
+$("#butExcelExport").click(function () {
+    alert(1)
+    common.dataExportExcel($("#condForm"));
+});
 
 $(function(){
     account.indexInit();

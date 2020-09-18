@@ -33,6 +33,12 @@
             <if test="bankName != null and bankName != '' " >
                 and a.bank_name = #{bankName}
             </if>
+            <if test="bankCode != null and bankCode != '' " >
+                and a.bank_code = #{bankCode}
+            </if>
+            <if test="smsNum != null and smsNum != '' " >
+                and a.sms_num = #{smsNum}
+            </if>
             <if test="accountId != 0 and accountId >0 " >
                 and a.account_id = #{accountId}
             </if>

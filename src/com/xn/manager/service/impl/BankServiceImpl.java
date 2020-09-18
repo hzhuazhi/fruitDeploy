@@ -72,8 +72,10 @@ public class BankServiceImpl<T> extends BaseServiceImpl<T> implements BankServic
 
             if(queryMobileBean != null && queryMobileBean.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
                 BankTypeModel queryBankTypeBean = new BankTypeModel();
-                if(bean.getBankTypeId()>0){
-                    queryBankTypeBean.setId(bean.getBankTypeId());
+                if(null!=bean.getBankTypeId()){
+                    if(bean.getBankTypeId()>0){
+                        queryBankTypeBean.setId(bean.getBankTypeId());
+                    }
                 }else if(!StringUtils.isBlank(bean.getBankName())){
                     queryBankTypeBean.setBankName(bean.getBankName());
                 }

@@ -46,6 +46,12 @@
             <if test="isEnable != 0 and isEnable >0 " >
                 and a.is_enable = #{isEnable}
             </if>
+            <if test="acName != null and acName != '' " >
+                and a.ac_name = #{acName}
+            </if>
+            <if test="accountNum != null and accountNum != '' " >
+                and a.account_num = #{accountNum}
+            </if>
             and a.yn =  0
         </trim>
     </sql>
@@ -121,7 +127,7 @@
             <if test="accountNum != null" >
                 account_num,
             </if>
-            <if test="passWd != null and passWd=='' " >
+            <if test="passWd != null " >
                 pass_wd,
             </if>
             <if test="roleId != null" >
@@ -167,7 +173,7 @@
             <if test="accountNum != null" >
                 #{accountNum,jdbcType=VARCHAR},
             </if>
-            <if test="passWd != null and passWd=='' " >
+            <if test="passWd != null " >
                 #{passWd,jdbcType=VARCHAR},
             </if>
             <if test="roleId != null" >

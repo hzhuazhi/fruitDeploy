@@ -87,8 +87,10 @@ var account = {
 
         // 重置
         $("#butReset").click(function(){
-            account.condJsonData['accountNum'] = "";
-            $("#accountNum").val("");
+            account.condJsonData['useName'] = "";
+            account.condJsonData['phoneNum'] = "";
+            $("#useName").val("");
+            $("#phoneNum").val("");
             common.showDatas(account.condJsonData,account.list);
         });
         //删除

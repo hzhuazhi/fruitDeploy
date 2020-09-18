@@ -71,7 +71,7 @@
                     </div>
                     <div class="formCtrlDiv">
                         <select id="isEnable" name="isEnable">
-                                <option value="0" selected>暂停状态</option>
+                                <option value="" selected>===请选择===</option>
                                 <option value="1">暂停使用</option>
                                 <option value="2">正常状态</option>
                         </select>

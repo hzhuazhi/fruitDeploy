@@ -154,9 +154,21 @@ public class MobileCardController extends BaseController {
     public void update(HttpServletRequest request, HttpServletResponse response,MobileCardModel bean, String op) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-//            if ("2".equals(op)) {
-//                bean.setPassWd(MD5.parseMD5(bean.getPassWd()));
-//            }
+            MobileCardModel mobileCardModel = new MobileCardModel();
+            mobileCardModel.setPhoneNum(bean.getPhoneNum());
+            if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                bean.setAccountId(account.getId());
+            }else if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+                bean.setAccountId(account.getCreateUser());
+                bean.setCardSiteId(account.getId());
+            }
+            MobileCardModel queryBean = mobileCardService.queryByCondition(mobileCardModel);
+
+            if (queryBean != null && queryBean.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+                if(bean.getId()!=queryBean.getId()){
+                    sendFailureMessage(response,"有重复的手机号了,请重新输入其它手机号!");
+                }
+            }
             mobileCardService.update(bean);
             sendSuccessMessage(response, "保存成功~");
         }else {

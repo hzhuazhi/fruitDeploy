@@ -22,7 +22,7 @@ var account = {
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                 var html = '';
                 if(oData.isEnable==0){
-                    html+= '<span style="color: #ff3710">暂停状态</span>';
+                    html+= '<span style="color: #ff3710">===请选择===</span>';
                 }else if(oData.isEnable==1){
                     html+= '<span style="color: #ff3710">暂停使用</span>';
                 }else if(oData.isEnable==2){
@@ -59,20 +59,20 @@ var account = {
         common.showDatas(this.condJsonData,this.list);
         // 条件查询按钮事件
         $('#btnQuery').click(function() {
-            account.condJsonData['alias'] = $("#alias").val();
-            account.condJsonData['secretKey'] = $("#secretKey").val();
-            account.condJsonData['useStatus'] = $("#useStatus").val();
+            account.condJsonData['acName'] = $("#acName").val();
+            account.condJsonData['accountNum'] = $("#accountNum").val();
+            account.condJsonData['isEnable'] = $("#isEnable").val();
             common.showDatas(account.condJsonData,account.list);
         });
 
         // 重置
         $("#butReset").click(function(){
-            account.condJsonData['alias'] = "";
-            account.condJsonData['secretKey'] = "";
-            account.condJsonData['useStatus'] = "";
-            $("#alias").val("");
-            $("#secretKey").val("");
-            $("#useStatus").val("0");
+            account.condJsonData['acName'] = "";
+            account.condJsonData['accountNum'] = "";
+            account.condJsonData['isEnable'] = "";
+            $("#aacNamelias").val("");
+            $("#accountNum").val("");
+            $("#isEnable").val("0");
             common.showDatas(account.condJsonData,account.list);
         });
         //删除

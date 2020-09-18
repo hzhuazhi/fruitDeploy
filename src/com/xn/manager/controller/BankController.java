@@ -3,9 +3,7 @@ package com.xn.manager.controller;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.xn.common.constant.ManagerConstant;
 import com.xn.common.controller.BaseController;
-import com.xn.common.util.BeanUtils;
-import com.xn.common.util.ExcelUtil;
-import com.xn.common.util.HtmlUtil;
+import com.xn.common.util.*;
 import com.xn.manager.model.*;
 import com.xn.manager.model.excel.BankExcelModel;
 import com.xn.manager.service.BankService;
@@ -26,6 +24,7 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -323,4 +322,27 @@ public class BankController extends BaseController {
         dataList = bankTypeService.queryAllList();
         HtmlUtil.writerJson(response, dataList);
     }
+
+    /**
+     * 实际导出Excel
+     * @param request
+     * @param response
+     * @param model
+     */
+    @RequestMapping("/exportData")
+    public void exportData(HttpServletRequest request, HttpServletResponse response, BankModel model) {
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            List<BankModel> dataList = new ArrayList<BankModel>();
+            // 导出数据
+            String[] titles = new String[10];
+            String[] titleCode = new String[10];
+            String filename = "导入银行卡信息";
+            titles = new String[]{"别名", "手机号","银行名称", "银行卡账号", "开户名", "收款日限金额", "收款月限金额"};
+            titleCode = new String[]{"alias", "phoneNum", "bankName", "bankCard", "accountName", "inDayMoney", "inMonthMoney"};
+            List<Map<String,Object>> paramList = new ArrayList<>();
+            ExportData.exportExcel(paramList, titles, titleCode, filename, response);
+        }
+    }
+
 }

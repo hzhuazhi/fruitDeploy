@@ -67,9 +67,13 @@
                 </div>
 
                 <%--<c:if test="${ACCOUNT.roleId==1}">--%>
-                    <div class = "searchdiv">
-                        <input type="button" class = "buttonClass imginput addbtn" value="新增账号" style="margin-left: 30px;" >
-                    </div>
+                <div class = "searchdiv">
+                    <input type="button" class = "buttonClass imginput addbtn" value="新增账号" style="margin-left: 30px;" >
+                </div>
+
+                <div class = "searchdiv">
+                    <input type="button" id="butExcelExport" class = "buttonClass imginput" value="下载导入模板" style="margin-left: 30px;" >
+                </div>
                 <%--</c:if>--%>
             </div>
         </form>

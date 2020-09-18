@@ -50,13 +50,21 @@ var account = {
         $('#btnQuery').click(function() {
             account.condJsonData['alias'] = $("#alias").val();
             account.condJsonData['bankName'] = $("#bankName").val();
+            account.condJsonData['bankCode'] = $("#bankCode").val();
+            account.condJsonData['smsNum'] = $("#smsNum").val();
             common.showDatas(account.condJsonData,account.list);
         });
 
         // 重置
         $("#butReset").click(function(){
-            account.condJsonData['accountNum'] = "";
-            $("#accountNum").val("");
+            account.condJsonData['alias'] = "";
+            account.condJsonData['bankName'] = "";
+            account.condJsonData['bankCode'] = "";
+            account.condJsonData['smsNum'] = "";
+            $("#alias").val("");
+            $("#bankName").val("");
+            $("#bankCode").val("");
+            $("#smsNum").val("");
             common.showDatas(account.condJsonData,account.list);
         });
         //删除

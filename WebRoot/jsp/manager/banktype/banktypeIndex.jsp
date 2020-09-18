@@ -13,11 +13,19 @@
             <div class = "condQueryCtrl">
                 <div class = "condQueryLabelDiv">类型名称	：</div>
                 <div class="formCtrlDiv">
-                    <input type ="text" class ="inputCommonSty" id="useName" name ="useName">
+                    <input type ="text" class ="inputCommonSty" id="alias" name ="alias">
                 </div>
                 <div class = "condQueryLabelDiv">银行名称：</div>
                 <div class="formCtrlDiv">
-                    <input type ="text" class ="inputCommonSty" id="phoneNum" name ="phoneNum">
+                    <input type ="text" class ="inputCommonSty" id="bankName" name ="bankName">
+                </div>
+                <div class = "condQueryLabelDiv">银行简码：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="bankCode" name ="bankCode">
+                </div>
+                <div class = "condQueryLabelDiv">短信号码：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="smsNum" name ="smsNum">
                 </div>
                 <div class="searchdiv">
                     <input type = "button" id = "btnQuery" class = "buttonClass imginput" value = "搜索" />

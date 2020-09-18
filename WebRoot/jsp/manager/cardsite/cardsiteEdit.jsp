@@ -74,18 +74,17 @@
                         </div>
                         <div class="formCtrlDiv">
                             <select id="isEnable" name="isEnable">
-                                <c:if test="${dl.isEnable == 0}">
-                                    <option value="0" selected>暂停状态</option>
-                                    <option value="1">暂停使用</option>
-                                    <option value="2">正常状态</option>
-                                </c:if>
+                                <option value="" >===请选择===<option>
+                                <%--<c:if test="${dl.isEnable == 0}">--%>
+                                    <%--<option value="0" selected>===请选择===</option>--%>
+                                    <%--<option value="1">暂停使用</option>--%>
+                                    <%--<option value="2">正常状态</option>--%>
+                                <%--</c:if>--%>
                                 <c:if test="${dl.isEnable == 1}">
-                                    <option value="0" >暂停状态<option>
                                     <option value="1" selected>暂停使用</option>
                                     <option value="2">正常状态</option>
                                 </c:if>
                                 <c:if test="${dl.isEnable == 2}">
-                                    <option value="0" >暂停状态</option>
                                     <option value="1" >暂停使用</option>
                                     <option value="2"selected>正常状态</option>
                                 </c:if>
@@ -127,9 +126,9 @@
                     required:true,
                     maxlength:20
                 },
-                acPhone:{
+                isEnable:{
                     required:true,
-                    maxlength:20
+                    maxlength:1
                 }
             },
             messages: {
@@ -149,8 +148,9 @@
                     required:"联系电话不能为空!",
                     number:"联系电话最多是20个字符!"
                 },
-                maxlength:{
-                    required:"请选择状态不能为空!"
+                isEnable:{
+                    required:"请选择状态不能为空!",
+                    number:"请选择状态不能为空!"
                 }
             },
 

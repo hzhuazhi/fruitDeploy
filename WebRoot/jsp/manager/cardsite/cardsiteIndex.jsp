@@ -11,20 +11,20 @@
     <div class = "condQueryDiv">
         <form id = "condForm">
             <div class = "condQueryCtrl">
-                <div class = "condQueryLabelDiv">商户名称：</div>
+                <div class = "condQueryLabelDiv">卡站点名称：</div>
                 <div class="formCtrlDiv">
-                    <input type ="text" class ="inputCommonSty" id="alias" name ="alias">
+                    <input type ="text" class ="inputCommonSty" id="acName" name ="acName">
                 </div>
-                <div class = "condQueryLabelDiv">商户秘钥：</div>
+                <div class = "condQueryLabelDiv">账号：</div>
                 <div class="formCtrlDiv">
-                    <input type ="text" class ="inputCommonSty" id="secretKey" name ="secretKey">
+                    <input type ="text" class ="inputCommonSty" id="accountNum" name ="accountNum">
                 </div>
                 <div class = "condQueryLabelDiv">使用状态：</div>
                 <div class="formCtrlDiv">
-                    <select id="useStatus" name="useStatus">
-                        <option value="0">===请选择===</option>
-                        <option value="1">正常使用</option>
-                        <option value="2">暂停使用</option>
+                    <select id="isEnable" name="isEnable">
+                        <option value="">===请选择===</option>
+                        <option value="1">暂停使用</option>
+                        <option value="2">正常使用</option>
                     </select>
                 </div>
                 <div class="searchdiv">
