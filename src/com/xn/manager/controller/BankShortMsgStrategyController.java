@@ -1,16 +1,14 @@
 package com.xn.manager.controller;
 
-import com.xn.common.constant.CacheKey;
-import com.xn.common.constant.CachedKeyUtils;
 import com.xn.common.constant.ManagerConstant;
 import com.xn.common.controller.BaseController;
 import com.xn.common.util.HtmlUtil;
 import com.xn.manager.model.BankShortMsgStrategyModel;
-import com.xn.manager.model.StrategyModel;
+import com.xn.manager.model.BankTypeModel;
 import com.xn.manager.service.BankShortMsgStrategyService;
-import com.xn.manager.service.RedisIdService;
-import com.xn.manager.service.StrategyService;
+import com.xn.manager.service.BankTypeService;
 import com.xn.system.entity.Account;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +35,9 @@ public class BankShortMsgStrategyController extends BaseController {
 
     @Autowired
     private BankShortMsgStrategyService<BankShortMsgStrategyModel> bankShortMsgStrategyService;
+
+    @Autowired
+    private BankTypeService<BankTypeModel> bankTypeService;
 
 
     /**
@@ -87,8 +88,8 @@ public class BankShortMsgStrategyController extends BaseController {
      * 获取新增页面
      */
     @RequestMapping("/jumpAdd")
-    public String jumpAdd(HttpServletRequest request, HttpServletResponse response) {
-//        model.addAttribute("rloeMenu", roleService.queryList());
+    public String jumpAdd(HttpServletRequest request, HttpServletResponse response, Model model) {
+        model.addAttribute("bankTyp", bankTypeService.queryAllList());
         return "manager/bankShortMsgStrategy/bankShortMsgStrategyAdd";
     }
 
@@ -99,6 +100,14 @@ public class BankShortMsgStrategyController extends BaseController {
     public void add(HttpServletRequest request, HttpServletResponse response, BankShortMsgStrategyModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            BankTypeModel bankTypeQuery = new BankTypeModel();
+            bankTypeQuery.setId(bean.getBankTypeId());
+            BankTypeModel bankTypeModel = bankTypeService.queryById(bankTypeQuery);
+            if (bankTypeModel != null && bankTypeModel.getId() > 0){
+                if (!StringUtils.isBlank(bankTypeModel.getSmsNum())){
+                    bean.setSmsNum(bankTypeModel.getSmsNum());
+                }
+            }
             bankShortMsgStrategyService.add(bean);
             sendSuccessMessage(response, "保存成功~");
         }else {
@@ -114,6 +123,7 @@ public class BankShortMsgStrategyController extends BaseController {
         BankShortMsgStrategyModel atModel = new BankShortMsgStrategyModel();
         atModel.setId(id);
         model.addAttribute("account", bankShortMsgStrategyService.queryById(atModel));
+        model.addAttribute("bankTyp", bankTypeService.queryAllList());
         return "manager/bankShortMsgStrategy/bankShortMsgStrategyEdit";
     }
 
@@ -124,6 +134,14 @@ public class BankShortMsgStrategyController extends BaseController {
     public void update(HttpServletRequest request, HttpServletResponse response,BankShortMsgStrategyModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            BankTypeModel bankTypeQuery = new BankTypeModel();
+            bankTypeQuery.setId(bean.getBankTypeId());
+            BankTypeModel bankTypeModel = bankTypeService.queryById(bankTypeQuery);
+            if (bankTypeModel != null && bankTypeModel.getId() > 0){
+                if (!StringUtils.isBlank(bankTypeModel.getSmsNum())){
+                    bean.setSmsNum(bankTypeModel.getSmsNum());
+                }
+            }
             bankShortMsgStrategyService.update(bean);
             sendSuccessMessage(response, "保存成功~");
         }else {
