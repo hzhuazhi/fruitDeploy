@@ -317,4 +317,26 @@
         and a.yn=0
     </update>
 
+
+    <sql id="Example_Where_Clause_Import">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="bankIdList != null and bankIdList.size()>0">
+                and a.bank_id not in
+                <foreach item="item" index="index" collection="bankIdList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        and a.yn =  0
+    </sql>
+
+    <!-- 查询不再银行卡之内的id -->
+    <select id="queryNotInBankId"  resultMap="dataMap" parameterType="Object">
+        select
+        a.id,a.bank_id
+        from tb_fr_bank_strategy a
+        <include refid="Example_Where_Clause_Import"/>
+    </select>
+
 </mapper>

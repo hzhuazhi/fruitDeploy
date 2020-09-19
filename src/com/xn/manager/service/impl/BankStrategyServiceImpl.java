@@ -36,7 +36,9 @@ public class BankStrategyServiceImpl<T> extends BaseServiceImpl<T> implements Ba
 
     @Override
     public void importBankStrategy() {
-        List<BankStrategyModel> list = bankStrategyDao.queryAllList();
+        List<BankStrategyModel> list = bankStrategyDao.queryAllList(); //放量管理已有的数据
+
+        //查询最大的修改值
         BankStrategyModel bankStrategyModelMax=bankStrategyDao.queryMaxupdateTime();
         BankModel  bankModel = new BankModel();
         List<Long> bankStrategybList  = new ArrayList<>();
@@ -80,6 +82,20 @@ public class BankStrategyServiceImpl<T> extends BaseServiceImpl<T> implements Ba
                 bankStrategyDao.add(bankStrategyModel);
             }
         }
+
+        List<BankModel>   list1  =  bankDao.queryAllList();   //有效的银行卡id
+        List<Long>    idList =  new ArrayList<>();
+        for(BankModel  bankModel1:list1){
+            idList.add(bankModel1.getId());
+        }
+        BankStrategyModel  bankStrategyModel = new BankStrategyModel();
+        bankStrategyModel.setBankIdList(idList);
+        List <BankStrategyModel> bankList =  bankStrategyDao.queryNotInBankId(bankStrategyModel);  //查询无效的银行卡id
+
+        for(BankStrategyModel bankStrategyModel1:bankList){
+            bankStrategyDao.delete(bankStrategyModel1.getId());//删除无效的id
+        }
+
     }
 
     @Override

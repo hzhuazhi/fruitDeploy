@@ -3,6 +3,7 @@ package com.xn.manager.model;
 import com.xn.common.page.BasePage;
 
 import java.util.Date;
+import java.util.List;
 
 public class BankStrategyModel extends BasePage {
     /**
@@ -150,6 +151,8 @@ public class BankStrategyModel extends BasePage {
     private String bankCard;
     private String bankName;
     private String accountName;
+    private List<Long> bankIdList;
+
 
     public Long getId() {
         return id;
@@ -341,5 +344,13 @@ public class BankStrategyModel extends BasePage {
 
     public void setAccountName(String accountName) {
         this.accountName = accountName;
+    }
+
+    public List<Long> getBankIdList() {
+        return bankIdList;
+    }
+
+    public void setBankIdList(List<Long> bankIdList) {
+        this.bankIdList = bankIdList;
     }
 }
