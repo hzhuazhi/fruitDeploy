@@ -39,6 +39,8 @@ var account = {
                     html+="<span>超时/失败</span>";
                 }else if(oData.orderStatus==3){
                     html+="<span style='color: #F6040A'>成功</span>";
+                }else if(oData.orderStatus==4){
+                    html+="<span style='color: #F6040A'>处理中</span>";
                 }
                 $(nTd).html(html);
             }
@@ -58,8 +60,11 @@ var account = {
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                 var html = '';
                 var isEnableHtml = '';
-                html  = '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/merchantrecharge/jumpUpdate.do?op=1&id='+oData.id+'"> 编辑 </a>'
-                    +' <a class = "dataTableBtn dataTableResetBtn"  directkey="' + oData.id + '" href = "javascript:void(0);">删除 </a>';
+                if(oData.orderStatus==1){
+                    html+="<a class = \"dataTableBtn dataTableDeleteBtn \" href=\"javascript:void(0);\" onclick='orderHandle("+oData.id+")'> 进行处理 </a>"
+                }
+                // html+= '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/merchantrecharge/jumpUpdate.do?op=1&id='+oData.id+'"> 编辑 </a>'
+                // html+=' <a class = "dataTableBtn dataTableResetBtn"  directkey="' + oData.id + '" href = "javascript:void(0);">删除 </a>';
                 $(nTd).html(html);
             }
         }
@@ -138,6 +143,29 @@ var account = {
         });
     }
 
+}
+
+function  orderHandle(id){
+    if(confirm("确定要处理该订单，订单会因为你触发而锁住的！")){
+        var data = {
+            "id":id,
+            "op":1
+        };
+        var url = ctx + "/merchantrecharge/chechData.do";
+        common.ajax(url,data,function(data){
+            if(data.type==1){
+                window.location.href = ctx +data.rs;
+            }else{
+                alert(data.rs);
+            }
+            // if(data==""){
+            //     alert("该订单已经被人在处理了，请重新选择订单");
+            //     return;
+            // }else{
+            //     window.location.href = data;
+            // }
+        });
+    }
 }
 
 $(function(){

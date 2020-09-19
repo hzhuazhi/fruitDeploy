@@ -68,7 +68,7 @@
 
                 <%--<c:if test="${ACCOUNT.roleId==1}">--%>
                 <div class = "searchdiv">
-                    <input type="button" class = "buttonClass imginput addbtn" value="新增账号" style="margin-left: 30px;" >
+                    <input type="button" class = "buttonClass imginput addbtn" value="新增" style="margin-left: 30px;" >
                 </div>
 
                 <div class = "searchdiv">
@@ -110,7 +110,7 @@
             <th width="150">收款月限金额</th>
             <th width="150">卡状态</th>
             <th width="150">检测状态</th>
-            <th width="150">限制的原因</th>
+            <%--<th width="150">限制的原因</th>--%>
             <th width="150">创建时间</th>
             <th width="150">测试状态</th>
             <th width="150">使用状态</th>

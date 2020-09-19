@@ -47,7 +47,7 @@ var account = {
                 $(nTd).html(html);
             }
         },
-        {"data":"dataExplain",},
+        // {"data":"dataExplain",},
         {"data":"createTime",},
         {"data":"isOk",
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -175,7 +175,6 @@ var account = {
 }
 // 数据按照Excel格式导出
 $("#butExcelExport").click(function () {
-    alert(1)
     common.dataExportExcel($("#condForm"));
 });
 

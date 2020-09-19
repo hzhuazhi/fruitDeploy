@@ -43,9 +43,9 @@ var account = {
         {"data":"useStatus",
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                 var html = '';
-                if(oData.heartbeatStatus==1){
+                if(oData.useStatus==1){
                     html="<span style='color: #29ff20'>正常使用</span>"
-                }else{
+                }else if(oData.useStatus==2){
                     html="<span style='color: #ff301d'>暂停使用</span>"
                 }
                 $(nTd).html(html);

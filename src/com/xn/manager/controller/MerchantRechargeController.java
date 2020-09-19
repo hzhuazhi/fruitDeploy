@@ -25,7 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description 卡商充值Controller
@@ -40,7 +42,7 @@ public class MerchantRechargeController extends BaseController {
 
 
     @Autowired
-    private MerchantRechargeService<MerchantRechargeModel> modelMerchantRechargeService;
+    private MerchantRechargeService<MerchantRechargeModel> merchantRechargeService;
 
     @Autowired
     private AccountService<Account> accountService;//管理员
@@ -65,11 +67,13 @@ public class MerchantRechargeController extends BaseController {
 //        model.setIsEnable(ManagerConstant.PUBLIC_CONSTANT.IS_ENABLE_ZC);
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
-                //不是管理员，只能查询自己的数据
-                model.setId(account.getId());
-            }
-            dataList = modelMerchantRechargeService.queryByList(model);
+//            if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+//                //不是管理员，只能查询自己的数据
+//                model.setId(account.getId());
+//            }else if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+//                model.getAccountId(account.getId());
+//            }
+            dataList = merchantRechargeService.queryByList(model);
         }
         HtmlUtil.writerJson(response, model.getPage(), dataList);
     }
@@ -88,7 +92,7 @@ public class MerchantRechargeController extends BaseController {
                 //不是管理员，只能查询自己的数据
                 model.setId(account.getId());
             }
-            dataList = modelMerchantRechargeService.queryAllList(model);
+            dataList = merchantRechargeService.queryAllList(model);
         }
         HtmlUtil.writerJson(response, dataList);
     }
@@ -130,7 +134,7 @@ public class MerchantRechargeController extends BaseController {
 ////                bean.setPassWd(MD5.parseMD5(bean.getPassWd()));
 ////                bean.setRoleId(ManagerEnum.RoleTypeEnum.TP.getRoleType());
 ////                bean.setSecretKey(MD5.parseMD5(bean.getAccountNum()));
-                modelMerchantRechargeService.add(bean);
+                merchantRechargeService.add(bean);
                 sendSuccessMessage(response, "保存成功~");
 //            }
         }else {
@@ -145,11 +149,45 @@ public class MerchantRechargeController extends BaseController {
     public String jumpUpdate(Model model, long id, Integer op) {
         MerchantRechargeModel atModel = new MerchantRechargeModel();
         atModel.setId(id);
-        model.addAttribute("account", modelMerchantRechargeService.queryById(atModel));
+
+        model.addAttribute("account", merchantRechargeService.queryById(atModel));
         model.addAttribute("op", op);
         model.addAttribute("ks", accountService.queryByList(new AccountModel()));
         return "manager/merchantrecharge/merchantrechargeEdit";
+
     }
+
+
+
+    @RequestMapping("/chechData")
+    public void chechData(HttpServletRequest request, HttpServletResponse response, MerchantRechargeModel model) throws Exception {
+        Map<String,String> map  = new HashMap<>() ;
+        MerchantRechargeModel   listMerchantRecharge=merchantRechargeService.queryById(model);
+        if(null==listMerchantRecharge){
+            map.put("type","3");
+            map.put("rs","该订单已经失效！");
+            HtmlUtil.writerJson(response, map);
+        }
+
+        if(listMerchantRecharge.getOrderStatus()!=1){
+            map.put("type","2");
+            map.put("rs","订单已经在处理中了，请处理其他订单！");
+            HtmlUtil.writerJson(response, map);
+        }else{
+            MerchantRechargeModel  merchantRechargeModel = new MerchantRechargeModel();
+            merchantRechargeModel.setId(model.getId());
+            merchantRechargeModel.setOrderStatus(4);
+            merchantRechargeService.update(merchantRechargeModel);
+            map.put("rs","/merchantrecharge/jumpUpdate.do?op=1&id="+model.getId());
+            map.put("type","1");
+            HtmlUtil.writerJson(response, map);
+        }
+
+    }
+
+
+
+
 
     /**
      * 修改数据
@@ -160,7 +198,7 @@ public class MerchantRechargeController extends BaseController {
 //        SpringConfig springConfig=new SpringConfig();
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
             MerchantRechargeModel  merchantRechargeModel =  new MerchantRechargeModel();
-            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
+//            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
                 //不是管理员，只能上传图片
                 if (null!=bean.getPictureFile()){
                     merchantRechargeModel.getOrderNo();
@@ -173,28 +211,29 @@ public class MerchantRechargeController extends BaseController {
                     try{
                         FileUtils.copyFileUsingFileStreams(bean.getPictureFile().getInputStream(),file);
                         merchantRechargeModel.setPictureAds(name);
+                        merchantRechargeModel.setOrderStatus(3);//成功
                     }catch (Exception e){
                         sendFailureMessage(response, "图片存储出错，请重新上传！");
                     }
 
                 }
-            }else{
-                BeanUtils.copy(bean,merchantRechargeModel);
-                if (null!=bean.getPictureFile()){
-                    String  filename=bean.getPictureFile().getOriginalFilename();
-                    String  []   filehou = filename.split("\\.");
-                    String  name = Constant.FOREIGN_ADDRESS+bean.getOrderNo()+"."+filehou[filehou.length-1];
-                    File    file =new File(Constant.STORE_ADDRESS+bean.getOrderNo()+"."+filehou[filehou.length-1]);
-                    try{
-                        merchantRechargeModel.setPictureAds(name);
-                        FileUtils.copyFileUsingFileStreams(bean.getPictureFile().getInputStream(),file);
-                    }catch (Exception e){
-                        sendFailureMessage(response, "图片存储出错，请重新上传！");
-                    }
-                }
-            }
+//            }else{
+//                BeanUtils.copy(bean,merchantRechargeModel);
+//                if (null!=bean.getPictureFile()){
+//                    String  filename=bean.getPictureFile().getOriginalFilename();
+//                    String  []   filehou = filename.split("\\.");
+//                    String  name = Constant.FOREIGN_ADDRESS+bean.getOrderNo()+"."+filehou[filehou.length-1];
+//                    File    file =new File(Constant.STORE_ADDRESS+bean.getOrderNo()+"."+filehou[filehou.length-1]);
+//                    try{
+//                        merchantRechargeModel.setPictureAds(name);
+//                        FileUtils.copyFileUsingFileStreams(bean.getPictureFile().getInputStream(),file);
+//                    }catch (Exception e){
+//                        sendFailureMessage(response, "图片存储出错，请重新上传！");
+//                    }
+//                }
+//            }
 
-            modelMerchantRechargeService.update(merchantRechargeModel);
+            merchantRechargeService.update(merchantRechargeModel);
 
             sendSuccessMessage(response, "保存成功~");
         }else {
@@ -209,7 +248,7 @@ public class MerchantRechargeController extends BaseController {
     public void delete(HttpServletRequest request, HttpServletResponse response, MerchantRechargeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            modelMerchantRechargeService.delete(bean);
+            merchantRechargeService.delete(bean);
             sendSuccessMessage(response, "删除成功");
         }else{
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
@@ -224,7 +263,7 @@ public class MerchantRechargeController extends BaseController {
     public void manyOperation(HttpServletRequest request, HttpServletResponse response, MerchantRechargeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            modelMerchantRechargeService.manyOperation(bean);
+            merchantRechargeService.manyOperation(bean);
             sendSuccessMessage(response, "状态更新成功");
         }else{
             sendFailureMessage(response, "登录超时,请重新登录在操作!");

@@ -40,7 +40,7 @@
                             <span class="require" ><font color="red">*</font>卡商名称 </span>
                         </div>
                         <div class="formCtrlDiv" id="acDiv">
-                            <select id="accountId" name="accountId" class='text-input medium-input' >
+                            <select id="accountId" name="accountId" disabled class='text-input medium-input' >
                                 <option value="">===请选择===</option>
                                 <c:forEach items="${ks}" var="dataList">
                                     <c:choose>
@@ -61,7 +61,7 @@
                             <span class="require" ><font color="red">*</font>支付类型</span>
                         </div>
                         <div class="formCtrlDiv">
-                            <select id="payType" name="payType">
+                            <select id="payType" name="payType" disabled>
                                 <option value="0">===请选择===</option>
                                 <c:if test="${dl.payType == 1}">
                                     <option value="1" selected>卡商支付</option>
@@ -109,31 +109,30 @@
                         </div>
                     </li>
 
-
-                    <li style="border-top: none;">
-                        <div class="formTextDiv">
-                            <span class="require" ><font color="red">*</font>订单状态</span>
-                        </div>
-                        <div class="formCtrlDiv">
-                            <select id="orderStatus" name="orderStatus">
-                                <c:if test="${dl.orderStatus == 1}">
-                                    <option value="1" selected>初始化</option>
-                                    <option value="2">超时/失败</option>
-                                    <option value="3">成功</option>
-                                </c:if>
-                                <c:if test="${dl.orderStatus == 2}">
-                                    <option value="1" >初始化<option>
-                                    <option value="2" selected>超时/失败</option>
-                                    <option value="3">成功</option>
-                                </c:if>
-                                <c:if test="${dl.orderStatus == 3}">
-                                    <option value="1" >初始化</option>
-                                    <option value="2" >超时/失败</option>
-                                    <option value="3"selected>成功</option>
-                                </c:if>
-                            </select>
-                        </div>
-                    </li>
+                    <%--<li style="border-top: none;">--%>
+                        <%--<div class="formTextDiv">--%>
+                            <%--<span class="require" ><font color="red">*</font>订单状态</span>--%>
+                        <%--</div>--%>
+                        <%--<div class="formCtrlDiv">--%>
+                            <%--<select id="orderStatus" name="orderStatus">--%>
+                                <%--<c:if test="${dl.orderStatus == 1}">--%>
+                                    <%--<option value="1" selected>初始化</option>--%>
+                                    <%--<option value="2">超时/失败</option>--%>
+                                    <%--<option value="3">成功</option>--%>
+                                <%--</c:if>--%>
+                                <%--<c:if test="${dl.orderStatus == 2}">--%>
+                                    <%--<option value="1" >初始化<option>--%>
+                                    <%--<option value="2" selected>超时/失败</option>--%>
+                                    <%--<option value="3">成功</option>--%>
+                                <%--</c:if>--%>
+                                <%--<c:if test="${dl.orderStatus == 3}">--%>
+                                    <%--<option value="1" >初始化</option>--%>
+                                    <%--<option value="2" >超时/失败</option>--%>
+                                    <%--<option value="3"selected>成功</option>--%>
+                                <%--</c:if>--%>
+                            <%--</select>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
                     <li style="border-top: none;">
                         <div class="formTextDiv">
                             <span class="require" >充值记录转账图片凭证</span>
@@ -176,13 +175,16 @@
                 var  file  = $("#pictureFile").get(0).files[0];
                 var formData = new FormData();
                 formData.append("id",$("#id").val());
-                formData.append("orderNo",$("#orderNo").val());
-                formData.append("accountId",$("#accountId").val());
-                formData.append("payType",$("#payType").val());
-                formData.append("orderStatus",$("#orderStatus").val());
-                if(file!=null&&file!=undefined){
-                    formData.append("pictureFile",file);
+                // formData.append("orderNo",$("#orderNo").val());
+                // formData.append("accountId",$("#accountId").val());
+                // formData.append("payType",$("#payType").val());
+                // formData.append("orderStatus",$("#orderStatus").val());
+                if(file==null||file==undefined){
+                    alert("请选择转款图片在进行保存！");
+                    return;
+
                 }
+                formData.append("pictureFile",file);
 
                 $.ajax({
                     url : ctx+ "/merchantrecharge/update.do",
