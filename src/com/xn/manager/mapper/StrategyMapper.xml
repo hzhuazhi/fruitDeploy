@@ -4,29 +4,22 @@
     <!-- 属性映射 -->
     <resultMap type="com.xn.manager.model.StrategyModel" id="dataMap">
         <id property="id" column="id" />
-        <result property="bankTypeId" column="bank_type_id" />
-        <result property="alias" column="alias" />
-        <result property="smsContent" column="sms_content" />
-        <result property="smsNum" column="sms_num" />
-        <result property="startMoney" column="start_money" />
-        <result property="endMoney" column="end_money" />
-        <result property="startLastNum" column="start_last_num" />
-        <result property="endLastNum" column="end_last_num" />
-        <result property="startBalance" column="start_balance" />
-        <result property="endBalance" column="end_balance" />
-        <result property="remark" column="remark" />
+        <result property="stgName" column="stg_name" />
+        <result property="stgType" column="stg_type" />
+        <result property="stgKey" column="stg_key" />
+        <result property="stgNumValue" column="stg_num_value" />
+        <result property="stgValue" column="stg_value" />
+        <result property="stgBigValue" column="stg_big_value" />
+        <result property="dataType" column="data_type" />
+        <result property="stgExplain" column="stg_explain" />
         <result property="createTime" column="create_time" />
         <result property="updateTime" column="update_time" />
         <result property="yn" column="yn" />
-
-        <result property="bankName" column="bank_name" />
     </resultMap>
     <!-- 定义数据库基本列,只适用代替单表的*-->
     <sql id="Base_Column_List">
-        a.id,a.bank_type_id,a.alias,a.sms_content,a.sms_num,a.start_money,a.end_money,a.start_last_num,a.end_last_num,
-        a.start_balance,a.end_balance,a.remark,
-        a.create_time,a.update_time,a.yn,
-        b.bank_name
+        a.id,a.stg_name,a.stg_type,a.stg_key,a.stg_num_value,a.stg_value,a.stg_big_value,a.data_type,a.stg_explain,
+        a.create_time,a.update_time,a.yn
     </sql>
 
     <!-- 查询条件 -->
@@ -36,17 +29,14 @@
             <if test="id != 0 and id >0 " >
                 and a.id = #{id}
             </if>
-            <if test="bankTypeId != 0 and bankTypeId >0 " >
-                and a.bank_type_id = #{bankTypeId}
+            <if test="stgType != 0 and stgType >0 " >
+                and a.stg_type = #{stgType}
             </if>
-            <if test="alias != null and alias != '' " >
-                and a.alias = #{alias}
+            <if test="stgKey != null and stgKey != '' " >
+                and a.stg_key = #{stgKey}
             </if>
-            <if test="smsNum != null and smsNum != '' " >
-                and a.sms_num = #{smsNum}
-            </if>
-            <if test="bankName != null and bankName != '' " >
-                and b.bank_name = #{bankName}
+            <if test="stgName != null and stgName != '' " >
+                and a.stg_name = #{stgName}
             </if>
             and a.yn = 0
         </trim>
@@ -66,7 +56,7 @@
     <!-- 查询总数-->
     <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
         select count(1)
-        from tb_fr_bank_short_msg_strategy a left join tb_fr_bank_type b on a.bank_type_id = b.id
+        from tb_fr_strategy a
         <include refid="Example_Where_Clause"/>
     </select>
 
@@ -74,7 +64,7 @@
     <select id="queryByList" resultMap="dataMap"  parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_fr_bank_short_msg_strategy a left join tb_fr_bank_type b on a.bank_type_id = b.id
+        from tb_fr_strategy a
         <include refid="Example_Where_Clause"/>
         order by a.create_time desc
         limit #{startIndex},#{pageSize}
@@ -84,7 +74,7 @@
     <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_fr_bank_short_msg_strategy a left join tb_fr_bank_type b on a.bank_type_id = b.id
+        from tb_fr_strategy a
         <include refid="Example_Where_Clause"/>
         order by a.create_time desc
     </select>
@@ -93,7 +83,7 @@
     <select id="queryById"  resultMap="dataMap" parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_fr_bank_short_msg_strategy a left join tb_fr_bank_type b on a.bank_type_id = b.id
+        from tb_fr_strategy a
         <include refid="Example_Where_Clause_id"/>
     </select>
 
@@ -101,7 +91,7 @@
     <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_fr_bank_short_msg_strategy a left join tb_fr_bank_type b on a.bank_type_id = b.id
+        from tb_fr_strategy a
         <include refid="Example_Where_Clause"/>
         limit 1
     </select>
@@ -111,77 +101,59 @@
         <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() as id
         </selectKey>
-        insert into tb_fr_bank_short_msg_strategy
+        insert into tb_fr_strategy
         <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="bankTypeId != 0 and bankTypeId >0 " >
-                bank_type_id,
+            <if test="stgName != null and stgName != '' " >
+                stg_name,
             </if>
-            <if test="alias != null and alias != '' " >
-                alias,
+            <if test="stgType != 0 and stgType >0 " >
+                stg_type,
             </if>
-            <if test="smsContent != null and smsContent != '' " >
-                sms_content,
+            <if test="stgKey != null and stgKey != '' " >
+                stg_key,
             </if>
-            <if test="smsNum != null and smsNum != '' " >
-                sms_num,
+            <if test="stgNumValue != 0 and stgNumValue >0 " >
+                stg_num_value,
             </if>
-            <if test="startMoney != null and startMoney != '' " >
-                start_money,
+            <if test="stgValue != null and stgValue != '' " >
+                stg_value,
             </if>
-            <if test="endMoney != null and endMoney != '' " >
-                end_money,
+            <if test="stgBigValue != null and stgBigValue != '' " >
+                stg_big_value,
             </if>
-            <if test="startLastNum != null and startLastNum != '' " >
-                start_last_num,
+            <if test="dataType != 0 and dataType >0 " >
+                data_type,
             </if>
-            <if test="endLastNum != null and endLastNum != '' " >
-                end_last_num,
-            </if>
-            <if test="startBalance != null and startBalance != '' " >
-                start_balance,
-            </if>
-            <if test="endBalance != null and endBalance != '' " >
-                end_balance,
-            </if>
-            <if test="remark != null and remark != '' " >
-                remark,
+            <if test="stgExplain != null and stgExplain != '' " >
+                stg_explain,
             </if>
             create_time,
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="bankTypeId != 0 and bankTypeId >0 " >
-                <![CDATA[  #{bankTypeId}, ]]>
+            <if test="stgName != null and stgName != '' " >
+                <![CDATA[  #{stgName}, ]]>
             </if>
-            <if test="alias != null and alias != '' " >
-                <![CDATA[  #{alias}, ]]>
+            <if test="stgType != 0 and stgType >0 " >
+                <![CDATA[  #{stgType}, ]]>
             </if>
-            <if test="smsContent != null and smsContent != '' " >
-                <![CDATA[  #{smsContent}, ]]>
+            <if test="stgKey != null and stgKey != '' " >
+                <![CDATA[  #{stgKey}, ]]>
             </if>
-            <if test="smsNum != null and smsNum != '' " >
-                <![CDATA[  #{smsNum}, ]]>
+            <if test="stgNumValue != 0 and stgNumValue >0 " >
+                <![CDATA[  #{stgNumValue}, ]]>
             </if>
-            <if test="startMoney != null and startMoney != '' " >
-                <![CDATA[  #{startMoney}, ]]>
+            <if test="stgValue != null and stgValue != '' " >
+                <![CDATA[  #{stgValue}, ]]>
             </if>
-            <if test="endMoney != null and endMoney != '' " >
-                <![CDATA[  #{endMoney}, ]]>
+            <if test="stgBigValue != null and stgBigValue != '' " >
+                <![CDATA[  #{stgBigValue}, ]]>
             </if>
-            <if test="startLastNum != null and startLastNum != '' " >
-                <![CDATA[  #{startLastNum}, ]]>
+            <if test="dataType != 0 and dataType >0 " >
+                <![CDATA[  #{dataType}, ]]>
             </if>
-            <if test="endLastNum != null and endLastNum != '' " >
-                <![CDATA[  #{endLastNum}, ]]>
-            </if>
-            <if test="startBalance != null and startBalance != '' " >
-                <![CDATA[  #{startBalance}, ]]>
-            </if>
-            <if test="endBalance != null and endBalance != '' " >
-                <![CDATA[  #{endBalance}, ]]>
-            </if>
-            <if test="remark != null and remark != '' " >
-                <![CDATA[  #{remark}, ]]>
+            <if test="stgExplain != null and stgExplain != '' " >
+                <![CDATA[  #{stgExplain}, ]]>
             </if>
             <![CDATA[  NOW(), ]]>
         </trim>
@@ -190,19 +162,16 @@
 
     <!-- 更新记录 -->
     <update id="update" parameterType="Object">
-        UPDATE tb_fr_bank_short_msg_strategy a
+        UPDATE tb_fr_strategy a
         <trim prefix="set" suffixOverrides=",">
-            a.bank_type_id = #{bankTypeId},
-            a.alias = #{alias},
-            a.sms_content = #{smsContent},
-            a.sms_num = #{smsNum},
-            a.start_money = #{startMoney},
-            a.end_money = #{endMoney},
-            a.start_last_num = #{startLastNum},
-            a.end_last_num = #{endLastNum},
-            a.start_balance = #{startBalance},
-            a.end_balance = #{endBalance},
-            a.remark = #{remark},
+            a.stg_name = #{stgName},
+            a.stg_type = #{stgType},
+            a.stg_key = #{stgKey},
+            a.stg_num_value = #{stgNumValue},
+            a.stg_value = #{stgValue},
+            a.stg_big_value = #{stgBigValue},
+            a.data_type = #{dataType},
+            a.stg_explain = #{stgExplain},
             a.update_time = NOW(),
         </trim>
         <include refid="Example_Where_Clause_id"/>
@@ -211,7 +180,7 @@
 
     <!-- 主要作用1.逻辑删除，2更新状态 -->
     <update id="manyOperation" parameterType="Object">
-        update tb_fr_bank_short_msg_strategy a
+        update tb_fr_strategy a
         <trim prefix="set" suffixOverrides=",">
             <if test="isEnable != 0 and isEnable >0 " >
                 a.is_enable=#{isEnable},
@@ -224,7 +193,7 @@
 
     <!--逻辑删除数据 -->
     <update id="delete" parameterType="java.lang.Long">
-        UPDATE tb_fr_bank_short_msg_strategy a set a.yn = 1,
+        UPDATE tb_fr_strategy a set a.yn = 1,
         a.update_time = now()
         where 1=1
         and a.id =#{id}
