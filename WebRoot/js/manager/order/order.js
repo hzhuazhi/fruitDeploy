@@ -21,9 +21,9 @@ var account = {
         {"data":"orderType",
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                 var html = '';
-                if(oData.orderType==1){
+                if(oData.orderType==2){
                     html+= '<span>支付宝转卡</span>';
-                }else if(oData.orderType==2){
+                }else if(oData.orderType==3){
                     html+= '<span>卡转卡</span>';
                 }
                 $(nTd).html(html);

@@ -35,7 +35,7 @@
                 </div>
 
                 <div class = "searchdiv">
-                    <input type="button" class = "buttonClass imginput addbtn" value="新增账号" style="margin-left: 30px;" >
+                    <input type="button" class = "buttonClass imginput addbtn" value="新增" style="margin-left: 30px;" >
                 </div>
             </div>
         </form>
