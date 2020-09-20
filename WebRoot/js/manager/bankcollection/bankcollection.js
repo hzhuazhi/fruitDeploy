@@ -49,6 +49,7 @@ var account = {
             account.condJsonData['money'] = $("#money").val();
             account.condJsonData['cardSiteId'] = $("#cardSiteId").val();
             account.condJsonData['accountId'] = $("#accountId").val();
+            account.condJsonData['curday'] = $("#curday").val();
             common.showDatas(account.condJsonData,account.list);
         });
 
@@ -60,9 +61,14 @@ var account = {
             account.condJsonData['money'] = "";
             account.condJsonData['cardSiteId'] = "";
             account.condJsonData['accountId'] = "";
-            $("#alias").val("");
-            $("#secretKey").val("");
-            $("#useStatus").val("0");
+            account.condJsonData['curday'] = "";
+            $("#bankName").val("");
+            $("#bankCard").val("");
+            $("#accountName").val("");
+            $("#money").val("");
+            $("#cardSiteId").val("0");
+            $("#accountId").val("0");
+            $("#curday").val("");
             common.showDatas(account.condJsonData,account.list);
         });
         //删除

@@ -29,6 +29,11 @@
                     <input type ="text" class ="inputCommonSty" id="money" name ="money">
                 </div>
 
+                <div class = "condQueryLabelDiv">时间：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="curday" name ="curday">
+                </div>
+
                 <div class = "condQueryLabelDiv">卡商：</div>
                 <div class="formCtrlDiv">
                     <div id="divAccount">
