@@ -39,12 +39,12 @@
             <if test="smsNum != null and smsNum != '' " >
                 and a.sms_num = #{smsNum}
             </if>
-            <if test="accountId != 0 and accountId >0 " >
-                and a.account_id = #{accountId}
-            </if>
-            <if test="cardSiteId != 0 and cardSiteId >0 " >
-                and a.card_site_id = #{cardSiteId}
-            </if>
+            <!--<if test="accountId != 0 and accountId >0 " >-->
+                <!--and a.account_id = #{accountId}-->
+            <!--</if>-->
+            <!--<if test="cardSiteId != 0 and cardSiteId >0 " >-->
+                <!--and a.card_site_id = #{cardSiteId}-->
+            <!--</if>-->
             and a.yn =  0
         </trim>
     </sql>

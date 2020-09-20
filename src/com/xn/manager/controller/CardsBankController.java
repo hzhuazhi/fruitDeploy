@@ -65,7 +65,7 @@ public class CardsBankController extends BaseController {
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
             if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
                 //不是管理员，只能查询自己的数据
-                model.setId(account.getId());
+//                model.geta(account.getId());
             }
             dataList = cardsBankService.queryByList(model);
         }
@@ -84,7 +84,7 @@ public class CardsBankController extends BaseController {
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
             if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
                 //不是管理员，只能查询自己的数据
-                model.setId(account.getId());
+//                model.setId(account.getId());
             }
             dataList = cardsBankService.queryAllList(model);
         }

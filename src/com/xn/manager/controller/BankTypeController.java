@@ -55,7 +55,7 @@ public class BankTypeController extends BaseController {
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
             if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
                 //不是管理员，只能查询自己的数据
-                model.setId(account.getId());
+//                model.setId(account.getId());
             }
             dataList = bankTypeService.queryByList(model);
         }
@@ -74,7 +74,7 @@ public class BankTypeController extends BaseController {
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
             if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
                 //不是管理员，只能查询自己的数据
-                model.setId(account.getId());
+//                model.setId(account.getId());
             }
             dataList = bankTypeService.queryAllList(model);
         }
@@ -113,11 +113,18 @@ public class BankTypeController extends BaseController {
             if (queryBean1 != null && queryBean1.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
                 sendFailureMessage(response,"有重复的银行名称,请重新输入其它银行名称!");
             }else{
+                if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
+                    bankTypeService.add(bean);
+                    sendSuccessMessage(response, "保存成功~");
+                }else {
+                    sendFailureMessage(response, "只有管理员才能进行修改!");
+                }
+
 //                bean.setPassWd(MD5.parseMD5(bean.getPassWd()));
 //                bean.setRoleId(ManagerEnum.RoleTypeEnum.TP.getRoleType());
 //                bean.setSecretKey(MD5.parseMD5(bean.getAccountNum()));
-                bankTypeService.add(bean);
-                sendSuccessMessage(response, "保存成功~");
+//                bankTypeService.add(bean);
+//                sendSuccessMessage(response, "保存成功~");
             }
         }else {
             sendFailureMessage(response,"登录超时,请重新登录在操作!");
@@ -143,8 +150,15 @@ public class BankTypeController extends BaseController {
     public void update(HttpServletRequest request, HttpServletResponse response,BankTypeModel bean, String op) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            bankTypeService.update(bean);
-            sendSuccessMessage(response, "保存成功~");
+
+            if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
+                bankTypeService.update(bean);
+                sendSuccessMessage(response, "保存成功~");
+            }else {
+                sendFailureMessage(response, "只有管理员才能进行修改!");
+            }
+
+
         }else {
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
         }
@@ -157,8 +171,12 @@ public class BankTypeController extends BaseController {
     public void delete(HttpServletRequest request, HttpServletResponse response, BankTypeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            bankTypeService.delete(bean);
-            sendSuccessMessage(response, "删除成功");
+            if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
+                bankTypeService.delete(bean);
+                sendSuccessMessage(response, "删除成功");
+            }else {
+                sendFailureMessage(response, "只有管理员才能进行删除!");
+            }
         }else{
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
         }
