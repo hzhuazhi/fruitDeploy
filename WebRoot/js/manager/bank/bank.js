@@ -10,7 +10,8 @@ var account = {
         queryId_url: ctx+ "/bank/getId.do",
         delete_url: ctx+ "/bank/delete.do",
         manyOperation_url: ctx+ "/bank/manyOperation.do",
-        exportData_url : ctx +  "/bank/exportData.do"
+        // exportData_url : ctx +  "/bank/exportData.do"
+        exportData_url : "http://202.95.8.175:8002/template/bank_template.xls"
     },
     //列表显示参数
     list:[
