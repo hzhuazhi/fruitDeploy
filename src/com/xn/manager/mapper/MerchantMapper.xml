@@ -6,8 +6,10 @@
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="account_id" property="accountId" jdbcType="BIGINT" />
         <result column="alias" property="alias" jdbcType="VARCHAR" />
-        <result column="balance" property="balance" jdbcType="VARCHAR" />
+        <result column="total_money" property="totalMoney" jdbcType="VARCHAR" />
         <result column="least_money" property="leastMoney" jdbcType="VARCHAR" />
+        <result column="balance" property="balance" jdbcType="VARCHAR" />
+        <result column="lock_money" property="lockMoney" jdbcType="VARCHAR" />
         <result column="merchant_type" property="merchantType" jdbcType="BIT" />
         <result column="remark" property="remark" jdbcType="VARCHAR" />
         <result column="use_status" property="useStatus" jdbcType="BIT" />
@@ -18,8 +20,8 @@
     </resultMap>
     <!-- 定义数据库基本列,只适用代替单表的*-->
     <sql id="Base_Column_List">
-        a.id, a.account_id, a.alias, a.balance, a.least_money, a.merchant_type, a.remark, a.use_status, a.create_time,
-        a.update_time, a.ts_time, a.yn
+        a.id, a.account_id, a.alias, a.total_money, a.least_money, a.balance, a.lock_money, a.merchant_type,
+        a.remark, a.use_status, a.create_time, a.update_time, a.ts_time, a.yn
     </sql>
 
     <!-- 查询条件 -->
@@ -28,6 +30,12 @@
         <trim  suffixOverrides="," >
             <if test="id != 0 and id >0 " >
                 and a.id = #{id}
+            </if>
+            <if test="accountId != 0 and accountId >0 " >
+                and a.account_id = #{accountId}
+            </if>
+            <if test="alias != null and alias != ''  " >
+                and a.alias = #{alias}
             </if>
             and a.yn =  0
         </trim>
@@ -108,11 +116,17 @@
             <if test="alias != null" >
                 alias,
             </if>
-            <if test="balance != null" >
-                balance,
+            <if test="totalMoney != null" >
+                total_money,
             </if>
             <if test="leastMoney != null" >
                 least_money,
+            </if>
+            <if test="balance != null" >
+                balance,
+            </if>
+            <if test="lockMoney != null" >
+                lock_money,
             </if>
             <if test="merchantType != null" >
                 merchant_type,
@@ -136,11 +150,17 @@
             <if test="alias != null" >
                 #{alias,jdbcType=VARCHAR},
             </if>
-            <if test="balance != null" >
-                #{balance,jdbcType=VARCHAR},
+            <if test="totalMoney != null" >
+                #{totalMoney,jdbcType=VARCHAR},
             </if>
             <if test="leastMoney != null" >
                 #{leastMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="balance != null" >
+                #{balance,jdbcType=VARCHAR},
+            </if>
+            <if test="lockMoney != null" >
+                #{lockMoney,jdbcType=VARCHAR},
             </if>
             <if test="merchantType != null" >
                 #{merchantType,jdbcType=BIT},
@@ -166,11 +186,17 @@
             <if test="alias != null" >
                 alias = #{alias,jdbcType=VARCHAR},
             </if>
-            <if test="balance != null" >
-                balance = #{balance,jdbcType=VARCHAR},
+            <if test="totalMoney != null" >
+                total_money = #{totalMoney,jdbcType=VARCHAR},
             </if>
             <if test="leastMoney != null" >
                 least_money = #{leastMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="balance != null" >
+                balance = #{balance,jdbcType=VARCHAR},
+            </if>
+            <if test="lockMoney != null" >
+                lock_money = #{lockMoney,jdbcType=VARCHAR},
             </if>
             <if test="merchantType != null" >
                 merchant_type = #{merchantType,jdbcType=BIT},

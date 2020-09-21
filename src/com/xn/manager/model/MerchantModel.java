@@ -27,18 +27,32 @@ public class MerchantModel extends BasePage {
     private String alias;
 
     /**
-     * 余额
+     * 总额：总共跑量的金额
+     *
+     * @mbggenerated
+     */
+    private String totalMoney;
+
+    /**
+     * 保底金额：卡商在我放至少要留有多少钱，才放量：保证金
+     *
+     * @mbggenerated
+     */
+    private String leastMoney;
+
+    /**
+     * 余额：跑量的金额累加，渠道提现的金额扣减
      *
      * @mbggenerated
      */
     private String balance;
 
     /**
-     * 保底金额
+     * 锁定金额
      *
      * @mbggenerated
      */
-    private String leastMoney;
+    private String lockMoney;
 
     /**
      * 卡商类型：1我方卡商，2第三方卡商
@@ -113,12 +127,12 @@ public class MerchantModel extends BasePage {
         this.alias = alias;
     }
 
-    public String getBalance() {
-        return balance;
+    public String getTotalMoney() {
+        return totalMoney;
     }
 
-    public void setBalance(String balance) {
-        this.balance = balance;
+    public void setTotalMoney(String totalMoney) {
+        this.totalMoney = totalMoney;
     }
 
     public String getLeastMoney() {
@@ -129,6 +143,21 @@ public class MerchantModel extends BasePage {
         this.leastMoney = leastMoney;
     }
 
+    public String getBalance() {
+        return balance;
+    }
+
+    public void setBalance(String balance) {
+        this.balance = balance;
+    }
+
+    public String getLockMoney() {
+        return lockMoney;
+    }
+
+    public void setLockMoney(String lockMoney) {
+        this.lockMoney = lockMoney;
+    }
 
     public String getRemark() {
         return remark;
@@ -137,7 +166,6 @@ public class MerchantModel extends BasePage {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
 
     public Date getCreateTime() {
         return createTime;
