@@ -85,6 +85,10 @@
                 and a.use_status = #{useStatus}
             </if>
 
+            <if test="checkStatus != 0 and checkStatus >0 " >
+                and a.check_status = #{checkStatus}
+            </if>
+
             and a.yn =  0
         </trim>
     </sql>

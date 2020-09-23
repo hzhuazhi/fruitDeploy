@@ -47,6 +47,10 @@
             <if test="cardSiteId != null and cardSiteId != '' " >
                 and a.card_site_id = #{cardSiteId}
             </if>
+
+            <if test="heartbeatStatus != 0 and heartbeatStatus >0 " >
+                and a.heartbeat_status = #{heartbeatStatus}
+            </if>
             and a.yn =  0
         </trim>
     </sql>

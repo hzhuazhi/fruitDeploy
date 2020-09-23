@@ -22,11 +22,32 @@ public class MerchantRechargeModel extends BasePage {
     private Long accountId;
 
     /**
+     * 银行卡归属卡站点ID：对应表tb_hz_sys_account的主键ID，并且角色是卡站点
+     *
+     * @mbggenerated
+     */
+    private Long cardSiteId;
+
+    /**
      * 订单号
      *
      * @mbggenerated
      */
     private String orderNo;
+
+    /**
+     * 订单类型：1预付款订单，2平台发起订单，3下发订单
+     *
+     * @mbggenerated
+     */
+    private Integer orderType;
+
+    /**
+     * 下发表的订单号：对应表tb_fr_issue的order_no；也可以把它称之为关联订单号
+     *
+     * @mbggenerated
+     */
+    private String issueOrderNo;
 
     /**
      * 订单金额
@@ -36,25 +57,11 @@ public class MerchantRechargeModel extends BasePage {
     private String orderMoney;
 
     /**
-     * 订单状态：1初始化，2超时/失败，3成功
+     * 订单状态：1初始化，2超时/失败/审核驳回，3成功
      *
      * @mbggenerated
      */
     private Integer orderStatus;
-
-    /**
-     * 支付类型：1卡商支付，2我方支付
-     *
-     * @mbggenerated
-     */
-    private Integer payType;
-
-    /**
-     * 我方银行卡信息备注:假如我方卡进行支付，则填写我方银行卡信息
-     *
-     * @mbggenerated
-     */
-    private String myBankInfo;
 
     /**
      * 银行名称/归属开户行
@@ -85,6 +92,41 @@ public class MerchantRechargeModel extends BasePage {
     private String pictureAds;
 
     /**
+     * 操作状态：1初始化，2系统放弃，3手动放弃，4锁定
+     *
+     * @mbggenerated
+     */
+    private Integer operateStatus;
+
+    /**
+     * 是否需要数据同步：1不需要同步，2需要同步
+     *
+     * @mbggenerated
+     */
+    private Integer isSynchro;
+
+    /**
+     * 审核状态：1初始化，2审核收款失败，3审核收款成功
+     *
+     * @mbggenerated
+     */
+    private Integer checkStatus;
+
+    /**
+     * 审核失败缘由，审核失败的原因
+     *
+     * @mbggenerated
+     */
+    private String checkInfo;
+
+    /**
+     * 系统运行自动放弃的时间：订单分配完毕之后，订单类型是：下发分配订单，如果卡商在超过这个时间没有进行放弃或者锁定这样的操作，则自动修改成放弃。
+     *
+     * @mbggenerated
+     */
+    private Date invalidTime;
+
+    /**
      * 数据说明：做解说用的
      *
      * @mbggenerated
@@ -97,11 +139,6 @@ public class MerchantRechargeModel extends BasePage {
      * @mbggenerated
      */
     private String remark;
-
-    /**
-     * 卡商名字
-     */
-    private String acName;
 
     /**
      * 创建日期：存的日期格式20160530
@@ -139,6 +176,20 @@ public class MerchantRechargeModel extends BasePage {
     private Integer runStatus;
 
     /**
+     * 发送次数
+     *
+     * @mbggenerated
+     */
+    private Integer sendNum;
+
+    /**
+     * 发送状态：0初始化，1锁定，2计算失败，3计算成功
+     *
+     * @mbggenerated
+     */
+    private Integer sendStatus;
+
+    /**
      * 创建时间
      *
      * @mbggenerated
@@ -166,14 +217,6 @@ public class MerchantRechargeModel extends BasePage {
      */
     private Integer yn;
 
-    /**
-     * 转账图片
-     *
-     * @mbggenerated
-     */
-    private MultipartFile pictureFile;
-
-
     public Long getId() {
         return id;
     }
@@ -190,12 +233,36 @@ public class MerchantRechargeModel extends BasePage {
         this.accountId = accountId;
     }
 
+    public Long getCardSiteId() {
+        return cardSiteId;
+    }
+
+    public void setCardSiteId(Long cardSiteId) {
+        this.cardSiteId = cardSiteId;
+    }
+
     public String getOrderNo() {
         return orderNo;
     }
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public Integer getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
+    }
+
+    public String getIssueOrderNo() {
+        return issueOrderNo;
+    }
+
+    public void setIssueOrderNo(String issueOrderNo) {
+        this.issueOrderNo = issueOrderNo;
     }
 
     public String getOrderMoney() {
@@ -206,14 +273,12 @@ public class MerchantRechargeModel extends BasePage {
         this.orderMoney = orderMoney;
     }
 
-
-
-    public String getMyBankInfo() {
-        return myBankInfo;
+    public Integer getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setMyBankInfo(String myBankInfo) {
-        this.myBankInfo = myBankInfo;
+    public void setOrderStatus(Integer orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public String getBankName() {
@@ -248,6 +313,46 @@ public class MerchantRechargeModel extends BasePage {
         this.pictureAds = pictureAds;
     }
 
+    public Integer getOperateStatus() {
+        return operateStatus;
+    }
+
+    public void setOperateStatus(Integer operateStatus) {
+        this.operateStatus = operateStatus;
+    }
+
+    public Integer getIsSynchro() {
+        return isSynchro;
+    }
+
+    public void setIsSynchro(Integer isSynchro) {
+        this.isSynchro = isSynchro;
+    }
+
+    public Integer getCheckStatus() {
+        return checkStatus;
+    }
+
+    public void setCheckStatus(Integer checkStatus) {
+        this.checkStatus = checkStatus;
+    }
+
+    public String getCheckInfo() {
+        return checkInfo;
+    }
+
+    public void setCheckInfo(String checkInfo) {
+        this.checkInfo = checkInfo;
+    }
+
+    public Date getInvalidTime() {
+        return invalidTime;
+    }
+
+    public void setInvalidTime(Date invalidTime) {
+        this.invalidTime = invalidTime;
+    }
+
     public String getDataExplain() {
         return dataExplain;
     }
@@ -270,46 +375,6 @@ public class MerchantRechargeModel extends BasePage {
 
     public void setCurday(Integer curday) {
         this.curday = curday;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Date getTsTime() {
-        return tsTime;
-    }
-
-    public void setTsTime(Date tsTime) {
-        this.tsTime = tsTime;
-    }
-
-    public Integer getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(Integer orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public Integer getPayType() {
-        return payType;
-    }
-
-    public void setPayType(Integer payType) {
-        this.payType = payType;
     }
 
     public Integer getCurhour() {
@@ -344,28 +409,51 @@ public class MerchantRechargeModel extends BasePage {
         this.runStatus = runStatus;
     }
 
+    public Integer getSendNum() {
+        return sendNum;
+    }
+
+    public void setSendNum(Integer sendNum) {
+        this.sendNum = sendNum;
+    }
+
+    public Integer getSendStatus() {
+        return sendStatus;
+    }
+
+    public void setSendStatus(Integer sendStatus) {
+        this.sendStatus = sendStatus;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Date getTsTime() {
+        return tsTime;
+    }
+
+    public void setTsTime(Date tsTime) {
+        this.tsTime = tsTime;
+    }
+
     public Integer getYn() {
         return yn;
     }
 
     public void setYn(Integer yn) {
         this.yn = yn;
-    }
-
-
-    public String getAcName() {
-        return acName;
-    }
-
-    public void setAcName(String acName) {
-        this.acName = acName;
-    }
-
-    public MultipartFile getPictureFile() {
-        return pictureFile;
-    }
-
-    public void setPictureFile(MultipartFile pictureFile) {
-        this.pictureFile = pictureFile;
     }
 }

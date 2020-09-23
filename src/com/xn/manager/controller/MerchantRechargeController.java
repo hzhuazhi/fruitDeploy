@@ -67,12 +67,12 @@ public class MerchantRechargeController extends BaseController {
 //        model.setIsEnable(ManagerConstant.PUBLIC_CONSTANT.IS_ENABLE_ZC);
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-//            if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
-//                //不是管理员，只能查询自己的数据
-//                model.setId(account.getId());
-//            }else if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
-//                model.getAccountId(account.getId());
-//            }
+            if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                //不是管理员，只能查询自己的数据
+                model.setAccountId(account.getId());
+            }else if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+                model.setCardSiteId(account.getId());
+            }
             dataList = merchantRechargeService.queryByList(model);
         }
         HtmlUtil.writerJson(response, model.getPage(), dataList);
@@ -200,23 +200,23 @@ public class MerchantRechargeController extends BaseController {
             MerchantRechargeModel  merchantRechargeModel =  new MerchantRechargeModel();
 //            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
                 //不是管理员，只能上传图片
-                if (null!=bean.getPictureFile()){
-                    merchantRechargeModel.getOrderNo();
-                    String  filename=bean.getPictureFile().getOriginalFilename();
-                    String  []   filehou = filename.split("\\.");
-                    String  name = Constant.FOREIGN_ADDRESS+bean.getOrderNo()+"."+filehou[filehou.length-1];
-
-                    merchantRechargeModel.setOrderStatus(bean.getOrderStatus());
-                    File    file =new File(Constant.STORE_ADDRESS+bean.getOrderNo()+"."+filehou[filehou.length-1]);
-                    try{
-                        FileUtils.copyFileUsingFileStreams(bean.getPictureFile().getInputStream(),file);
-                        merchantRechargeModel.setPictureAds(name);
-                        merchantRechargeModel.setOrderStatus(3);//成功
-                    }catch (Exception e){
-                        sendFailureMessage(response, "图片存储出错，请重新上传！");
-                    }
-
-                }
+//                if (null!=bean.getPictureFile()){
+//                    merchantRechargeModel.getOrderNo();
+//                    String  filename=bean.getPictureFile().getOriginalFilename();
+//                    String  []   filehou = filename.split("\\.");
+//                    String  name = Constant.FOREIGN_ADDRESS+bean.getOrderNo()+"."+filehou[filehou.length-1];
+//
+//                    merchantRechargeModel.setOrderStatus(bean.getOrderStatus());
+//                    File    file =new File(Constant.STORE_ADDRESS+bean.getOrderNo()+"."+filehou[filehou.length-1]);
+//                    try{
+//                        FileUtils.copyFileUsingFileStreams(bean.getPictureFile().getInputStream(),file);
+//                        merchantRechargeModel.setPictureAds(name);
+//                        merchantRechargeModel.setOrderStatus(3);//成功
+//                    }catch (Exception e){
+//                        sendFailureMessage(response, "图片存储出错，请重新上传！");
+//                    }
+//
+//                }
 //            }else{
 //                BeanUtils.copy(bean,merchantRechargeModel);
 //                if (null!=bean.getPictureFile()){
