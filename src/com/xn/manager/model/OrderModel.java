@@ -257,6 +257,21 @@ public class OrderModel extends BasePage {
      */
     private Integer yn;
 
+    /**
+     *结束时间
+     *
+     * @mbggenerated
+     */
+    private Integer endCurday;
+    /**
+     * 开始时间
+     *
+     * @mbggenerated
+     */
+    private Integer beginCurday;
+
+
+
     public Long getId() {
         return id;
     }
@@ -543,5 +558,21 @@ public class OrderModel extends BasePage {
 
     public void setYn(Integer yn) {
         this.yn = yn;
+    }
+
+    public Integer getEndCurday() {
+        return endCurday;
+    }
+
+    public void setEndCurday(Integer endCurday) {
+        this.endCurday = endCurday;
+    }
+
+    public Integer getBeginCurday() {
+        return beginCurday;
+    }
+
+    public void setBeginCurday(Integer beginCurday) {
+        this.beginCurday = beginCurday;
     }
 }

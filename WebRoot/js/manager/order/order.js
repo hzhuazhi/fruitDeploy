@@ -58,30 +58,17 @@ var account = {
                 $(nTd).html(html);
             }
         },
-        {"data":"workType",
-            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                var html = '';
-                if(oData.workType==1){
-                    html+= '<span>初始化</span>';
-                }else if(oData.workType==2){
-                    html+= '<span>补单失败（</span>';
-                }else if(oData.workType==3){
-                    html+= '<span style="color: #ff3710">补单成功</span>';
-                }
-                $(nTd).html(html);
-            }
-         },
         {"data":"sendStatus",
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                 var html = '';
-                if(oData.sendStatus==1){
+                if(oData.sendStatus==0){
                     html+= '<span>初始化</span>';
-                }else if(oData.sendStatus==2){
+                }else if(oData.sendStatus==1){
                     html+= '<span>锁定</span>';
+                }else if(oData.sendStatus==2){
+                    html+= '<span>失败</span>';
                 }else if(oData.sendStatus==3){
-                    html+= '<span>计算失败</span>';
-                }else if(oData.sendStatus==4){
-                    html+= '<span style="color: #ff3710">计算成功</span>';
+                    html+= '<span style="color: #ff3710">成功</span>';
                 }
                 $(nTd).html(html);
             }
@@ -102,7 +89,9 @@ var account = {
     ],
     // 查询条件，aoData是必要的。其他的就是对应的实体类字段名，因为条件查询是把数据封装在实体类中的。
     condJsonData : {
-        accountNum:null
+        accountNum:null,
+        beginCurday:0,
+        endCurday:0
     },
     //页面加载
     indexInit : function (){
@@ -126,6 +115,8 @@ var account = {
             account.condJsonData['orderType'] = $("#orderType").val();
             account.condJsonData['replenishType'] = $("#replenishType").val();
             account.condJsonData['workType'] = $("#workType").val();
+            account.condJsonData['endCurday'] = $("#endCurday").val();
+            account.condJsonData['beginCurday'] = $("#beginCurday").val();
             common.showDatas(account.condJsonData,account.list);
         });
 
@@ -137,6 +128,8 @@ var account = {
             account.condJsonData['bankCard'] = "";
             account.condJsonData['accountName'] = "";
             account.condJsonData['merchantName'] = "";
+            account.condJsonData['endCurday'] = "0";
+            account.condJsonData['beginCurday'] = "0";
             $("#orderType").val("0");
             $("#replenishType").val("0");
             $("#workType").val("0");

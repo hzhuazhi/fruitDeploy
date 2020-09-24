@@ -85,6 +85,14 @@
             <if test="workType != 0 and workType >0 " >
                 and a.work_type = #{workType}
             </if>
+
+            <if test="beginCurday != 0 and beginCurday >0 " >
+                and a.curday  &gt;= #{beginCurday}
+            </if>
+
+            <if test="endCurday != 0 and endCurday >0 " >
+                and a.curday &lt;= #{endCurday}
+            </if>
             and a.yn =  0
         </trim>
     </sql>

@@ -2,6 +2,7 @@ package com.xn.manager.controller;
 
 import com.xn.common.constant.ManagerConstant;
 import com.xn.common.controller.BaseController;
+import com.xn.common.util.DateUtil;
 import com.xn.common.util.HtmlUtil;
 import com.xn.manager.model.ChannelModel;
 import com.xn.manager.model.OrderModel;
@@ -19,6 +20,7 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,6 +56,10 @@ public class OrderController extends BaseController {
     @RequestMapping("/dataList")
     public void dataList(HttpServletRequest request, HttpServletResponse response, OrderModel model) throws Exception {
         List<OrderModel> dataList = new ArrayList<OrderModel>();
+        if (model.getBeginCurday() == 0 || model.getEndCurday() == 0){
+            model.setBeginCurday(DateUtil.getDayNumber(new Date()));
+            model.setEndCurday(DateUtil.getDayNumber(new Date()));
+        }
 //        model.setUseStatus(1);
 //        model.setIsEnable(ManagerConstant.PUBLIC_CONSTANT.IS_ENABLE_ZC);
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
@@ -75,6 +81,10 @@ public class OrderController extends BaseController {
     @RequestMapping("/dataAllList")
     public void dataAllList(HttpServletRequest request, HttpServletResponse response, OrderModel model) throws Exception {
         List<OrderModel> dataList = new ArrayList<OrderModel>();
+        if (model.getBeginCurday() == 0 || model.getEndCurday() == 0){
+            model.setBeginCurday(DateUtil.getDayNumber(new Date()));
+            model.setEndCurday(DateUtil.getDayNumber(new Date()));
+        }
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
             if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){

@@ -40,6 +40,16 @@
             </div>
 
             <div class = "condQueryCtrl">
+                <div class = "condQueryLabelDiv">开始日期：</div>
+                <div class="formCtrlDiv">
+                    <input type="text" class ="inputCommonSty" name="beginCurday" id="beginCurday" size="10" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyyMMdd'})" />
+                </div>
+
+                <div class = "condQueryLabelDiv">截止日期：</div>
+                <div class="formCtrlDiv">
+                    <input type="text" class ="inputCommonSty" name="endCurday" id="endCurday" size="10" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyyMMdd'})"  />
+                </div>
+
                 <div class = "condQueryLabelDiv">订单类型：</div>
                 <div class="formCtrlDiv">
                     <select id="orderType" name="orderType">
@@ -92,7 +102,6 @@
             <th width="150">失效时间</th>
             <th width="150">卡商名称</th>
             <th width="150">补单状态</th>
-            <th width="150">补单类型</th>
             <th width="150">发送状态</th>
             <th width="150">创建时间</th>
             <th width="380">操作</th>
