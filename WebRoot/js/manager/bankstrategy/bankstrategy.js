@@ -67,7 +67,13 @@ var account = {
                 $(nTd).html(html);
             }
         },
-        {"data":"openTimeSlot",},
+        {"data":"openTimeSlot",
+            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                let  names ='openTimeSlot'+iRow;
+                var html = "<input type='text' size='20' id="+names+" name="+names+"  value="+oData.openTimeSlot+" />";
+                $(nTd).html(html);
+            }
+        },
         {"data":"useStatus",
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                 var html = '';
@@ -208,6 +214,7 @@ function  queryValue(i,id){
     let cardInMonthMoney= $("#"+'cardInMonthMoney'+i).val();
     let cardInDayNum= $("#"+'cardInDayNum'+i).val();
     let priority= $("#"+'priority'+i).val();
+    let openTimeSlot= $("#"+'openTimeSlot'+i).val();
 
     let  data={
         "zfbInDayMoney":zfbInDayMoney,
@@ -217,6 +224,7 @@ function  queryValue(i,id){
         "cardInMonthMoney":cardInMonthMoney,
         "cardInDayNum":cardInDayNum,
         "priority":priority,
+        "openTimeSlot":openTimeSlot,
         "id":id
     }
 
