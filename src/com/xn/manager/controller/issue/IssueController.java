@@ -4,14 +4,18 @@ import com.xn.common.constant.ManagerConstant;
 import com.xn.common.controller.BaseController;
 import com.xn.common.util.DateUtil;
 import com.xn.common.util.HtmlUtil;
+import com.xn.common.util.OssUploadUtil;
 import com.xn.manager.model.IssueModel;
 import com.xn.manager.service.IssueService;
 import com.xn.system.entity.Account;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -123,10 +127,18 @@ public class IssueController extends BaseController {
      * 修改数据
      */
     @RequestMapping("/update")
-    public void update(HttpServletRequest request, HttpServletResponse response,IssueModel bean) throws Exception {
+    public void update(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile files, IssueModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
 //            issueService.update(bean);
+            String pictureAds = OssUploadUtil.localMethod(files);
+            if (StringUtils.isBlank(pictureAds)){
+                sendFailureMessage(response, "图片上传失败,请重试!");
+                return;
+            }else {
+                bean.setOrderStatus(3);
+                bean.setPictureAds(pictureAds);
+            }
             issueService.updateOrderStatus(bean);
             sendSuccessMessage(response, "保存成功~");
         }else {
@@ -161,5 +173,16 @@ public class IssueController extends BaseController {
         }else{
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
         }
+    }
+
+    /**
+     * 获取数据的详情
+     */
+    @RequestMapping("/jumpInfo")
+    public String jumpInfo(Model model, long id) {
+        IssueModel atModel = new IssueModel();
+        atModel.setId(id);
+        model.addAttribute("account", issueService.queryById(atModel));
+        return "manager/issue/issueInfo";
     }
 }
