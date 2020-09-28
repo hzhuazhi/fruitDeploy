@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 import java.util.UUID;
 
 /**
- * @Description 七牛云图片上传的Controller层
+ * @Description 文件上传的Controller层
  * @Author yoko
  * @Date 2020/9/27 16:02
  * @Version 1.0
