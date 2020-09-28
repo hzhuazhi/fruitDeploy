@@ -61,14 +61,14 @@ public class OssUploadController extends BaseController {
         // Endpoint以杭州为例，其它Region请按实际情况填写。
         String endpoint = "https://oss-cn-hangzhou.aliyuncs.com";
         // 阿里云主账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建RAM账号。
-        String accessKeyId = "LTAIEMzvMhhaBuHE";
-        String accessKeySecret = "W2LdnHbyoqDZQDD3v2rlNMREiy2cEM";
+        String accessKeyId = "LTAI4GBhpufFHev3nK9gCDdp";
+        String accessKeySecret = "zKgpyn1WFeCzCnYpW4sHkxE45WCDyo";
         // 创建OSSClient实例。
         OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         // 上传文件。<yourLocalFile>由本地文件路径加文件名包括后缀组成，例如/users/local/myfile.txt。
-        String bucketName = "zqtemp";
-        String objectName = "test1/myfile14.html";
-        String localFile = "C:/Users/THINK/temp/13.html";
+        String bucketName = "fruit-file";
+        String objectName = "img/sb.png";
+        String localFile = "C:/Users/duanf/Desktop/temp/yf.png";
         ossClient.putObject(bucketName, objectName, new File(localFile));
         // 关闭OSSClient。
         ossClient.shutdown();
