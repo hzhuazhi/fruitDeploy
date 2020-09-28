@@ -56,7 +56,6 @@ public class UploadController extends BaseController {
             String suffix = files.getOriginalFilename().substring(files.getOriginalFilename().lastIndexOf(".") + 1);
             byte[] bytes = files.getBytes();
             String imageName = UUID.randomUUID().toString().replaceAll("\\-", "") + "." + suffix;
-
             QiniuCloudUtil qiniuUtil = new QiniuCloudUtil();
             String resStr = qiniuUtil.put64image(bytes, imageName);
             if (StringUtils.isBlank(resStr)){
@@ -77,6 +76,15 @@ public class UploadController extends BaseController {
     }
 
 
+    /**
+     * @Description: 阿里云图片上传
+     * <p>
+     *     上传成功之后，返回图片地址
+     * </p>
+     * @return
+     * @author yoko
+     * @date 2020/9/28 10:51
+    */
     @RequestMapping("/ossUpload")
     public void ossUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile files) throws Exception{
         try{

@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * @author df
@@ -18,6 +19,9 @@ import java.util.Random;
  * @create 2018-09-03 16:43
  **/
 public class OssUploadUtil {
+    public static String bucketName = "fruit-file";
+
+    public static String endpoint = "img/";
 
     /**
      * @Description: TODO
@@ -144,6 +148,26 @@ public class OssUploadUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * @Description: 本地调用上传文件到阿里云的方法
+     * <p>
+     *     本地调用封装的方法：返回文件地址
+     * </p>
+     * @param files
+     * @return
+     * @author yoko
+     * @date 2020/9/28 10:57
+     */
+    public static String localMethod(MultipartFile files) throws Exception{
+        File file = OssUploadUtil.multipartFileToFile(files);
+        String suffix = files.getOriginalFilename().substring(files.getOriginalFilename().lastIndexOf(".") + 1);
+        String imageName = UUID.randomUUID().toString().replaceAll("\\-", "") + "." + suffix;
+        String objectName = endpoint + imageName;
+        String str = OssUploadUtil.ossUploadFile(bucketName, objectName, file);
+        return str;
     }
 
 

@@ -11,7 +11,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 import java.io.IOException;
+import java.util.UUID;
+
 import org.apache.commons.lang.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -21,6 +24,8 @@ import org.apache.commons.lang.StringUtils;
  * @Version 1.0
  */
 public class QiniuCloudUtil {
+
+    public static String qiniuUrl = "http://gtpqn.tiaocheng-tech.com/";
 
     // 设置需要操作的账号的AK和SK
     private static final String ACCESS_KEY = "Wq4cE6asPKv7uPtfkYoqVTaIRa2lUzbnJ1jP-hHt";
@@ -120,6 +125,32 @@ public class QiniuCloudUtil {
 //            System.out.println(r.toString());
 //        }
 //    }
+
+
+    /**
+     * @Description: 本地调用上传文件到七牛方法
+     * <p>
+     *     本地调用封装的方法：返回文件地址
+     * </p>
+     * @param files
+     * @return
+     * @author yoko
+     * @date 2020/9/28 10:57
+    */
+    public static String localMethod(MultipartFile files) throws Exception{
+        String suffix = files.getOriginalFilename().substring(files.getOriginalFilename().lastIndexOf(".") + 1);
+        byte[] bytes = files.getBytes();
+        String imageName = UUID.randomUUID().toString().replaceAll("\\-", "") + "." + suffix;
+        QiniuCloudUtil qiniuUtil = new QiniuCloudUtil();
+        String resStr = qiniuUtil.put64image(bytes, imageName);
+        if (StringUtils.isBlank(resStr)){
+            return null;
+        }
+        String str = qiniuUrl + resStr;
+        return str;
+    }
+
+
 
     class Ret {
         public long fsize;
