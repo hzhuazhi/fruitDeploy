@@ -1,45 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xn.manager.dao.IssueDao">
+<mapper namespace="com.xn.manager.dao.RechargeDao">
     <!-- 属性映射 -->
-    <resultMap type="com.xn.manager.model.IssueModel" id="dataMap">
+    <resultMap type="com.xn.manager.model.RechargeModel" id="dataMap">
         <id property="id" column="id" />
+        <result property="accountId" column="account_id" />
+        <result property="cardSiteId" column="card_site_id" />
         <result property="orderNo" column="order_no" />
-        <result property="outTradeNo" column="out_trade_no" />
+        <result property="orderType" column="order_type" />
+        <result property="issueOrderNo" column="issue_order_no" />
         <result property="orderMoney" column="order_money" />
+        <result property="orderStatus" column="order_status" />
         <result property="bankName" column="bank_name" />
         <result property="bankCard" column="bank_card" />
         <result property="accountName" column="account_name" />
-        <result property="orderStatus" column="order_status" />
         <result property="pictureAds" column="picture_ads" />
-        <result property="myBankInfo" column="my_bank_info" />
-        <result property="ascriptionType" column="ascription_type" />
-
-
-        <result property="isDistribution" column="is_distribution" />
-        <result property="isComplete" column="is_complete" />
+        <result property="operateStatus" column="operate_status" />
+        <result property="isSynchro" column="is_synchro" />
         <result property="checkStatus" column="check_status" />
         <result property="checkInfo" column="check_info" />
+        <result property="lockAccountId" column="lock_account_id" />
+        <result property="invalidTime" column="invalid_time" />
         <result property="dataExplain" column="data_explain" />
         <result property="remark" column="remark" />
         <result property="curday" column="curday" />
         <result property="curhour" column="curhour" />
         <result property="curminute" column="curminute" />
         <result property="runNum" column="run_num" />
-
         <result property="runStatus" column="run_status" />
         <result property="sendNum" column="send_num" />
         <result property="sendStatus" column="send_status" />
+        <result property="invalidNum" column="invalid_num" />
+        <result property="invalidStatus" column="invalid_status" />
         <result property="createTime" column="create_time" />
         <result property="updateTime" column="update_time" />
         <result property="yn" column="yn" />
+
+        <result property="merchantName" column="merchant_name" />
+        <result property="cardSiteName" column="card_site_name" />
+        <result property="lockAccountName" column="lock_account_name" />
+
     </resultMap>
     <!-- 定义数据库基本列,只适用代替单表的*-->
     <sql id="Base_Column_List">
-        a.id,a.order_no,a.out_trade_no,a.order_money,a.bank_name,a.bank_card,a.account_name,a.order_status,a.picture_ads,
-        a.my_bank_info,a.ascription_type,a.is_distribution,a.is_complete,a.check_status,a.check_info,a.data_explain,
-        a.remark,a.curday,a.curhour,a.curminute,a.run_num,a.run_status,a.send_num,a.send_status,a.create_time,a.update_time,
-        a.yn
+        a.id,a.account_id,a.card_site_id,a.order_no,a.order_type,a.issue_order_no,a.order_money,a.order_status,
+        a.bank_name,a.bank_card,a.account_name,a.picture_ads,a.operate_status,a.is_synchro,
+        a.check_status,a.check_info,a.lock_account_id,a.data_explain,
+        a.remark,a.curday,a.curhour,a.curminute,a.run_num,a.run_status,a.send_num,a.send_status,a.invalid_num,a.invalid_status,a.create_time,a.update_time,
+        a.yn,
+        b.ac_name as merchant_name,
+        c.ac_name as card_site_name,
+        d.ac_name as lock_account_name
     </sql>
 
     <!-- 查询条件 -->
@@ -49,11 +60,23 @@
             <if test="id != 0 and id >0 " >
                 and a.id = #{id}
             </if>
+            <if test="accountId != 0 and accountId >0 " >
+                and a.account_id = #{accountId}
+            </if>
+            <if test="cardSiteId != 0 and cardSiteId >0 " >
+                and a.card_site_id = #{cardSiteId}
+            </if>
             <if test="orderNo != null and orderNo != '' " >
                 and a.order_no = #{orderNo}
             </if>
-            <if test="outTradeNo != null and outTradeNo != '' " >
-                and a.out_trade_no = #{outTradeNo}
+            <if test="orderType != 0 and orderType >0 " >
+                and a.order_type = #{orderType}
+            </if>
+            <if test="issueOrderNo != null and issueOrderNo != '' " >
+                and a.issue_order_no = #{issueOrderNo}
+            </if>
+            <if test="orderStatus != 0 and orderStatus >0 " >
+                and a.order_status = #{orderStatus}
             </if>
             <if test="bankName != null and bankName != '' " >
                 and a.bank_name = #{bankName}
@@ -64,26 +87,38 @@
             <if test="accountName != null and accountName != '' " >
                 and a.account_name = #{accountName}
             </if>
-            <if test="orderStatus != 0 and orderStatus >0 " >
-                and a.order_status = #{orderStatus}
+            <if test="operateStatus != 0 and operateStatus >0 " >
+                and a.operate_status = #{operateStatus}
             </if>
-            <if test="ascriptionType != 0 and ascriptionType >0 " >
-                and a.ascription_type = #{ascriptionType}
-            </if>
-            <if test="isDistribution != 0 and isDistribution >0 " >
-                and a.is_distribution = #{isDistribution}
-            </if>
-            <if test="isComplete != 0 and isComplete >0 " >
-                and a.is_complete = #{isComplete}
+            <if test="isSynchro != 0 and isSynchro >0 " >
+                and a.is_synchro = #{isSynchro}
             </if>
             <if test="checkStatus != 0 and checkStatus >0 " >
                 and a.check_status = #{checkStatus}
+            </if>
+            <if test="lockAccountId != 0 and lockAccountId >0 " >
+                and a.lock_account_id = #{lockAccountId}
+            </if>
+            <if test="operateStatusStr != null and operateStatusStr != '' " >
+                and a.operate_status in(1,4)
+            </if>
+            <if test="invalidTimeStr != null and invalidTimeStr != '' " >
+                and a.invalid_time &lt;= now()
             </if>
             <if test="curday != 0 and curday >0 " >
                 and a.curday = #{curday}
             </if>
             <if test="curdayStart != 0 and curdayStart >0 and curdayEnd != 0 and curdayEnd >0 " >
                 and a.curday >= #{curdayStart} and a.curday &lt;= #{curdayEnd}
+            </if>
+            <if test="merchantName != null and merchantName != '' " >
+                and b.ac_name = #{merchantName}
+            </if>
+            <if test="cardSiteName != null and cardSiteName != '' " >
+                and c.ac_name = #{cardSiteName}
+            </if>
+            <if test="lockAccountName != null and lockAccountName != '' " >
+                and d.ac_name = #{lockAccountName}
             </if>
             and a.yn = 0
         </trim>
@@ -103,7 +138,9 @@
     <!-- 查询总数-->
     <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
         select count(1)
-        from tb_fr_issue a
+        from tb_fr_merchant_recharge a left join tb_hz_sys_account b on a.account_id = b.id and b.yn = 0
+        left join tb_hz_sys_account c on a.card_site_id = c.id and c.yn = 0
+        left join tb_hz_sys_account d on a.lock_account_id = d.id and d.yn = 0
         <include refid="Example_Where_Clause"/>
     </select>
 
@@ -111,7 +148,9 @@
     <select id="queryByList" resultMap="dataMap"  parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_fr_issue a
+        from tb_fr_merchant_recharge a left join tb_hz_sys_account b on a.account_id = b.id and b.yn = 0
+        left join tb_hz_sys_account c on a.card_site_id = c.id and c.yn = 0
+        left join tb_hz_sys_account d on a.lock_account_id = d.id and d.yn = 0
         <include refid="Example_Where_Clause"/>
         order by a.create_time desc
         limit #{startIndex},#{pageSize}
@@ -121,7 +160,9 @@
     <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_fr_issue a
+        from tb_fr_merchant_recharge a left join tb_hz_sys_account b on a.account_id = b.id and b.yn = 0
+        left join tb_hz_sys_account c on a.card_site_id = c.id and c.yn = 0
+        left join tb_hz_sys_account d on a.lock_account_id = d.id and d.yn = 0
         <include refid="Example_Where_Clause"/>
         order by a.my_bank_info desc
     </select>
@@ -130,7 +171,9 @@
     <select id="queryById"  resultMap="dataMap" parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_fr_issue a
+        from tb_fr_merchant_recharge a left join tb_hz_sys_account b on a.account_id = b.id and b.yn = 0
+        left join tb_hz_sys_account c on a.card_site_id = c.id and c.yn = 0
+        left join tb_hz_sys_account d on a.lock_account_id = d.id and d.yn = 0
         <include refid="Example_Where_Clause_id"/>
     </select>
 
@@ -138,7 +181,9 @@
     <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_fr_issue a
+        from tb_fr_merchant_recharge a left join tb_hz_sys_account b on a.account_id = b.id and b.yn = 0
+        left join tb_hz_sys_account c on a.card_site_id = c.id and c.yn = 0
+        left join tb_hz_sys_account d on a.lock_account_id = d.id and d.yn = 0
         <include refid="Example_Where_Clause"/>
         limit 1
     </select>
@@ -148,16 +193,28 @@
         <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() as id
         </selectKey>
-        insert into tb_fr_issue
+        insert into tb_fr_merchant_recharge
         <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="accountId != 0 and accountId >0 " >
+                account_id,
+            </if>
+            <if test="cardSiteId != 0 and cardSiteId >0 " >
+                card_site_id,
+            </if>
             <if test="orderNo != null and orderNo != '' " >
                 order_no,
             </if>
-            <if test="outTradeNo != null and outTradeNo != '' " >
-                out_trade_no,
+            <if test="orderType != 0 and orderType >0 " >
+                order_type,
+            </if>
+            <if test="issueOrderNo != null and issueOrderNo != '' " >
+                issue_order_no,
             </if>
             <if test="orderMoney != null and orderMoney != '' " >
                 order_money,
+            </if>
+            <if test="orderStatus != 0 and orderStatus >0 " >
+                order_status,
             </if>
             <if test="bankName != null and bankName != ''" >
                 bank_name,
@@ -168,29 +225,26 @@
             <if test="accountName != null and accountName != '' " >
                 account_name,
             </if>
-            <if test="orderStatus != 0 and orderStatus >0 " >
-                order_status,
-            </if>
             <if test="pictureAds != null and pictureAds != '' " >
                 picture_ads,
             </if>
-            <if test="myBankInfo != null and myBankInfo != '' " >
-                my_bank_info,
+            <if test="operateStatus != 0 and operateStatus >0 " >
+                operate_status,
             </if>
-            <if test="ascriptionType != 0 and ascriptionType >0 " >
-                ascription_type,
-            </if>
-            <if test="isDistribution != 0 and isDistribution >0 " >
-                is_distribution,
-            </if>
-            <if test="isComplete != 0 and isComplete >0 " >
-                is_complete,
+            <if test="isSynchro != 0 and isSynchro >0 " >
+                is_synchro,
             </if>
             <if test="checkStatus != 0 and checkStatus >0 " >
                 check_status,
             </if>
             <if test="checkInfo != null and checkInfo != '' " >
                 check_info,
+            </if>
+            <if test="lockAccountId != 0 and lockAccountId >0 " >
+                lock_account_id,
+            </if>
+            <if test="invalidTime != null and invalidTime != '' " >
+                invalid_time,
             </if>
             <if test="dataExplain != null and dataExplain != '' " >
                 data_explain,
@@ -219,18 +273,36 @@
             <if test="sendStatus != 0 and sendStatus >0 " >
                 send_status,
             </if>
+            <if test="invalidNum != 0 and invalidNum >0 " >
+                invalid_num,
+            </if>
+            <if test="invalidStatus != 0 and invalidStatus >0 " >
+                invalid_status,
+            </if>
             create_time,
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="accountId != 0 and accountId >0 " >
+                <![CDATA[  #{accountId}, ]]>
+            </if>
+            <if test="cardSiteId != 0 and cardSiteId >0 " >
+                <![CDATA[  #{cardSiteId}, ]]>
+            </if>
             <if test="orderNo != null and orderNo != '' " >
                 <![CDATA[  #{orderNo}, ]]>
             </if>
-            <if test="outTradeNo != null and outTradeNo != '' " >
-                <![CDATA[  #{outTradeNo}, ]]>
+            <if test="orderType != 0 and orderType >0 " >
+                <![CDATA[  #{orderType}, ]]>
+            </if>
+            <if test="issueOrderNo != null and issueOrderNo != '' " >
+                <![CDATA[  #{issueOrderNo}, ]]>
             </if>
             <if test="orderMoney != null and orderMoney != '' " >
                 <![CDATA[  #{orderMoney}, ]]>
+            </if>
+            <if test="orderStatus != 0 and orderStatus >0 " >
+                <![CDATA[  #{orderStatus}, ]]>
             </if>
             <if test="bankName != null and bankName != ''" >
                 <![CDATA[  #{bankName}, ]]>
@@ -241,29 +313,26 @@
             <if test="accountName != null and accountName != '' " >
                 <![CDATA[  #{accountName}, ]]>
             </if>
-            <if test="orderStatus != 0 and orderStatus >0 " >
-                <![CDATA[  #{orderStatus}, ]]>
-            </if>
             <if test="pictureAds != null and pictureAds != '' " >
                 <![CDATA[  #{pictureAds}, ]]>
             </if>
-            <if test="myBankInfo != null and myBankInfo != '' " >
-                <![CDATA[  #{myBankInfo}, ]]>
+            <if test="operateStatus != 0 and operateStatus >0 " >
+                <![CDATA[  #{operateStatus}, ]]>
             </if>
-            <if test="ascriptionType != 0 and ascriptionType >0 " >
-                <![CDATA[  #{ascriptionType}, ]]>
-            </if>
-            <if test="isDistribution != 0 and isDistribution >0 " >
-                <![CDATA[  #{isDistribution}, ]]>
-            </if>
-            <if test="isComplete != 0 and isComplete >0 " >
-                <![CDATA[  #{isComplete}, ]]>
+            <if test="isSynchro != 0 and isSynchro >0 " >
+                <![CDATA[  #{isSynchro}, ]]>
             </if>
             <if test="checkStatus != 0 and checkStatus >0 " >
                 <![CDATA[  #{checkStatus}, ]]>
             </if>
             <if test="checkInfo != null and checkInfo != '' " >
                 <![CDATA[  #{checkInfo}, ]]>
+            </if>
+            <if test="lockAccountId != 0 and lockAccountId >0 " >
+                <![CDATA[  #{lockAccountId}, ]]>
+            </if>
+            <if test="invalidTime != null and invalidTime != '' " >
+                <![CDATA[  #{invalidTime}, ]]>
             </if>
             <if test="dataExplain != null and dataExplain != '' " >
                 <![CDATA[  #{dataExplain}, ]]>
@@ -292,6 +361,12 @@
             <if test="sendStatus != 0 and sendStatus >0 " >
                 <![CDATA[  #{sendStatus}, ]]>
             </if>
+            <if test="invalidNum != 0 and invalidNum >0 " >
+                <![CDATA[  #{invalidNum}, ]]>
+            </if>
+            <if test="invalidStatus != 0 and invalidStatus >0 " >
+                <![CDATA[  #{invalidStatus}, ]]>
+            </if>
             <![CDATA[  NOW(), ]]>
         </trim>
     </insert>
@@ -300,16 +375,28 @@
 
     <!-- 更新记录 -->
     <update id="update" parameterType="Object">
-        UPDATE tb_fr_issue a
+        UPDATE tb_fr_merchant_recharge a
         <trim prefix="set" suffixOverrides=",">
+            <if test="accountId != 0 and accountId >0 " >
+                a.account_id = #{accountId},
+            </if>
+            <if test="cardSiteId != 0 and cardSiteId >0 " >
+                a.card_site_id = #{cardSiteId},
+            </if>
             <if test="orderNo != null and orderNo != '' " >
                 a.order_no = #{orderNo},
             </if>
-            <if test="outTradeNo != null and outTradeNo != '' " >
-                a.out_trade_no = #{outTradeNo},
+            <if test="orderType != 0 and orderType >0 " >
+                a.order_type = #{orderType},
+            </if>
+            <if test="issueOrderNo != null and issueOrderNo != '' " >
+                a.issue_order_no = #{issueOrderNo},
             </if>
             <if test="orderMoney != null and orderMoney != '' " >
                 a.order_money = #{orderMoney},
+            </if>
+            <if test="orderStatus != 0 and orderStatus >0 " >
+                a.order_status = #{orderStatus},
             </if>
             <if test="bankName != null and bankName != ''" >
                 a.bank_name = #{bankName},
@@ -320,29 +407,26 @@
             <if test="accountName != null and accountName != '' " >
                 a.account_name = #{accountName},
             </if>
-            <if test="orderStatus != 0 and orderStatus >0 " >
-                a.order_status = #{orderStatus},
-            </if>
             <if test="pictureAds != null and pictureAds != '' " >
                 a.picture_ads = #{pictureAds},
             </if>
-            <if test="myBankInfo != null and myBankInfo != '' " >
-                a.my_bank_info = #{myBankInfo},
+            <if test="operateStatus != 0 and operateStatus >0 " >
+                a.operate_status = #{operateStatus},
             </if>
-            <if test="ascriptionType != 0 and ascriptionType >0 " >
-                a.ascription_type = #{ascriptionType},
-            </if>
-            <if test="isDistribution != 0 and isDistribution >0 " >
-                a.is_distribution = #{isDistribution},
-            </if>
-            <if test="isComplete != 0 and isComplete >0 " >
-                a.is_complete = #{isComplete},
+            <if test="isSynchro != 0 and isSynchro >0 " >
+                a.is_synchro = #{isSynchro},
             </if>
             <if test="checkStatus != 0 and checkStatus >0 " >
                 a.check_status = #{checkStatus},
             </if>
             <if test="checkInfo != null and checkInfo != '' " >
                 a.check_info = #{checkInfo},
+            </if>
+            <if test="lockAccountId != 0 and lockAccountId >0 " >
+                a.lock_account_id = #{lockAccountId},
+            </if>
+            <if test="invalidTime != null and invalidTime != '' " >
+                a.invalid_time = #{invalidTime},
             </if>
             <if test="dataExplain != null and dataExplain != '' " >
                 a.data_explain = #{dataExplain},
@@ -362,7 +446,7 @@
 
     <!-- 主要作用1.逻辑删除，2更新状态 -->
     <update id="manyOperation" parameterType="Object">
-        update tb_fr_issue a
+        update tb_fr_merchant_recharge a
         <trim prefix="set" suffixOverrides=",">
             <if test="isEnable != 0 and isEnable >0 " >
                 a.is_enable=#{isEnable},
@@ -377,7 +461,7 @@
 
     <!--逻辑删除数据 -->
     <update id="delete" parameterType="java.lang.Long">
-        UPDATE tb_fr_issue a set a.yn = 1,
+        UPDATE tb_fr_merchant_recharge a set a.yn = 1,
         a.update_time = now()
         where 1=1
         and a.id = #{id}
@@ -385,18 +469,15 @@
     </update>
 
 
-    <!-- 更新下发订单状态 -->
+    <!-- 更新充值订单状态 -->
     <update id="updateOrderStatus" parameterType="Object">
-        update tb_fr_issue a
+        update tb_fr_merchant_recharge a
         <trim prefix="set" suffixOverrides=",">
             <if test="orderStatus != 0 and orderStatus >0 " >
                 a.order_status = #{orderStatus},
             </if>
             <if test="pictureAds != null and pictureAds != '' " >
                 a.picture_ads = #{pictureAds},
-            </if>
-            <if test="myBankInfo != null and myBankInfo != '' " >
-                a.my_bank_info = #{myBankInfo},
             </if>
             a.send_num = 0,
             a.send_status = 0,

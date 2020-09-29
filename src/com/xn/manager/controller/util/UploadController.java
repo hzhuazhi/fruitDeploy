@@ -1,12 +1,8 @@
 package com.xn.manager.controller.util;
 
 import com.xn.common.controller.BaseController;
-import com.xn.common.util.HtmlUtil;
-import com.xn.common.util.JsonResult;
 import com.xn.common.util.OssUploadUtil;
 import com.xn.common.util.QiniuCloudUtil;
-import com.xn.manager.model.OssUploadModel;
-import com.xn.manager.model.StrategyModel;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;

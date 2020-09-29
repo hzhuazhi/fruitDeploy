@@ -1,12 +1,12 @@
-package com.xn.manager.controller.issue;
+package com.xn.manager.controller.merchant;
 
 import com.xn.common.constant.ManagerConstant;
 import com.xn.common.controller.BaseController;
 import com.xn.common.util.DateUtil;
 import com.xn.common.util.HtmlUtil;
 import com.xn.common.util.OssUploadUtil;
-import com.xn.manager.model.IssueModel;
-import com.xn.manager.service.IssueService;
+import com.xn.manager.model.RechargeModel;
+import com.xn.manager.service.RechargeService;
 import com.xn.system.entity.Account;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -25,20 +25,20 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Description 下发的Controller层
+ * @Description 管理员的角色的卡商充值的Controller层
  * @Author yoko
- * @Date 2020/9/27 15:50
+ * @Date 2020/9/29 16:21
  * @Version 1.0
  */
 @Controller
-@RequestMapping("/issue")
-public class IssueController extends BaseController {
+@RequestMapping("/adminrecharge")
+public class AdminRechargeController extends BaseController {
 
-    private static Logger log = Logger.getLogger(IssueController.class);
+    private static Logger log = Logger.getLogger(AdminRechargeController.class);
 
 
     @Autowired
-    private IssueService<IssueModel> issueService;
+    private RechargeService<RechargeModel> rechargeService;
 
 
     /**
@@ -46,7 +46,7 @@ public class IssueController extends BaseController {
      */
     @RequestMapping("/list")
     public String list() {
-        return "manager/issue/issueIndex";
+        return "manager/adminrecharge/adminrechargeIndex";
     }
 
 
@@ -55,8 +55,8 @@ public class IssueController extends BaseController {
      * 获取表格数据列表
      */
     @RequestMapping("/dataList")
-    public void dataList(HttpServletRequest request, HttpServletResponse response, IssueModel model) throws Exception {
-        List<IssueModel> dataList = new ArrayList<IssueModel>();
+    public void dataList(HttpServletRequest request, HttpServletResponse response, RechargeModel model) throws Exception {
+        List<RechargeModel> dataList = new ArrayList<RechargeModel>();
         if (model.getCurdayStart() ==0 || model.getCurdayEnd() == 0){
             model.setCurdayStart(DateUtil.getDayNumber(new Date()));
             model.setCurdayEnd(DateUtil.getDayNumber(new Date()));
@@ -66,7 +66,7 @@ public class IssueController extends BaseController {
             if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
                 HtmlUtil.writerJson(response, model.getPage(), dataList);
             }
-            dataList = issueService.queryByList(model);
+            dataList = rechargeService.queryByList(model);
         }
         HtmlUtil.writerJson(response, model.getPage(), dataList);
     }
@@ -77,14 +77,14 @@ public class IssueController extends BaseController {
      * 获取表格数据列表-无分页
      */
     @RequestMapping("/dataAllList")
-    public void dataAllList(HttpServletRequest request, HttpServletResponse response, IssueModel model) throws Exception {
-        List<IssueModel> dataList = new ArrayList<IssueModel>();
+    public void dataAllList(HttpServletRequest request, HttpServletResponse response, RechargeModel model) throws Exception {
+        List<RechargeModel> dataList = new ArrayList<RechargeModel>();
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
             if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
                 HtmlUtil.writerJson(response, model.getPage(), dataList);
             }
-            dataList = issueService.queryAllList(model);
+            dataList = rechargeService.queryAllList(model);
         }
         HtmlUtil.writerJson(response, dataList);
     }
@@ -95,17 +95,17 @@ public class IssueController extends BaseController {
     @RequestMapping("/jumpAdd")
     public String jumpAdd(HttpServletRequest request, HttpServletResponse response) {
 //        model.addAttribute("rloeMenu", roleService.queryList());
-        return "manager/issue/issueAdd";
+        return "manager/adminrecharge/adminrechargeAdd";
     }
 
     /**
      * 添加数据
      */
     @RequestMapping("/add")
-    public void add(HttpServletRequest request, HttpServletResponse response, IssueModel bean) throws Exception {
+    public void add(HttpServletRequest request, HttpServletResponse response, RechargeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            issueService.add(bean);
+            rechargeService.add(bean);
             sendSuccessMessage(response, "保存成功~");
         }else {
             sendFailureMessage(response,"登录超时,请重新登录在操作!");
@@ -117,29 +117,30 @@ public class IssueController extends BaseController {
      */
     @RequestMapping("/jumpUpdate")
     public String jumpUpdate(Model model, long id) {
-        IssueModel atModel = new IssueModel();
+        RechargeModel atModel = new RechargeModel();
         atModel.setId(id);
-        model.addAttribute("account", issueService.queryById(atModel));
-        return "manager/issue/issueEdit";
+        model.addAttribute("account", rechargeService.queryById(atModel));
+        return "manager/adminrecharge/adminrechargeEdit";
     }
 
     /**
      * 修改数据
      */
     @RequestMapping("/update")
-    public void update(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile files, IssueModel bean) throws Exception {
+    public void update(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile files, RechargeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-//            issueService.update(bean);
+//            rechargeService.update(bean);
             String pictureAds = OssUploadUtil.localMethod(files);
             if (StringUtils.isBlank(pictureAds)){
+                log.info("");
                 sendFailureMessage(response, "图片上传失败,请重试!");
                 return;
             }else {
                 bean.setOrderStatus(3);
                 bean.setPictureAds(pictureAds);
             }
-            issueService.updateOrderStatus(bean);
+            rechargeService.updateOrderStatus(bean);
             sendSuccessMessage(response, "保存成功~");
         }else {
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
@@ -150,10 +151,10 @@ public class IssueController extends BaseController {
      * 删除数据
      */
     @RequestMapping("/delete")
-    public void delete(HttpServletRequest request, HttpServletResponse response, IssueModel bean) throws Exception {
+    public void delete(HttpServletRequest request, HttpServletResponse response, RechargeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            issueService.delete(bean);
+            rechargeService.delete(bean);
             sendSuccessMessage(response, "删除成功");
         }else{
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
@@ -165,24 +166,59 @@ public class IssueController extends BaseController {
      * 启用/禁用
      */
     @RequestMapping("/manyOperation")
-    public void manyOperation(HttpServletRequest request, HttpServletResponse response, IssueModel bean) throws Exception {
+    public void manyOperation(HttpServletRequest request, HttpServletResponse response, RechargeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            issueService.manyOperation(bean);
+            rechargeService.manyOperation(bean);
             sendSuccessMessage(response, "状态更新成功");
         }else{
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
         }
     }
 
+
+    /**
+     * 审核的跳转页
+     */
+    @RequestMapping("/jumpCheck")
+    public String jumpCheck(Model model, long id) {
+        RechargeModel atModel = new RechargeModel();
+        atModel.setId(id);
+        model.addAttribute("account", rechargeService.queryById(atModel));
+        return "manager/adminrecharge/adminrechargeCheck";
+    }
+
+
+    /**
+     * 正式审核
+     */
+    @RequestMapping("/check")
+    public void check(HttpServletRequest request, HttpServletResponse response, RechargeModel bean) throws Exception {
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            RechargeModel model = new RechargeModel();
+            model.setId(bean.getId());
+            model.setCheckStatus(bean.getCheckStatus());
+            if (!StringUtils.isBlank(bean.getCheckInfo())){
+                model.setCheckInfo(bean.getCheckInfo());
+            }
+            rechargeService.update(model);
+            sendSuccessMessage(response, "保存成功~");
+        }else {
+            sendFailureMessage(response, "登录超时,请重新登录在操作!");
+        }
+
+    }
+
+
     /**
      * 获取数据的详情
      */
     @RequestMapping("/jumpInfo")
     public String jumpInfo(Model model, long id) {
-        IssueModel atModel = new IssueModel();
+        RechargeModel atModel = new RechargeModel();
         atModel.setId(id);
-        model.addAttribute("account", issueService.queryById(atModel));
-        return "manager/issue/issueInfo";
+        model.addAttribute("account", rechargeService.queryById(atModel));
+        return "manager/adminrecharge/adminrechargeInfo";
     }
 }
