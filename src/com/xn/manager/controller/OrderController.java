@@ -214,7 +214,7 @@ public class OrderController extends BaseController {
                     OrderReplenishModel orderReplenishModel = new OrderReplenishModel();
                     orderReplenishModel.setOrderNo(quertBean.getOrderNo());
                     orderReplenishModel.setOutTradeNo(quertBean.getOutTradeNo());
-                    orderReplenishModel.setOrderStatus(1);
+                    orderReplenishModel.setOrderStatus(3);
                     orderReplenishModel.setHandlePeople(account.getAccountNum());
                     orderReplenishService.add(orderReplenishModel);
                     sendSuccessMessage(response, "保存成功~");
