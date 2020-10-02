@@ -77,6 +77,9 @@
             <if test="orderType != 0 and orderType >0 " >
                 and a.order_type = #{orderType}
             </if>
+            <if test="accountId != 0 and accountId >0 " >
+                and a.account_id = #{accountId}
+            </if>
 
             <if test="replenishType != 0 and replenishType >0 " >
                 and a.replenish_type = #{replenishType}

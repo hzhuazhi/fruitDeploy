@@ -130,6 +130,12 @@ public class OrderModel extends BasePage {
      * @mbggenerated
      */
     private Long accountId;
+    /**
+     * 卡组的账号ID：对应表tb_hz_sys_account的主键ID，并且角色类型是卡商
+     *
+     * @mbggenerated
+     */
+    private Long cardSiteId;
 
     /**
      * 银行归属卡商名称
@@ -574,5 +580,13 @@ public class OrderModel extends BasePage {
 
     public void setBeginCurday(Integer beginCurday) {
         this.beginCurday = beginCurday;
+    }
+
+    public Long getCardSiteId() {
+        return cardSiteId;
+    }
+
+    public void setCardSiteId(Long cardSiteId) {
+        this.cardSiteId = cardSiteId;
     }
 }
