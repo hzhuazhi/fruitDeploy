@@ -115,8 +115,17 @@ var account = {
             account.condJsonData['orderType'] = $("#orderType").val();
             account.condJsonData['replenishType'] = $("#replenishType").val();
             account.condJsonData['workType'] = $("#workType").val();
-            account.condJsonData['endCurday'] = $("#endCurday").val();
-            account.condJsonData['beginCurday'] = $("#beginCurday").val();
+            if($("#endCurday").val()==undefined||$("#endCurday").val()==""){
+                account.condJsonData['endCurday'] =0;
+            }else{
+                account.condJsonData['endCurday'] = $("#endCurday").val();
+            }
+
+            if($("#beginCurday").val()==undefined||$("#beginCurday").val()==""){
+                account.condJsonData['beginCurday'] =0;
+            }else{
+                account.condJsonData['beginCurday'] = $("#beginCurday").val();
+            }
             common.showDatas(account.condJsonData,account.list);
         });
 
