@@ -207,6 +207,9 @@
             <if test="curday != 0 and curday >0 " >
                 and a.curday = #{curday}
             </if>
+            <if test="createTime != null and createTime != '' " >
+                and a.create_time &gt;= #{createTime}
+            </if>
             and a.yn =  0
         </trim>
     </sql>

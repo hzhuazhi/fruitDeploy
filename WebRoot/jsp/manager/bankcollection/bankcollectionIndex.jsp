@@ -31,7 +31,10 @@
 
                 <div class = "condQueryLabelDiv">时间：</div>
                 <div class="formCtrlDiv">
-                    <input type ="text" class ="inputCommonSty" id="curday" name ="curday">
+                    <div class="formCtrlDiv">
+                        <input type="text" class ="inputCommonSty" name="createTime" id="createTime" size="10" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"  />
+                    </div>
+                    <%--<input type ="text" class ="inputCommonSty" id="createTime" name ="createTime">--%>
                 </div>
 
                 <div class = "condQueryLabelDiv">卡商：</div>

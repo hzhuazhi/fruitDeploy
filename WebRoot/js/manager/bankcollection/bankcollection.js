@@ -49,7 +49,7 @@ var account = {
             account.condJsonData['money'] = $("#money").val();
             account.condJsonData['cardSiteId'] = $("#cardSiteId").val();
             account.condJsonData['accountId'] = $("#accountId").val();
-            account.condJsonData['curday'] = $("#curday").val();
+            account.condJsonData['createTime'] = $("#createTime").val();
             common.showDatas(account.condJsonData,account.list);
         });
 
@@ -61,14 +61,16 @@ var account = {
             account.condJsonData['money'] = "";
             account.condJsonData['cardSiteId'] = "";
             account.condJsonData['accountId'] = "";
-            account.condJsonData['curday'] = "";
+            // account.condJsonData['curday'] = "";
+            account.condJsonData['createTime'] = "";
             $("#bankName").val("");
             $("#bankCard").val("");
             $("#accountName").val("");
             $("#money").val("");
             $("#cardSiteId").val("0");
             $("#accountId").val("0");
-            $("#curday").val("");
+            // $("#curday").val("");
+            $("#createTime").val("");
             common.showDatas(account.condJsonData,account.list);
         });
         //删除
@@ -139,6 +141,6 @@ function queryAccountAll(){
 queryCardSiteAll();
 queryAccountAll();
 $(function(){
-    account.indexInit();
+    // account.indexInit();
 
 })
