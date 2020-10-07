@@ -141,6 +141,6 @@ function queryAccountAll(){
 queryCardSiteAll();
 queryAccountAll();
 $(function(){
-    // account.indexInit();
+    account.indexInit();
 
 })
