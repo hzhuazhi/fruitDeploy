@@ -10,7 +10,7 @@
 <div class="col_main">
     <div class = "condQueryDiv">
         <form id = "condForm">
-            <div class = "condQueryCtrl">
+            <div class = "condQueryCtrl" style="width: 100%">
                 <div class = "condQueryLabelDiv">银行名称	：</div>
                 <div class="formCtrlDiv">
                     <input type ="text" class ="inputCommonSty" id="bankName" name ="bankName">
@@ -32,11 +32,21 @@
                 <div class = "condQueryLabelDiv">时间：</div>
                 <div class="formCtrlDiv">
                     <div class="formCtrlDiv">
-                        <input type="text" class ="inputCommonSty" name="createTime" id="createTime" size="10" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"  />
+                        <input type="text" class ="inputCommonSty" name="createTime" id="createTime" size="17" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"  />
                     </div>
                     <%--<input type ="text" class ="inputCommonSty" id="createTime" name ="createTime">--%>
                 </div>
 
+
+
+                <%--<c:if test="${ACCOUNT.roleId==1}">--%>
+                    <%--<div class = "searchdiv">--%>
+                        <%--<input type="button" class = "buttonClass imginput addbtn" value="新增账号" style="margin-left: 30px;" >--%>
+                    <%--</div>--%>
+                <%--</c:if>--%>
+            </div>
+
+            <div class = "condQueryCtrl">
                 <div class = "condQueryLabelDiv">卡商：</div>
                 <div class="formCtrlDiv">
                     <div id="divAccount">
@@ -59,12 +69,6 @@
                 <div class="searchdiv">
                     <input type = "button" id = "butReset" class = "buttonClass imginput" value = "重置" />
                 </div>
-
-                <%--<c:if test="${ACCOUNT.roleId==1}">--%>
-                    <%--<div class = "searchdiv">--%>
-                        <%--<input type="button" class = "buttonClass imginput addbtn" value="新增账号" style="margin-left: 30px;" >--%>
-                    <%--</div>--%>
-                <%--</c:if>--%>
             </div>
         </form>
 
