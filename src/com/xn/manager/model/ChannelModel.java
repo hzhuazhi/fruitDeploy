@@ -67,6 +67,12 @@ public class ChannelModel extends BasePage {
      * @mbggenerated
      */
     private Integer yn;
+    /**
+     * 银行卡绑定类型：1无需绑定银行卡，2需要绑定银行卡
+     *
+     * @mbggenerated
+     */
+    private Integer bankBindingType;
 
     public Long getId() {
         return id;
@@ -139,5 +145,13 @@ public class ChannelModel extends BasePage {
 
     public void setYn(Integer yn) {
         this.yn = yn;
+    }
+
+    public Integer getBankBindingType() {
+        return bankBindingType;
+    }
+
+    public void setBankBindingType(Integer bankBindingType) {
+        this.bankBindingType = bankBindingType;
     }
 }

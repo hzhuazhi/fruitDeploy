@@ -29,7 +29,7 @@
 
 
     <sql id="Base_Column_List_All">
-        b.bank_card,b.id as bank_id
+        b.bank_card,b.id as bank_id, b.bank_name, b.account_name
     </sql>
 
 <!-- 查询条件 -->

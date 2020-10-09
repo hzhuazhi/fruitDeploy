@@ -49,6 +49,7 @@
             <th width="150">主键ID</th>
             <th width="150">商户名称</th>
             <th width="150">商户秘钥</th>
+            <th width="150">绑定类型</th>
             <th width="150">备注</th>
             <th width="150">使用状态</th>
             <th width="150">创建时间</th>

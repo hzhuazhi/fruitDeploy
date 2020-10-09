@@ -16,6 +16,17 @@ var account = {
         {"data":"id",},
         {"data":"alias",},
         {"data":"secretKey",},
+        {"data":"bankBindingType",
+            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                var html = '';
+                if(oData.bankBindingType==1){
+                    html+= '<span >无需绑定银行卡</span>';
+                }else if(oData.bankBindingType==2){
+                    html+= '<span >需要绑定银行卡</span>';
+                }
+                $(nTd).html(html);
+            }
+        },
         {"data":"remark",},
         {"data":"useStatus",
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {

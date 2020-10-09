@@ -43,6 +43,26 @@
                             <input type="text" class="formInput" id="secretKey" name="secretKey" value="${dl.secretKey}"	maxlength="240" />
                         </div>
                     </li>
+
+                    <li style="border-top: none;">
+                        <div class="formTextDiv">
+                            <span class="require" ><font color="red">*</font>绑定类型</span>
+                        </div>
+                        <div class="formCtrlDiv">
+                            <select id="bankBindingType" name="bankBindingType">
+                                <option value="">===请选择===</option>
+                                <c:if test="${dl.bankBindingType == 1}">
+                                    <option value="1" selected="selected">无需绑定银行卡</option>
+                                    <option value="2">需要绑定银行卡</option>
+                                </c:if>
+                                <c:if test="${dl.bankBindingType == 2}">
+                                    <option value="1" >无需绑定银行卡</option>
+                                    <option value="2" selected="selected">需要绑定银行卡</option>
+                                </c:if>
+                            </select>
+                        </div>
+                    </li>
+
                     <li style="border-top: none;">
                         <div class="formTextDiv">
                             <span class="require" >备注</span>
@@ -94,7 +114,7 @@
                 },
                 secretKey:{
                     required:true,
-                    maxlength:20
+                    maxlength:64
                 },
                 useStatus:{
                     required:true,

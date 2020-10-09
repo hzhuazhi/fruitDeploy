@@ -31,15 +31,14 @@
                 <div class="formCtrlDiv">
                     <input type ="text" class ="inputCommonSty" id="accountName" name ="accountName">
                 </div>
+            </div>
 
+            <div class = "condQueryCtrl" style="width: 100%">
                 <div class = "condQueryLabelDiv">卡商名称：</div>
                 <div class="formCtrlDiv">
                     <input type ="text" class ="inputCommonSty" id="merchantName" name ="merchantName">
                 </div>
 
-            </div>
-
-            <div class = "condQueryCtrl">
                 <div class = "condQueryLabelDiv">开始日期：</div>
                 <div class="formCtrlDiv">
                     <input type="text" class ="inputCommonSty" name="beginCurday" id="beginCurday" size="10" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyyMMdd'})" />
@@ -59,6 +58,19 @@
                     </select>
                 </div>
 
+                <div class = "condQueryLabelDiv">订单状态：</div>
+                <div class="formCtrlDiv">
+                    <select id="orderStatus" name="orderStatus">
+                        <option value="0">===请选择===</option>
+                        <option value="1">初始化</option>
+                        <option value="2">超时/失败</option>
+                        <option value="3">有质疑</option>
+                        <option value="4">成功</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class = "condQueryCtrl">
                 <div class = "condQueryLabelDiv">补单状态：</div>
                 <div class="formCtrlDiv">
                     <select id="replenishType" name="replenishType">
@@ -83,7 +95,6 @@
                 <div class="searchdiv">
                     <input type = "button" id = "butReset" class = "buttonClass imginput" value = "重置" />
                 </div>
-
             </div>
         </form>
     </div>

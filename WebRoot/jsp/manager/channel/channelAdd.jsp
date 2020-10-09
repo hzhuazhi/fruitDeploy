@@ -42,6 +42,18 @@
                 </li>
                 <li style="border-top: none;">
                     <div class="formTextDiv">
+                        <span class="require" ><font color="red">*</font>绑定类型</span>
+                    </div>
+                    <div class="formCtrlDiv">
+                        <select id="bankBindingType" name="bankBindingType">
+                            <option value="1" selected>无需绑定银行卡</option>
+                            <option value="2">需要绑定银行卡</option>
+                        </select>
+                    </div>
+                </li>
+
+                <li style="border-top: none;">
+                    <div class="formTextDiv">
                         <span class="require" >备注</span>
                     </div>
                     <div class="formCtrlDiv">
@@ -85,7 +97,11 @@
                 },
                 secretKey:{
                     required:true,
-                    maxlength:20
+                    maxlength:64
+                },
+                bankBindingType:{
+                    required:true,
+                    maxlength:2
                 },
                 useStatus:{
                     required:true,
@@ -100,6 +116,9 @@
                 secretKey:{
                     required : "商户秘钥不能为空!",
                     maxlength : "商户秘钥最多是20个字符!"
+                },
+                bankBindingType:{
+                    required : "绑定类型不能为空!"
                 },
                 useStatus:{
                     required:"使用状态不能为空!",

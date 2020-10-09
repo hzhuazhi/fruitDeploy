@@ -115,6 +115,7 @@ var account = {
             account.condJsonData['orderType'] = $("#orderType").val();
             account.condJsonData['replenishType'] = $("#replenishType").val();
             account.condJsonData['workType'] = $("#workType").val();
+            account.condJsonData['orderStatus'] = $("#orderStatus").val();
             if($("#endCurday").val()==undefined||$("#endCurday").val()==""){
                 account.condJsonData['endCurday'] =0;
             }else{
