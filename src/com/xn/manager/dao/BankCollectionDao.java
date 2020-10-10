@@ -18,4 +18,11 @@ public interface BankCollectionDao <T> extends BaseDao<T> {
      * @return
      */
     public List<BankCollectionModel> queryBankCardCountInfo(BankCollectionModel  bankCollectionModel);
+
+    /**
+     * 根据条件查询汇总消息
+     * @param bankCollectionModel
+     * @return
+     */
+    public   BankCollectionModel queryCountInfo(BankCollectionModel  bankCollectionModel);
 }

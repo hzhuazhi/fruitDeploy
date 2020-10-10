@@ -101,6 +101,33 @@ public class BankCollectionController extends BaseController {
     }
 
 
+
+    /**
+     * @Description: 查看银行卡汇总数据
+     * @param request
+    * @param response
+    * @param model
+     * @date 2020/10/10 15:50
+     */
+    @RequestMapping("/dataBankAllList")
+    public void dataBankAllList(HttpServletRequest request, HttpServletResponse response, BankCollectionModel model) throws Exception {
+        BankCollectionModel bankCollectionModel= new  BankCollectionModel();
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                model.setAccountId(account.getId());
+            }else if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+                model.setCardSiteId(account.getId());
+            }
+            bankCollectionModel = bankCollectionService.queryCountInfo(model);
+        }
+        HtmlUtil.writerJson(response, bankCollectionModel);
+    }
+
+
+
+
+
     /***
      * 获取卡站点信息
      * @param request

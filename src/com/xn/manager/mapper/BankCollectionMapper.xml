@@ -210,6 +210,12 @@
             <if test="createTime != null and createTime != '' " >
                 and a.create_time &gt;= #{createTime}
             </if>
+            <if test="beginTime != null and beginTime != '' " >
+                and a.create_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != '' " >
+                and a.create_time &lt;= #{endTime}
+            </if>
             and a.yn =  0
         </trim>
     </sql>
@@ -226,6 +232,16 @@
         on   a.bank_id=b.id
         <include refid="Example_Where_Clause_CountInfo"/>
         <include refid="Having"/>
+    </select>
+
+
+
+    <select id="queryCountInfo"  resultMap="dataMap" parameterType="Object">
+        select
+        sum(a.money) as money
+        from tb_fr_bank_collection a  left  join    tb_fr_bank  b
+        on   a.bank_id=b.id
+        <include refid="Example_Where_Clause_CountInfo"/>
     </select>
 
 

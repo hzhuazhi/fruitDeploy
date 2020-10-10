@@ -70,7 +70,8 @@ public class BankCollectionServiceImpl<T> extends BaseServiceImpl<T> implements 
         return addRsList;
     }
 
-
-
-
+    @Override
+    public BankCollectionModel queryCountInfo(BankCollectionModel bankCollectionModel) {
+        return bankCollectionDao.queryCountInfo(bankCollectionModel);
+    }
 }

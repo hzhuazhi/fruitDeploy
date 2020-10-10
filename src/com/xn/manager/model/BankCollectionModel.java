@@ -129,6 +129,25 @@ public class BankCollectionModel extends BasePage {
      */
     private String cardSiteIdName;
 
+    /**
+     * 总额度收款金额
+     *
+     * @mbggenerated
+     */
+    private String countMoney;
+    /**
+     * 开始时间
+     *
+     * @mbggenerated
+     */
+    private String beginTime;
+    /**
+     * 关闭时间
+     *
+     * @mbggenerated
+     */
+    private String endTime;
+
     public Long getId() {
         return id;
     }
@@ -271,5 +290,29 @@ public class BankCollectionModel extends BasePage {
 
     public void setCardSiteIdName(String cardSiteIdName) {
         this.cardSiteIdName = cardSiteIdName;
+    }
+
+    public String getCountMoney() {
+        return countMoney;
+    }
+
+    public void setCountMoney(String countMoney) {
+        this.countMoney = countMoney;
+    }
+
+    public String getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(String beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }

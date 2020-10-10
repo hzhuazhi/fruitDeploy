@@ -57,7 +57,6 @@ var account = {
         var data = {
         };
         common.ajax(url,data,function(data){
-            debugger;
             var dataList=data;
             var shtml="";
             for(let i =0;i<dataList.rows.length;i++){

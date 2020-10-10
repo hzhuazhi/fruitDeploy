@@ -13,4 +13,11 @@ import java.util.List;
 public interface BankCollectionService <T> extends BaseService<T> {
 
     public List<BankCollectionModel> queryBankCollection(BankCollectionModel  bankCollectionModel);
+
+    /**
+     * 查询卡的汇总信息
+     * @param bankCollectionModel
+     * @return
+     */
+    public BankCollectionModel queryCountInfo(BankCollectionModel  bankCollectionModel);
 }
