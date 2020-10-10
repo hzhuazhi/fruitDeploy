@@ -55,10 +55,10 @@ public class ChannelBankController extends BaseController {
 //        model.setIsEnable(ManagerConstant.PUBLIC_CONSTANT.IS_ENABLE_ZC);
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
-                //不是管理员，只能查询自己的数据
-                model.setId(account.getId());
-            }
+//            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
+//                //不是管理员，只能查询自己的数据
+//                model.setId(account.getId());
+//            }
             List<ChannelBankModel> dataListInfo = channelBankService.queryByList(model);
 
 
@@ -99,11 +99,11 @@ public class ChannelBankController extends BaseController {
     public String jumpAdd(HttpServletRequest request, HttpServletResponse response, Model model) {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.ROLE_SYS){
-                sendFailureMessage(response,"只允许管理员操作!");
-            }else {
-//                model.addAttribute("agent", agentService.queryAllList());
-            }
+//            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.ROLE_SYS){
+//                sendFailureMessage(response,"只允许管理员操作!");
+//            }else {
+////                model.addAttribute("agent", agentService.queryAllList());
+//            }
         }else {
             sendFailureMessage(response,"登录超时,请重新登录在操作!");
         }

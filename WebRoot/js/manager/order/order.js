@@ -80,10 +80,14 @@ var account = {
                 var html = '';
                 var isEnableHtml = '';
                 let  orderNo =oData.outTradeNo+'';
-                html  = '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/order/jumpUpdate.do?op=1&id='+oData.id+'"> 编辑 </a>'
-                    +  '<a class = "dataTableBtn dataTableDeleteBtn " href = "javascript:void(0);" onclick="repairOrder('+oData.id+',\''+orderNo+'\')"> 确定补单 </a>'
+
+                if(oData.orderStatus!=4){
+                    html = '<a class = "dataTableBtn dataTableDeleteBtn " href = "javascript:void(0);" onclick="repairOrder('+oData.id+',\''+orderNo+'\')"> 确定补单 </a>';
+                }
+                // html  = '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/order/jumpUpdate.do?op=1&id='+oData.id+'"> 编辑 </a>'
+
                     // +  '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/channel/jumpUpdate.do?op=1&id='+oData.id+'"> 部署 </a>'
-                    +' <a class = "dataTableBtn dataTableResetBtn"  directkey="' + oData.id + '" href = "javascript:void(0);">删除 </a>';
+                    // +' <a class = "dataTableBtn dataTableResetBtn"  directkey="' + oData.id + '" href = "javascript:void(0);">删除 </a>';
                 $(nTd).html(html);
             }
         }

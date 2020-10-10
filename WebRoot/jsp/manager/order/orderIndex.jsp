@@ -34,7 +34,7 @@
             </div>
 
             <div class = "condQueryCtrl" style="width: 100%">
-                <div class = "condQueryLabelDiv">实际支付金额：</div>
+                <div class = "condQueryLabelDiv">派发金额：</div>
                 <div class="formCtrlDiv">
                     <input type ="text" class ="inputCommonSty" id="distributionMoney" name ="distributionMoney">
                 </div>

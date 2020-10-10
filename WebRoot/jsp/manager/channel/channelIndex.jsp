@@ -34,11 +34,9 @@
                     <input type = "button" id = "butReset" class = "buttonClass imginput" value = "重置" />
                 </div>
 
-                <c:if test="${ACCOUNT.roleId==1}">
-                    <div class = "searchdiv">
-                        <input type="button" class = "buttonClass imginput addbtn" value="新增" style="margin-left: 30px;" >
-                    </div>
-                </c:if>
+                <div class = "searchdiv">
+                    <input type="button" class = "buttonClass imginput addbtn" value="新增" style="margin-left: 30px;" >
+                </div>
             </div>
         </form>
     </div>
