@@ -30,6 +30,7 @@ var account = {
             }
         },
         {"data":"orderMoney",},
+        {"data":"distributionMoney",},
         {"data":"orderStatus",
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                 var html = '';
@@ -116,6 +117,7 @@ var account = {
             account.condJsonData['replenishType'] = $("#replenishType").val();
             account.condJsonData['workType'] = $("#workType").val();
             account.condJsonData['orderStatus'] = $("#orderStatus").val();
+            account.condJsonData['distributionMoney'] = $("#distributionMoney").val();
             if($("#endCurday").val()==undefined||$("#endCurday").val()==""){
                 account.condJsonData['endCurday'] =0;
             }else{
@@ -138,6 +140,7 @@ var account = {
             account.condJsonData['bankCard'] = "";
             account.condJsonData['accountName'] = "";
             account.condJsonData['merchantName'] = "";
+            account.condJsonData['distributionMoney'] = "";
             account.condJsonData['endCurday'] = "0";
             account.condJsonData['beginCurday'] = "0";
             $("#orderType").val("0");

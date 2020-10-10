@@ -8,6 +8,7 @@
         <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
         <result column="order_type" property="orderType" jdbcType="BIT" />
         <result column="order_money" property="orderMoney" jdbcType="VARCHAR" />
+        <result column="distribution_money" property="distributionMoney" jdbcType="VARCHAR" />
         <result column="qr_code" property="qrCode" jdbcType="VARCHAR" />
         <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR" />
         <result column="order_status" property="orderStatus" jdbcType="BIT" />
@@ -46,7 +47,7 @@
         a.invalid_time, a.notify_url, a.bank_name, a.bank_card, a.subbranch_name, a.account_name, a.bank_code,
         a.mobile_card_id, a.phone_num, a.account_id, a.merchant_name, a.channel_id, a.channel_name, a.replenish_type,
         a.work_type, a.data_explain, a.remark, a.curday, a.curhour, a.curminute, a.run_num, a.run_status,
-        a.send_num, a.send_status, a.create_time, a.update_time, a.ts_time, a.yn
+        a.send_num, a.send_status, a.create_time, a.update_time, a.ts_time, a.yn,a.distribution_money
     </sql>
 
     <!-- 查询条件 -->
@@ -71,6 +72,9 @@
             <if test="accountName != null and accountName != '' " >
                 and a.account_name = #{accountName}
             </if>
+            <if test="distributionMoney != null and distributionMoney != '' " >
+                and a.distribution_money = #{distributionMoney}
+            </if>
             <if test="merchantName != null and merchantName != '' " >
                 and a.merchant_name = #{merchantName}
             </if>
@@ -83,6 +87,7 @@
             <if test="accountId != 0 and accountId >0 " >
                 and a.account_id = #{accountId}
             </if>
+
 
             <if test="replenishType != 0 and replenishType >0 " >
                 and a.replenish_type = #{replenishType}

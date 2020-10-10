@@ -3,6 +3,7 @@ package com.xn.manager.controller;
 import com.xn.common.constant.ManagerConstant;
 import com.xn.common.controller.BaseController;
 import com.xn.common.util.BeanUtils;
+import com.xn.common.util.DateUtil;
 import com.xn.common.util.ExcelUtil;
 import com.xn.common.util.HtmlUtil;
 import com.xn.manager.model.AccountTpModel;
@@ -66,6 +67,9 @@ public class BankCollectionController extends BaseController {
     @RequestMapping("/dataList")
     public void dataList(HttpServletRequest request, HttpServletResponse response, BankCollectionModel model) throws Exception {
         List<BankCollectionModel> dataList = new ArrayList<BankCollectionModel>();
+        if(null==model.getCreateTime()&&null==model.getBeginTime()){
+            model.setCurday(Integer.parseInt(DateUtil.getNowShortDate()));
+        }
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
             if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
@@ -111,6 +115,9 @@ public class BankCollectionController extends BaseController {
      */
     @RequestMapping("/dataBankAllList")
     public void dataBankAllList(HttpServletRequest request, HttpServletResponse response, BankCollectionModel model) throws Exception {
+        if(null==model.getCreateTime()&&null==model.getBeginTime()){
+            model.setCurday(Integer.parseInt(DateUtil.getNowShortDate()));
+        }
         BankCollectionModel bankCollectionModel= new  BankCollectionModel();
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){

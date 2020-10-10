@@ -34,6 +34,11 @@
             </div>
 
             <div class = "condQueryCtrl" style="width: 100%">
+                <div class = "condQueryLabelDiv">实际支付金额：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="distributionMoney" name ="distributionMoney">
+                </div>
+
                 <div class = "condQueryLabelDiv">卡商名称：</div>
                 <div class="formCtrlDiv">
                     <input type ="text" class ="inputCommonSty" id="merchantName" name ="merchantName">
@@ -109,6 +114,7 @@
             <th width="150">开户名</th>
             <th width="150">订单类型</th>
             <th width="150">订单金额</th>
+            <th width="150">派发金额</th>
             <th width="150">订单状态</th>
             <th width="150">失效时间</th>
             <th width="150">卡商名称</th>

@@ -39,6 +39,12 @@ public class OrderModel extends BasePage {
      * @mbggenerated
      */
     private String orderMoney;
+    /**
+     * 实际派发金额
+     *
+     * @mbggenerated
+     */
+    private String distributionMoney;
 
     /**
      * 收款的二维码地址：转码之后的二维码
@@ -588,5 +594,13 @@ public class OrderModel extends BasePage {
 
     public void setCardSiteId(Long cardSiteId) {
         this.cardSiteId = cardSiteId;
+    }
+
+    public String getDistributionMoney() {
+        return distributionMoney;
+    }
+
+    public void setDistributionMoney(String distributionMoney) {
+        this.distributionMoney = distributionMoney;
     }
 }
