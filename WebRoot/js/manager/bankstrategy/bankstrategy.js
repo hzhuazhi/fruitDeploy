@@ -13,6 +13,12 @@ var account = {
     },
     //列表显示参数
     list:[
+        {"data":"id",
+            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                var html = "<input type='checkbox' name='ckbx' value="+oData.id+" />";
+                $(nTd).html(html);
+            }
+        },
         {"data":"alias",},
         {"data":"bankId",},
         {"data":"bankCard",},
@@ -60,13 +66,13 @@ var account = {
                 $(nTd).html(html);
             }
         },
-        {"data":"priority",
-            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                let  names ='priority'+iRow;
-                var html = "<input type='text' size='2' id="+names+" name="+names+"  value="+oData.priority+" />";
-                $(nTd).html(html);
-            }
-        },
+        // {"data":"priority",
+        //     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+        //         let  names ='priority'+iRow;
+        //         var html = "<input type='text' size='2' id="+names+" name="+names+"  value="+oData.priority+" />";
+        //         $(nTd).html(html);
+        //     }
+        // },
         {"data":"openTimeSlot",
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                 let  names ='openTimeSlot'+iRow;
@@ -182,6 +188,66 @@ var account = {
             }
             common.manyOperation(data);
         });
+
+
+        $('#butUqdate').click(function() {
+            var str = "";
+            $("input[name='ckbx']:checked").each(function (index, item) {
+                if ($("input[name='ckbx']:checked").length - 1 == index) {
+                    str += $(this).val();
+                } else {
+                    str += $(this).val() + ",";
+                }
+            });
+            var   zfbInDayMoney =$("#zfbInDayMoney").val();
+            var   zfbInMonthMoney =$("#zfbInMonthMoney").val();
+            var   zfbInDayNum =$("#zfbInDayNum").val();
+            var   cardInDayMoney =$("#cardInDayMoney").val();
+            var   cardInMonthMoney =$("#cardInMonthMoney").val();
+            var   cardInDayNum =$("#cardInDayNum").val();
+            var   openTimeSlot =$("#openTimeSlot").val();
+            if(zfbInDayMoney==""||zfbInMonthMoney==""||
+                zfbInDayNum==""||cardInDayMoney==""||
+                cardInMonthMoney==""||cardInDayNum==""||
+                openTimeSlot==""){
+                alert("批量修改字段不能为空");
+                return;
+            }
+
+            if (str=="") {
+                alert("请选择需要修改的数据，再进行批量修改！");
+                return;
+            }
+            var  data={
+                "zfbInDayMoney":zfbInDayMoney,
+                "zfbInMonthMoney":zfbInMonthMoney,
+                "zfbInDayNum":zfbInDayNum,
+                "cardInDayMoney":cardInDayMoney,
+                "cardInMonthMoney":cardInMonthMoney,
+                "cardInDayNum":cardInDayNum,
+                "openTimeSlot":openTimeSlot,
+                "ids":str
+            }
+
+            $.ajax({
+                url : ctx+ "/bankstrategy/updateBatch.do",
+                type : 'post',
+                dataType : 'json',
+                data :data,
+                success : function(data) {
+                    if (data.success) {
+                        alert("修改成功！");
+                        window.location.href = ctx + "/bankstrategy/list.do";
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error : function(data) {
+                    alert(data.info);
+                }
+            });
+
+        });
     },
 
     //下拉框数据填充
@@ -277,6 +343,31 @@ function  uqdateUseStatus(id,useStatus){
 
 }
 
+
 $(function(){
+    window.onload = function() {
+        var btn = document.getElementById("all");
+        btn.onclick = function() {
+            var flag = this.checked;
+            var items = document.getElementsByName("ckbx");
+            for (var i = 0; i < items.length; i++) {
+                items[i].checked = flag;//将所有item的状态设为全选按钮的状态
+            }
+        }
+
+
+        var items = document.getElementsByName("ckbx");
+        for (var i = 0; i < items.length; i++) {
+            items[i].onclick = function() {//对每个item设置点击
+                var number = 0;//记录选中的个数
+                for (var j = 0; j < items.length; j++) {
+                    if (items[j].checked) {
+                        number++;
+                    }
+                }
+                document.getElementById("all").checked = (items.length == number);
+            }
+        }
+    }
     account.indexInit();
 })

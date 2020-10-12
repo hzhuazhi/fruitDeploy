@@ -18,4 +18,12 @@ public interface BankStrategyDao<T> extends BaseDao<T> {
      * @return
      */
     public List<BankStrategyModel> queryNotInBankId(BankStrategyModel bankStrategyModel);
+
+
+    /**
+     * 批量修改放量策略
+     * @param bankStrategyModel
+     * @return
+     */
+    public  int   updateBatch(BankStrategyModel bankStrategyModel);
 }

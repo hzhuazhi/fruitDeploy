@@ -102,4 +102,10 @@ public class BankStrategyServiceImpl<T> extends BaseServiceImpl<T> implements Ba
     public BankStrategyModel queryMaxupdateTime() {
         return bankStrategyDao.queryMaxupdateTime();
     }
+
+
+    @Override
+    public int updateBatch(BankStrategyModel bankStrategyModel) {
+        return bankStrategyDao.updateBatch(bankStrategyModel);
+    }
 }

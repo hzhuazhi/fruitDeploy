@@ -18,4 +18,11 @@ public interface BankStrategyService<T> extends BaseService<T> {
      * 查询最大的时间的放量信息
      */
     public BankStrategyModel queryMaxupdateTime();
+
+    /**
+     * 批量修改策略
+     * @param bankStrategyModel
+     * @return
+     */
+    public int  updateBatch(BankStrategyModel  bankStrategyModel);
 }

@@ -339,4 +339,49 @@
         <include refid="Example_Where_Clause_Import"/>
     </select>
 
+
+    <update id="updateBatch" parameterType="Object">
+        UPDATE tb_fr_bank_strategy a
+        <trim prefix="set" suffixOverrides=",">
+
+            <if test="openTimeSlot != null" >
+                open_time_slot = #{openTimeSlot,jdbcType=VARCHAR},
+            </if>
+            <if test="zfbInDayMoney != null" >
+                zfb_in_day_money = #{zfbInDayMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="zfbInMonthMoney != null" >
+                zfb_in_month_money = #{zfbInMonthMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="zfbInDayNum != null" >
+                zfb_in_day_num = #{zfbInDayNum,jdbcType=INTEGER},
+            </if>
+            <if test="cardInDayMoney != null" >
+                card_in_day_money = #{cardInDayMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="cardInMonthMoney != null" >
+                card_in_month_money = #{cardInMonthMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="cardInDayNum != null" >
+                card_in_day_num = #{cardInDayNum,jdbcType=INTEGER},
+            </if>
+            a.update_time = NOW(),
+        </trim>
+        <include refid="Example_Where_Update_id"/>
+    </update>
+
+
+    <sql id="Example_Where_Update_id">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="idList != null and idList.size()>0">
+                and a.id  in
+                <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        and a.yn =  0
+    </sql>
+
 </mapper>

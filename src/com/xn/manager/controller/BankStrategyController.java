@@ -175,4 +175,25 @@ public class BankStrategyController extends BaseController {
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
         }
     }
+
+
+    /**
+     * 修改数据
+     */
+    @RequestMapping("/updateBatch")
+    public void updateBatch(HttpServletRequest request, HttpServletResponse response,BankStrategyModel bean, String op) throws Exception {
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            String []    id=bean.getIds().split(",");
+            List<Long>   idList  =  new ArrayList<>();
+            for(String ids:id){
+                idList.add(Long.parseLong(ids));
+            }
+            bean.setIdList(idList);
+            bankStrategyService.updateBatch(bean);
+            sendSuccessMessage(response, "保存成功~");
+        }else {
+            sendFailureMessage(response, "登录超时,请重新登录在操作!");
+        }
+    }
 }

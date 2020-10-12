@@ -153,6 +153,20 @@ public class BankStrategyModel extends BasePage {
     private String accountName;
     private List<Long> bankIdList;
 
+    /**
+     * 要修改的id
+     *
+     * @mbggenerated
+     */
+    private String ids;
+
+    /**
+     * 要修改的id
+     *
+     * @mbggenerated
+     */
+    private List<Long>  idList;
+
 
     public Long getId() {
         return id;
@@ -352,5 +366,22 @@ public class BankStrategyModel extends BasePage {
 
     public void setBankIdList(List<Long> bankIdList) {
         this.bankIdList = bankIdList;
+    }
+
+
+    public List<Long> getIdList() {
+        return idList;
+    }
+
+    public void setIdList(List<Long> idList) {
+        this.idList = idList;
+    }
+
+    public String getIds() {
+        return ids;
+    }
+
+    public void setIds(String ids) {
+        this.ids = ids;
     }
 }

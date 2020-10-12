@@ -11,6 +11,9 @@
     <div class = "condQueryDiv">
         <form id = "condForm">
             <div class = "condQueryCtrl" style="width: 100%">
+                <strong style="color: #00a0e9">查询条件</strong>
+            </div>
+            <div class = "condQueryCtrl" style="width: 100%">
                 <div class = "condQueryLabelDiv">手机卡别名：</div>
                 <div class="formCtrlDiv">
                     <input type ="text" class ="inputCommonSty" id="alias" name ="alias">
@@ -32,6 +35,10 @@
                     <input type ="text" class ="inputCommonSty" id="priority" name ="priority">
                 </div>
 
+
+                <%--</c:if>--%>
+            </div>
+            <div class = "condQueryCtrl" style="width: 100%">
                 <div class = "condQueryLabelDiv">使用状态：</div>
                 <div class="formCtrlDiv">
                     <select id="useStatus" name="useStatus">
@@ -46,18 +53,54 @@
                 <div class="searchdiv">
                     <input type = "button" id = "butReset" class = "buttonClass imginput" value = "重置" />
                 </div>
-                <%--<c:if test="${ACCOUNT.roleId==1}">--%>
-                    <div class = "searchdiv">
-                        <input type="button" class = "buttonClass imginput addbtn" value="导入可用银行卡" style="margin-left: 30px;" >
-                    </div>
-                <%--</c:if>--%>
+                <div class = "searchdiv">
+                    <input type="button" class = "buttonClass imginput addbtn" value="导入可用银行卡" style="margin-left: 30px;" >
+                </div>
             </div>
-            <%--<br>--%>
-            <%--<div class = "condQueryCtrl">--%>
 
 
+        </form>
 
-            <%--</div>--%>
+        <form id = "savaForm">
+            <br>
+            <div class = "condQueryCtrl" style="width: 100%">
+                <strong style="color: #00a0e9">批量修改字段</strong>
+            </div>
+            <div class = "condQueryCtrl" style="width: 100%">
+                <div class = "condQueryLabelDiv">支转日上限：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="zfbInDayMoney" name ="zfbInDayMoney" size="12">
+                </div>
+                <div class = "condQueryLabelDiv">支转月上限：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="zfbInMonthMoney" name ="zfbInMonthMoney" size="12">
+                </div>
+                <div class = "condQueryLabelDiv">支转日笔数上限：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="zfbInDayNum" name ="zfbInDayNum" size="12">
+                </div>
+                <div class = "condQueryLabelDiv">卡转日上限：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="cardInDayMoney" name ="cardInDayMoney" size="12">
+                </div>
+                <div class = "condQueryLabelDiv">卡转月上限：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="cardInMonthMoney" name ="cardInMonthMoney" size="12">
+                </div>
+                <div class = "condQueryLabelDiv">卡转日笔数上限：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="cardInDayNum" name ="cardInDayNum" size="12">
+                </div>
+            </div>
+            <div class = "condQueryCtrl" style="width: 100%">
+                <div class = "condQueryLabelDiv">放量时间段：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="openTimeSlot" name ="openTimeSlot" size="36">
+                </div>
+                <div class="searchdiv">
+                    <input type = "button" id = "butUqdate" class = "buttonClass butUqdate" value = "批量修改" />
+                </div>
+            </div>
         </form>
 
     </div>
@@ -65,6 +108,7 @@
     <table class="datatable tables">
         <thead>
         <tr>
+            <th width="150" rowspan="2"><input type="checkbox" id="all" />&nbsp;全选</th>
             <th width="150" rowspan="2">手机卡别名</th>
             <th width="150" rowspan="2">银行卡id</th>
             <th width="150" rowspan="2">银行卡账号</th>
@@ -76,7 +120,7 @@
             <%--<th width="150">银行码</th>--%>
             <th width="150" colspan="3">支付宝</th>
             <th width="150" colspan="3">卡转卡</th>
-            <th width="150" rowspan="2">优先级</th>
+            <%--<th width="150" rowspan="2">优先级</th>--%>
             <th width="150" rowspan="2">放量时间段</th>
             <th width="150" rowspan="2">使用状态</th>
             <th width="150" rowspan="2">创建时间</th>
