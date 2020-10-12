@@ -344,25 +344,25 @@
         UPDATE tb_fr_bank_strategy a
         <trim prefix="set" suffixOverrides=",">
 
-            <if test="openTimeSlot != null" >
+            <if test="openTimeSlot != null and openTimeSlot != '' " >
                 open_time_slot = #{openTimeSlot,jdbcType=VARCHAR},
             </if>
-            <if test="zfbInDayMoney != null" >
+            <if test="zfbInDayMoney != null and zfbInDayMoney != '' " >
                 zfb_in_day_money = #{zfbInDayMoney,jdbcType=VARCHAR},
             </if>
-            <if test="zfbInMonthMoney != null" >
+            <if test="zfbInMonthMoney != null and zfbInMonthMoney != '' " >
                 zfb_in_month_money = #{zfbInMonthMoney,jdbcType=VARCHAR},
             </if>
-            <if test="zfbInDayNum != null" >
+            <if test="zfbInDayNum != null and zfbInDayNum != '' " >
                 zfb_in_day_num = #{zfbInDayNum,jdbcType=INTEGER},
             </if>
-            <if test="cardInDayMoney != null" >
+            <if test="cardInDayMoney != null and cardInDayMoney != '' " >
                 card_in_day_money = #{cardInDayMoney,jdbcType=VARCHAR},
             </if>
-            <if test="cardInMonthMoney != null" >
+            <if test="cardInMonthMoney != null and cardInMonthMoney != ''  " >
                 card_in_month_money = #{cardInMonthMoney,jdbcType=VARCHAR},
             </if>
-            <if test="cardInDayNum != null" >
+            <if test="cardInDayNum != null and cardInDayNum != '' " >
                 card_in_day_num = #{cardInDayNum,jdbcType=INTEGER},
             </if>
             a.update_time = NOW(),

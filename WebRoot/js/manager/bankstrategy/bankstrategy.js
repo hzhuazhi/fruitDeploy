@@ -206,11 +206,11 @@ var account = {
             var   cardInMonthMoney =$("#cardInMonthMoney").val();
             var   cardInDayNum =$("#cardInDayNum").val();
             var   openTimeSlot =$("#openTimeSlot").val();
-            if(zfbInDayMoney==""||zfbInMonthMoney==""||
-                zfbInDayNum==""||cardInDayMoney==""||
-                cardInMonthMoney==""||cardInDayNum==""||
+            if(zfbInDayMoney==""&&zfbInMonthMoney==""&&
+                zfbInDayNum==""&&cardInDayMoney==""&&
+                cardInMonthMoney==""&&cardInDayNum==""&&
                 openTimeSlot==""){
-                alert("批量修改字段不能为空");
+                alert("请填写需要修改的字段不能为空");
                 return;
             }
 
