@@ -152,7 +152,7 @@ public class BankShortMsgController extends BaseController {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
                 bankShortMsgService.update(bean);
-                sendSuccessMessage(response, "保存成功~");
+                sendSuccessMessage(response, "修改状态成功！");
         }else {
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
         }
