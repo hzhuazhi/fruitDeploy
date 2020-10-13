@@ -6,6 +6,7 @@ import com.xn.common.util.HtmlUtil;
 import com.xn.common.util.HttpSendUtils;
 import com.xn.common.util.OssUploadUtil;
 import com.xn.common.util.StringUtil;
+import com.xn.manager.model.ChannelReplenishModel;
 import com.xn.manager.model.MerchantReplenishModel;
 import com.xn.manager.model.OrderModel;
 import com.xn.manager.service.MerchantReplenishService;
@@ -41,8 +42,8 @@ public class MerchantReplenishController extends BaseController {
 
     private static Logger log = Logger.getLogger(MerchantReplenishController.class);
 
-//    public static String fruitUrl = "http://localhost:8002/payDeploy/channelreplenish/actionUpdateCheck.do?";
-public static String fruitUrl = "http://192.168.1.52:8080/channelreplenish/actionUpdateCheck.do?";
+    public static String fruitUrl = "http://localhost:8002/payDeploy/channelreplenish/actionUpdateCheck.do?";
+//public static String fruitUrl = "http://192.168.1.52:8080/channelreplenish/actionUpdateCheck.do?";
     @Autowired
     private MerchantReplenishService<MerchantReplenishModel> merchantReplenishService;
 
@@ -224,7 +225,9 @@ public static String fruitUrl = "http://192.168.1.52:8080/channelreplenish/actio
             String checkInfo = "";
             if (!StringUtils.isBlank(bean.getCheckInfo())){
                 update.setCheckInfo(bean.getCheckInfo());
-                checkInfo = StringUtil.mergeCodeBase64(bean.getCheckInfo());
+//                checkInfo = StringUtil.mergeCodeBase64(bean.getCheckInfo());
+                checkInfo = URLEncoder.encode( bean.getCheckInfo(), "UTF-8" );
+
             }
             update.setHandleType(2);
             update.setHandlePeople(account.getId());
@@ -236,10 +239,24 @@ public static String fruitUrl = "http://192.168.1.52:8080/channelreplenish/actio
             // 把审核结果反馈给支付平台
             String sendUrl = fruitUrl;
 //            String sendData = "linkId=" + bean.getId() + "&outTradeNo=" + bean.getMyTradeNo() + "&pictureAds=" + pictureAds;
-            String urlData = URLEncoder.encode( "你ad好牛￥逼11的33#@呢gsjs来补咯？", "UTF-8" );
-            String sendData = "id=" + bean.getLinkId() + "&checkMoney=" + bean.getChannelMoney() + "&checkPictureAds=" + pictureAds + "&checkStatus=" + bean.getCheckStatus() + "&checkInfo=" + checkInfo +
-                    "&temp=你好的哦哈哈" + "&urlData=" + urlData;
-            String resp = HttpSendUtils.sendGet(sendUrl + sendData, null, null);
+//            String urlData = URLEncoder.encode( "你ad好牛￥逼11的33#@呢gsjs来补咯？", "UTF-8" );
+//            String sendData = "id=" + bean.getLinkId() + "&checkMoney=" + bean.getChannelMoney() + "&checkPictureAds=" + pictureAds + "&checkStatus=" + bean.getCheckStatus() + "&checkInfo=" + checkInfo +
+//                    "&temp=你好的哦哈哈" + "&urlData=" + urlData;
+//            String sendData = "id=" + bean.getLinkId() + "&checkMoney=" + bean.getChannelMoney() + "&checkPictureAds=" + pictureAds + "&checkStatus=" + bean.getCheckStatus() + "&checkInfo=" + checkInfo;
+//            String resp = HttpSendUtils.sendGet(sendUrl + sendData, null, null);
+            ChannelReplenishModel channelReplenishUpdate = new ChannelReplenishModel();
+            channelReplenishUpdate.setId(bean.getLinkId());
+            if (!StringUtils.isBlank(bean.getChannelMoney())){
+                channelReplenishUpdate.setChannelMoney(bean.getChannelMoney());
+            }
+            if (!StringUtils.isBlank(pictureAds)){
+                channelReplenishUpdate.setPictureAds(pictureAds);
+            }
+            channelReplenishUpdate.setCheckStatus(bean.getCheckStatus());
+            if (!StringUtils.isBlank(bean.getCheckInfo())){
+                channelReplenishUpdate.setCheckInfo(bean.getCheckInfo());
+            }
+            merchantReplenishService.updateChannelCheck(channelReplenishUpdate);
             sendSuccessMessage(response, "保存成功~");
         }else {
             sendFailureMessage(response, "登录超时,请重新登录在操作!");

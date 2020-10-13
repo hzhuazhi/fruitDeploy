@@ -1,6 +1,7 @@
 package com.xn.manager.service;
 
 import com.xn.common.service.BaseService;
+import com.xn.manager.model.ChannelReplenishModel;
 import com.xn.manager.model.MerchantReplenishModel;
 
 /**
@@ -19,4 +20,16 @@ public interface MerchantReplenishService<T> extends BaseService<T> {
      * @date 2020/10/12 18:53
      */
     public int updateCheck(MerchantReplenishModel model);
+
+    /**
+     * @Description: 更新支付服务中渠道提交的补单信息
+     * <p>
+     *     把审核结果反馈给支付平台
+     * </p>
+     * @param model
+     * @return
+     * @author yoko
+     * @date 2020/10/13 16:43
+     */
+    public int updateChannelCheck(ChannelReplenishModel model);
 }

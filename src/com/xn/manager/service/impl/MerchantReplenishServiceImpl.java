@@ -3,6 +3,7 @@ package com.xn.manager.service.impl;
 import com.xn.common.dao.BaseDao;
 import com.xn.common.service.impl.BaseServiceImpl;
 import com.xn.manager.dao.MerchantReplenishDao;
+import com.xn.manager.model.ChannelReplenishModel;
 import com.xn.manager.model.MerchantReplenishModel;
 import com.xn.manager.service.MerchantReplenishService;
 import org.apache.log4j.Logger;
@@ -31,5 +32,10 @@ public class MerchantReplenishServiceImpl<T> extends BaseServiceImpl<T> implemen
     @Override
     public int updateCheck(MerchantReplenishModel model) {
         return merchantReplenishDao.updateCheck(model);
+    }
+
+    @Override
+    public int updateChannelCheck(ChannelReplenishModel model) {
+        return merchantReplenishDao.updateChannelCheck(model);
     }
 }

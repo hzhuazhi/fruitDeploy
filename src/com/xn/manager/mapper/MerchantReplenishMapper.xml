@@ -368,4 +368,19 @@
     </update>
 
 
+    <!-- 更新支付服务中渠道提交的补单信息 -->
+    <update id="updateChannelCheck" parameterType="Object">
+        UPDATE `hz-pay`.tb_hz_channel_replenish a
+        <trim prefix="set" suffixOverrides=",">
+            a.check_money = #{checkMoney},
+            a.check_picture_ads = #{checkPictureAds},
+            a.check_status = #{checkStatus},
+            a.check_info = #{checkInfo},
+            a.check_time = now(),
+        </trim>
+        where 1=1
+        and a.id = #{id}
+    </update>
+
+
 </mapper>
