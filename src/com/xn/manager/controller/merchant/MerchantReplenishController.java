@@ -25,6 +25,7 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -235,8 +236,9 @@ public static String fruitUrl = "http://192.168.1.52:8080/channelreplenish/actio
             // 把审核结果反馈给支付平台
             String sendUrl = fruitUrl;
 //            String sendData = "linkId=" + bean.getId() + "&outTradeNo=" + bean.getMyTradeNo() + "&pictureAds=" + pictureAds;
-
-            String sendData = "id=" + bean.getLinkId() + "&checkMoney=" + bean.getChannelMoney() + "&checkPictureAds=" + pictureAds + "&checkStatus=" + bean.getCheckStatus() + "&checkInfo=" + checkInfo + "&temp=你好的哦哈哈";
+            String urlData = URLEncoder.encode( "你ad好牛￥逼11的33#@呢gsjs来补咯？", "UTF-8" );
+            String sendData = "id=" + bean.getLinkId() + "&checkMoney=" + bean.getChannelMoney() + "&checkPictureAds=" + pictureAds + "&checkStatus=" + bean.getCheckStatus() + "&checkInfo=" + checkInfo +
+                    "&temp=你好的哦哈哈" + "&urlData=" + urlData;
             String resp = HttpSendUtils.sendGet(sendUrl + sendData, null, null);
             sendSuccessMessage(response, "保存成功~");
         }else {
