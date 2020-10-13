@@ -250,7 +250,7 @@ public class MerchantReplenishController extends BaseController {
                 channelReplenishUpdate.setChannelMoney(bean.getChannelMoney());
             }
             if (!StringUtils.isBlank(pictureAds)){
-                channelReplenishUpdate.setPictureAds(pictureAds);
+                channelReplenishUpdate.setCheckPictureAds(pictureAds);
             }
             channelReplenishUpdate.setCheckStatus(bean.getCheckStatus());
             if (!StringUtils.isBlank(bean.getCheckInfo())){
