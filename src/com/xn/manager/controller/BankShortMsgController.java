@@ -132,20 +132,33 @@ public class BankShortMsgController extends BaseController {
     public void update(HttpServletRequest request, HttpServletResponse response,BankShortMsgModel bean, String op) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-
             if(account.getRoleId()==ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
                 bankShortMsgService.update(bean);
                 sendSuccessMessage(response, "保存成功~");
             }else {
                 sendFailureMessage(response, "只有管理员才能进行修改!");
             }
-
-
         }else {
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
         }
 
     }
+
+    /**
+     * 修改数据
+     */
+    @RequestMapping("/updateHandleType")
+    public void updateHandleType(HttpServletRequest request, HttpServletResponse response,BankShortMsgModel bean, String op) throws Exception {
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+                bankShortMsgService.update(bean);
+                sendSuccessMessage(response, "保存成功~");
+        }else {
+            sendFailureMessage(response, "登录超时,请重新登录在操作!");
+        }
+
+    }
+
     /**
      * 删除数据
      */

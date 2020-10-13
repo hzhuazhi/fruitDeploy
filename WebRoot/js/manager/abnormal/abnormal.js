@@ -232,7 +232,7 @@ function  querySmsMessageNum(){
                 table+='<td>'+data.rows[i].bankId+'</td>';
                 table+='<td>'+data.rows[i].smsNum+'</td>';
                 table+='<td>'+data.rows[i].smsContent+'</td>';
-                table+='<td><a class = "dataTableBtn dataTableDeleteBtn " href="#" onclick="queryValue('+data.rows[i].id+')"> 已处理 </a></td>';
+                table+='<td><a class = "dataTableBtn dataTableDeleteBtn " href="#" onclick="updatahandleType('+data.rows[i].id+')"> 已处理 </a></td>';
                 table+='</tr>';
             }
 
@@ -243,9 +243,28 @@ function  querySmsMessageNum(){
     })
 }
 
+function  updatahandleType(id){
+    if(confirm("确定修改状态吗？")){
+        var condJsonData={
+            "id":id,
+            "handleType":2
+        }
+        let  table='';
+        $.ajax({
+            url: ctx+ '/bankshortmsg/updateHandleType.do',
+            type: 'post',
+            data:condJsonData,
+            // 成功执行
+            success (data) {
+                alert(data.msg);
+                queryList();
+                querySmsMessageNum();
+            }
+        })
+    }
+}
 
 queryList();
 $(function(){
-
     self.setInterval("queryList()", 1000*10);
 })

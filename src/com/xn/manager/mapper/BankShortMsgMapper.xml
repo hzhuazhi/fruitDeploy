@@ -325,6 +325,9 @@
             <if test="runStatus != null" >
                 run_status = #{runStatus,jdbcType=BIT},
             </if>
+            <if test="handleType != null" >
+                handle_type = #{handleType,jdbcType=BIT},
+            </if>
             a.update_time = NOW(),
         </trim>
         <include refid="Example_Where_Clause_id"/>
