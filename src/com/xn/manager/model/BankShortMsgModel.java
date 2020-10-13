@@ -167,6 +167,12 @@ public class BankShortMsgModel extends BasePage {
      * @mbggenerated
      */
     private Integer yn;
+    /**
+     * 是否处理：1、未处理 2、已处理
+     *
+     * @mbggenerated
+     */
+    private Integer handleType;
 
     public Long getId() {
         return id;
@@ -353,5 +359,13 @@ public class BankShortMsgModel extends BasePage {
 
     public void setYn(Integer yn) {
         this.yn = yn;
+    }
+
+    public Integer getHandleType() {
+        return handleType;
+    }
+
+    public void setHandleType(Integer handleType) {
+        this.handleType = handleType;
     }
 }

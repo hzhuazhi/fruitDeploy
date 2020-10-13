@@ -64,6 +64,7 @@ public class AbnormalController extends BaseController {
         mobileCardModel.setHeartbeatStatus(1);
         bankModel.setCheckStatus(2);
         bankShortMsgModel.setWorkType(2);
+        bankShortMsgModel.setHandleType(1);
         merchantRechargeModel.setOrderStatus(3);
         List<BankCollectionModel> dataList = new ArrayList<BankCollectionModel>();
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);

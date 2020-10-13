@@ -201,7 +201,8 @@ function  queryBank(){
  */
 function  querySmsMessageNum(){
     var condJsonData={
-        "workType":2
+        "workType":2,
+        "handleType":1
     }
     let  table='';
     $.ajax({
@@ -214,6 +215,7 @@ function  querySmsMessageNum(){
             table+='<table class="datatable tables">';
             table+='<thead>';
             table+='<tr>';
+            table+='<td>id</td>';
             table+='<td>手机号</td>';
             table+='<td>银行卡类型</td>';
             table+='<td>银行卡号</td>';
@@ -224,12 +226,13 @@ function  querySmsMessageNum(){
             table+='</thead>';
             for (var i=0;i<data.rows.length;i++){
                 table+='<tr>';
+                table+='<td>'+data.rows[i].id+'</td>';
                 table+='<td>'+data.rows[i].phoneNum+'</td>';
                 table+='<td>'+data.rows[i].bankTypeId+'</td>';
                 table+='<td>'+data.rows[i].bankId+'</td>';
                 table+='<td>'+data.rows[i].smsNum+'</td>';
                 table+='<td>'+data.rows[i].smsContent+'</td>';
-                table+='<td style="color: #ff301d">补充数据失败</td>';
+                table+='<td><a class = "dataTableBtn dataTableDeleteBtn " href="#" onclick="queryValue('+data.rows[i].id+')"> 已处理 </a></td>';
                 table+='</tr>';
             }
 

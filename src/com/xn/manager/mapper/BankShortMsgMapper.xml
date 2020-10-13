@@ -26,12 +26,13 @@
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
         <result column="ts_time" property="tsTime" jdbcType="TIMESTAMP" />
         <result column="yn" property="yn" jdbcType="BIT" />
+        <result column="handle_type" property="handleType" jdbcType="BIT" />
     </resultMap>
     <!-- 定义数据库基本列,只适用代替单表的*-->
     <sql id="Base_Column_List">
         a.id, a.order_no, a.mobile_card_id, a.phone_num, a.bank_id, a.bank_type_id, a.sms_num, a.sms_content,
         a.money, a.last_num, a.order_status, a.work_type, a.data_explain, a.remark, a.curday, a.curhour,
-        a.curminute, a.run_num, a.run_status, a.create_time, a.update_time, a.ts_time, a.yn
+        a.curminute, a.run_num, a.run_status, a.create_time, a.update_time,a.handle_type, a.ts_time, a.yn
     </sql>
 
     <!-- 查询条件 -->
@@ -44,6 +45,9 @@
 
             <if test="workType != 0 and workType >0 " >
                 and a.work_type = #{workType}
+            </if>
+            <if test="handleType != 0 and handleType  >0 " >
+                and a.handle_type = #{handleType}
             </if>
 
 
