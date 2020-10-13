@@ -16,6 +16,7 @@ var account = {
         {"data":"orderNo",},
         {"data":"outTradeNo",},
         {"data":"orderMoney",},
+        {"data":"distributionMoney",},
         {"data":"merchantName",},
         {"data":"cardSiteName",},
         {"data":"channelName",},
@@ -53,7 +54,7 @@ var account = {
                 html += '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/merchantreplenish/jumpUpdate.do?id='+oData.id+'"> 编辑 </a>';
                 if (oData.handleType == 1){
                     html += '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/merchantreplenish/jumpUpdateCheck.do?id='+oData.id+'"> 审核 </a>';
-                }else if(oData.handleType == 1){
+                }else if(oData.handleType == 2){
                     html += '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/merchantreplenish/jumpInfo.do?id='+oData.id+'"> 详情 </a>';
                 }
                 $(nTd).html(html);

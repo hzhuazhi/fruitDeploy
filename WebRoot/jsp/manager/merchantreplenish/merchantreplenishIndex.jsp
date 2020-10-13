@@ -83,6 +83,7 @@
         <th width="140">订单号</th>
         <th width="140">商家订单</th>
         <th width="100">订单金额</th>
+        <th width="100">派单金额</th>
         <th width="110">卡商</th>
         <th width="120">卡站点</th>
         <th width="110">商户</th>
