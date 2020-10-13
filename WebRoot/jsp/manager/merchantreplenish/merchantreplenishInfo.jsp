@@ -19,13 +19,40 @@
 <body>
 <div class="col_main">
     <div class="formHeadDiv">
-        <h2>下发详情</h2>
+        <h2>商户补单处理详情</h2>
     </div>
     <div class="formContentDiv">
         <form id="addSupplierForm">
             <ul>
                 <c:set var="dl" value="${account}"/>
                 <input type="hidden" id="id" name="id" value="${dl.id}">
+
+                <li style="border-top: none;">
+                    <div class="formTextDiv">
+                        <span><font color="red">处理状态</font></span>
+                    </div>
+                    <div class="formCtrlDiv">
+                        <select id="handleType" name="handleType" disabled="disabled">
+                            <option value="">===请选择===</option>
+                            <c:if test="${dl.handleType == 1}">
+                                <option value="1" selected="selected">未处理</option>
+                            </c:if>
+                            <c:if test="${dl.handleType == 2}">
+                                <option value="2" selected="selected">已处理</option>
+                            </c:if>
+                        </select>
+                    </div>
+                </li>
+
+                <li style="border-top: none;">
+                    <div class="formTextDiv">
+                        <span class="require">处理人</span>
+                    </div>
+                    <div class="formCtrlDiv">
+                        <input type="text" class="formInput" id="handlePeople" name="handlePeople" value="${dl.handlePeople}" 	maxlength="240" />
+                    </div>
+                </li>
+
                 <li style="border-top: none;">
                     <div class="formTextDiv">
                         <span class="require" >订单号</span>
@@ -53,55 +80,34 @@
                 </li>
                 <li style="border-top: none;">
                     <div class="formTextDiv">
-                        <span class="require">银行</span>
+                        <span class="require">卡商</span>
                     </div>
                     <div class="formCtrlDiv">
-                        <input type="text" class="formInput" id="bankName" name="bankName" value="${dl.bankName}" 	maxlength="240" />
+                        <input type="text" class="formInput" id="merchantName" name="merchantName" value="${dl.merchantName}" 	maxlength="240" />
                     </div>
                 </li>
                 <li style="border-top: none;">
                     <div class="formTextDiv">
-                        <span class="require">银行卡号</span>
+                        <span class="require">卡站点</span>
                     </div>
                     <div class="formCtrlDiv">
-                        <input type="text" class="formInput" id="bankCard" name="bankCard" value="${dl.bankCard}" 	maxlength="240" />
-                    </div>
-                </li>
-
-                <li style="border-top: none;">
-                    <div class="formTextDiv">
-                        <span class="require">开户人</span>
-                    </div>
-                    <div class="formCtrlDiv">
-                        <input type="text" class="formInput" id="accountName" name="accountName" value="${dl.accountName}" 	maxlength="240" />
+                        <input type="text" class="formInput" id="cardSiteName" name="cardSiteName" value="${dl.cardSiteName}" 	maxlength="240" />
                     </div>
                 </li>
 
                 <li style="border-top: none;">
                     <div class="formTextDiv">
-                        <span class="require" >订单状态</span>
+                        <span class="require">商户</span>
                     </div>
                     <div class="formCtrlDiv">
-                        <select id="orderStatus" name="orderStatus" disabled="disabled">
-                            <option value="">===请选择===</option>
-                            <c:if test="${dl.orderStatus == 1}">
-                                <option value="1" selected="selected">初始化</option>
-                            </c:if>
-                            <c:if test="${dl.orderStatus == 2}">
-                                <option value="2" selected="selected">驳回</option>
-                            </c:if>
-                            <c:if test="${dl.orderStatus == 3}">
-                                <option value="3" selected="selected">成功</option>
-                            </c:if>
-                        </select>
-
+                        <input type="text" class="formInput" id="channelName" name="channelName" value="${dl.channelName}" 	maxlength="240" />
                     </div>
                 </li>
 
 
                 <li style="border-top: none;">
                     <div class="formTextDiv">
-                        <span class="require">转账凭证</span>
+                        <span class="require">商户转账凭证</span>
                     </div>
                     <div class="formCtrlDiv">
                         <img id="pictureAds" name="pictureAds" src="${dl.pictureAds}" alt="">
@@ -109,72 +115,13 @@
                 </li>
 
 
+                <div class="formHeadDiv">
+                    <h2><font color="red">卡商补单审核操作</font></h2>
+                </div>
 
                 <li style="border-top: none;">
                     <div class="formTextDiv">
-                        <span class="require">平台银行卡信息</span>
-                    </div>
-                    <div class="formCtrlDiv">
-                        <textarea id="myBankInfo" name="myBankInfo" >${dl.myBankInfo}</textarea>
-                    </div>
-                </li>
-
-                <li style="border-top: none;">
-                    <div class="formTextDiv">
-                        <span class="require" >归属类型</span>
-                    </div>
-                    <div class="formCtrlDiv">
-                        <select id="ascriptionType" name="ascriptionType" disabled="disabled">
-                            <option value="">===请选择===</option>
-                            <c:if test="${dl.ascriptionType == 1}">
-                                <option value="1" selected="selected">卡商</option>
-                            </c:if>
-                            <c:if test="${dl.ascriptionType == 2}">
-                                <option value="2" selected="selected">平台</option>
-                            </c:if>
-                        </select>
-                    </div>
-                </li>
-
-
-                <li style="border-top: none;">
-                    <div class="formTextDiv">
-                        <span class="require" >是否分配</span>
-                    </div>
-                    <div class="formCtrlDiv">
-                        <select id="isDistribution" name="isDistribution" disabled="disabled">
-                            <option value="">===请选择===</option>
-                            <c:if test="${dl.isDistribution == 1}">
-                                <option value="1" selected="selected">未分配</option>
-                            </c:if>
-                            <c:if test="${dl.isDistribution == 2}">
-                                <option value="2" selected="selected">已分配</option>
-                            </c:if>
-                        </select>
-                    </div>
-                </li>
-
-
-                <li style="border-top: none;">
-                    <div class="formTextDiv">
-                        <span class="require" >是否归集完毕</span>
-                    </div>
-                    <div class="formCtrlDiv">
-                        <select id="isComplete" name="isComplete" disabled="disabled">
-                            <option value="">===请选择===</option>
-                            <c:if test="${dl.isComplete == 1}">
-                                <option value="1" selected="selected">未归集完毕</option>
-                            </c:if>
-                            <c:if test="${dl.isComplete == 2}">
-                                <option value="2" selected="selected">已归集完毕</option>
-                            </c:if>
-                        </select>
-                    </div>
-                </li>
-
-                <li style="border-top: none;">
-                    <div class="formTextDiv">
-                        <span class="require" >审核状态</span>
+                        <span><font color="red">审核状态</font></span>
                     </div>
                     <div class="formCtrlDiv">
                         <select id="checkStatus" name="checkStatus" disabled="disabled">
@@ -195,19 +142,19 @@
 
                 <li style="border-top: none;">
                     <div class="formTextDiv">
-                        <span class="require">审核失败缘由</span>
+                        <span class="require">卡商反馈凭证</span>
                     </div>
                     <div class="formCtrlDiv">
-                        <textarea id="checkInfo" name="checkInfo" >${dl.checkInfo}</textarea>
+                        <img id="checkPictureAds" name="checkPictureAds" src="${dl.checkPictureAds}" alt="">
                     </div>
                 </li>
 
                 <li style="border-top: none;">
                     <div class="formTextDiv">
-                        <span class="require">数据说明</span>
+                        <span class="require">审核失败说明</span>
                     </div>
                     <div class="formCtrlDiv">
-                        <textarea id="dataExplain" name="dataExplain" cols="70" rows="9">${dl.dataExplain}</textarea>
+                        <textarea id="checkInfo" name="checkInfo" cols="70" rows="9">${dl.checkInfo}</textarea>
                     </div>
                 </li>
 

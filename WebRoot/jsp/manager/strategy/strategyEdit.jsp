@@ -73,7 +73,7 @@
                         <span class="require">策略Str的Big值</span>
                     </div>
                     <div class="formCtrlDiv">
-                        <textarea id="stgBigValue" name="stgBigValue" >${dl.stgBigValue}</textarea>
+                        <textarea id="stgBigValue" name="stgBigValue" cols="70" rows="9">${dl.stgBigValue}</textarea>
                     </div>
                 </li>
 
@@ -109,7 +109,7 @@
                         <span class="require">策略说明</span>
                     </div>
                     <div class="formCtrlDiv">
-                        <textarea id="stgExplain" name="stgExplain" >${dl.stgExplain}</textarea>
+                        <textarea id="stgExplain" name="stgExplain" cols="70" rows="9">${dl.stgExplain}</textarea>
                     </div>
                 </li>
 

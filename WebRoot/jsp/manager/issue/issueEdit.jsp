@@ -46,7 +46,7 @@
                         <span class="require"><font color="red">*</font>平台银行卡信息</span>
                     </div>
                     <div class="formCtrlDiv">
-                        <textarea id="myBankInfo" name="myBankInfo" ></textarea>
+                        <textarea id="myBankInfo" name="myBankInfo" cols="70" rows="9"></textarea>
                     </div>
                 </li>
 
