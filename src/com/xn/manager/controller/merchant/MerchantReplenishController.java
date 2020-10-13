@@ -236,7 +236,7 @@ public static String fruitUrl = "http://192.168.1.52:8080/channelreplenish/actio
             String sendUrl = fruitUrl;
 //            String sendData = "linkId=" + bean.getId() + "&outTradeNo=" + bean.getMyTradeNo() + "&pictureAds=" + pictureAds;
 
-            String sendData = "id=" + bean.getLinkId() + "&checkMoney=" + bean.getChannelMoney() + "&checkPictureAds=" + pictureAds + "&checkStatus=" + bean.getCheckStatus() + "&checkInfo=" + checkInfo;
+            String sendData = "id=" + bean.getLinkId() + "&checkMoney=" + bean.getChannelMoney() + "&checkPictureAds=" + pictureAds + "&checkStatus=" + bean.getCheckStatus() + "&checkInfo=" + checkInfo + "&temp=你好的哦哈哈";
             String resp = HttpSendUtils.sendGet(sendUrl + sendData, null, null);
             sendSuccessMessage(response, "保存成功~");
         }else {
