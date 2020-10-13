@@ -1,7 +1,20 @@
 var datatable;
 function  queryList(){
-    let  data={
+    var date = new Date();
+    // var seperator1 = "-";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = year+ month + strDate;
 
+    let  data={
+        "curday":currentdate
     }
     $.ajax({
         url: ctx+ '/abnormal/dataList.do',
@@ -200,9 +213,23 @@ function  queryBank(){
  * 查询短信解析异常
  */
 function  querySmsMessageNum(){
+    var date = new Date();
+    // var seperator1 = "-";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = year+""+ month+"" + strDate;
+
     var condJsonData={
         "workType":2,
-        "handleType":1
+        "handleType":1,
+        "curday":currentdate
     }
     let  table='';
     $.ajax({

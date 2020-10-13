@@ -49,6 +49,9 @@
             <if test="handleType != 0 and handleType  >0 " >
                 and a.handle_type = #{handleType}
             </if>
+            <if test="curday != 0 and curday  >0 " >
+                and a.curday = #{curday}
+            </if>
 
 
             <!--<if test="alias != null and alias != '' " >-->

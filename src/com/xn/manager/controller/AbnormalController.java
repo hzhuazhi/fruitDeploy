@@ -2,6 +2,7 @@ package com.xn.manager.controller;
 
 import com.xn.common.constant.ManagerConstant;
 import com.xn.common.controller.BaseController;
+import com.xn.common.util.DateUtil;
 import com.xn.common.util.HtmlUtil;
 import com.xn.manager.model.*;
 import com.xn.manager.service.BankService;
@@ -65,6 +66,7 @@ public class AbnormalController extends BaseController {
         bankModel.setCheckStatus(2);
         bankShortMsgModel.setWorkType(2);
         bankShortMsgModel.setHandleType(1);
+        bankShortMsgModel.setCurday(Integer.parseInt(DateUtil.getNowShortDate()));
         merchantRechargeModel.setOrderStatus(3);
         List<BankCollectionModel> dataList = new ArrayList<BankCollectionModel>();
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
