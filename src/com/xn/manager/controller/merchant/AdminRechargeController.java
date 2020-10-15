@@ -5,9 +5,13 @@ import com.xn.common.controller.BaseController;
 import com.xn.common.util.DateUtil;
 import com.xn.common.util.HtmlUtil;
 import com.xn.common.util.OssUploadUtil;
+import com.xn.manager.model.IssueModel;
 import com.xn.manager.model.RechargeModel;
+import com.xn.manager.service.IssueService;
 import com.xn.manager.service.RechargeService;
 import com.xn.system.entity.Account;
+import com.xn.system.model.AccountModel;
+import com.xn.system.service.AccountService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +43,12 @@ public class AdminRechargeController extends BaseController {
 
     @Autowired
     private RechargeService<RechargeModel> rechargeService;
+
+    @Autowired
+    private AccountService<AccountModel> accountService;
+
+    @Autowired
+    private IssueService<IssueModel> issueService;
 
 
     /**
@@ -93,8 +103,19 @@ public class AdminRechargeController extends BaseController {
      * 获取新增页面
      */
     @RequestMapping("/jumpAdd")
-    public String jumpAdd(HttpServletRequest request, HttpServletResponse response) {
-//        model.addAttribute("rloeMenu", roleService.queryList());
+    public String jumpAdd(HttpServletRequest request, HttpServletResponse response, Model model) {
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.ROLE_SYS){
+                sendFailureMessage(response,"无法操作,请登录其它账号角色!");
+                return null;
+            }else {
+                model.addAttribute("ac", accountService.queryAllList());
+            }
+//            sendSuccessMessage(response, "保存成功~");
+        }else {
+            sendFailureMessage(response,"登录超时,请重新登录在操作!");
+        }
         return "manager/adminrecharge/adminrechargeAdd";
     }
 
@@ -105,6 +126,35 @@ public class AdminRechargeController extends BaseController {
     public void add(HttpServletRequest request, HttpServletResponse response, RechargeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            if (bean.getOrderType() == 1){
+                if (!StringUtils.isBlank(bean.getIssueOrderNo())){
+                    sendFailureMessage(response,"预付类型订单,无需填写下发订单!");
+                    return;
+                }
+            }else if (bean.getOrderType() == 2){
+                if (StringUtils.isBlank(bean.getIssueOrderNo())){
+                    sendFailureMessage(response,"平台类型订单,请填写下发订单号!");
+                    return;
+                }else {
+                    // check下发订单号是否存在于下发表
+                    IssueModel issueQuery = new IssueModel();
+                    issueQuery.setOrderNo(bean.getIssueOrderNo());
+                    IssueModel issueModel = issueService.queryByCondition(issueQuery);
+                    if (issueModel == null || issueModel.getId() <= 0){
+                        sendFailureMessage(response,"无此下发订单号,请核实!");
+                        return;
+                    }
+                    if (issueModel.getAscriptionType() != 2){
+                        sendFailureMessage(response,"下发订单号,不归属平台,请核实!");
+                        return;
+                    }
+                }
+            }
+            String orderNo = DateUtil.getNowPlusTimeMill();
+            bean.setOrderNo(orderNo);
+            bean.setCurday(DateUtil.getDayNumber(new Date()));
+            bean.setCurhour(DateUtil.getHour(new Date()));
+            bean.setCurminute(DateUtil.getCurminute(new Date()));
             rechargeService.add(bean);
             sendSuccessMessage(response, "保存成功~");
         }else {
