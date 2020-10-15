@@ -170,6 +170,7 @@ public class AdminRechargeController extends BaseController {
         RechargeModel atModel = new RechargeModel();
         atModel.setId(id);
         model.addAttribute("account", rechargeService.queryById(atModel));
+        model.addAttribute("ac", accountService.queryAllList());
         return "manager/adminrecharge/adminrechargeEdit";
     }
 
@@ -177,23 +178,52 @@ public class AdminRechargeController extends BaseController {
      * 修改数据
      */
     @RequestMapping("/update")
-    public void update(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile files, RechargeModel bean) throws Exception {
+    public void update(HttpServletRequest request, HttpServletResponse response, RechargeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-//            rechargeService.update(bean);
-            String pictureAds = OssUploadUtil.localMethod(files);
-            if (StringUtils.isBlank(pictureAds)){
-                log.info("");
-                sendFailureMessage(response, "图片上传失败,请重试!");
+            RechargeModel query = new RechargeModel();
+            query.setId(bean.getId());
+            RechargeModel rechargeModel = rechargeService.queryByCondition(query);
+            if (rechargeModel.getOperateStatus() == 4){
+                sendFailureMessage(response, "订单处于锁定状态,无法编辑更新!");
                 return;
-            }else {
-                bean.setOrderStatus(3);
-                bean.setPictureAds(pictureAds);
             }
-            rechargeService.updateOrderStatus(bean);
+            if (bean.getOrderType() == 1){
+                if (!StringUtils.isBlank(bean.getIssueOrderNo())){
+                    sendFailureMessage(response,"预付类型订单,无需填写下发订单!");
+                    return;
+                }
+            }else if (bean.getOrderType() == 2){
+                if (StringUtils.isBlank(bean.getIssueOrderNo())){
+                    sendFailureMessage(response,"平台类型订单,请填写下发订单号!");
+                    return;
+                }else {
+                    // check下发订单号是否存在于下发表
+                    IssueModel issueQuery = new IssueModel();
+                    issueQuery.setOrderNo(bean.getIssueOrderNo());
+                    IssueModel issueModel = issueService.queryByCondition(issueQuery);
+                    log.info("");
+                    if (issueModel == null || issueModel.getId() <= 0){
+                        sendFailureMessage(response,"无此下发订单号,请核实!");
+                        return;
+                    }
+                    if (issueModel.getAscriptionType() != 2){
+                        sendFailureMessage(response,"下发订单号,不归属平台,请核实!");
+                        return;
+                    }
+                }
+            }
+
+            if (rechargeModel.getAccountId() != bean.getAccountId()){
+                bean.setCardSiteId(0);
+            }else {
+                bean.setCardSiteId(rechargeModel.getCardSiteId());
+            }
+            rechargeService.update(bean);
             sendSuccessMessage(response, "保存成功~");
         }else {
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
+            return;
         }
 
     }
@@ -204,6 +234,12 @@ public class AdminRechargeController extends BaseController {
     public void delete(HttpServletRequest request, HttpServletResponse response, RechargeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            RechargeModel query = new RechargeModel();
+            query.setId(bean.getId());
+            RechargeModel rechargeModel = rechargeService.queryByCondition(query);
+            if (rechargeModel.getOrderStatus() == 3){
+
+            }
             rechargeService.delete(bean);
             sendSuccessMessage(response, "删除成功");
         }else{

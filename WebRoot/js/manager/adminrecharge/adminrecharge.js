@@ -93,7 +93,11 @@ var account = {
                     }
                 }
                 if (oData.orderType != 3){
-                    html += '<a class = "dataTableBtn dataTableResetBtn"  directkey="' + oData.id + '" href = "javascript:void(0);">删除 </a>';
+                    if (oData.orderStatus != 3){
+                        if (oData.operateStatus != 4){
+                            html += '<a class = "dataTableBtn dataTableResetBtn"  directkey="' + oData.id + '" href = "javascript:void(0);">删除 </a>';
+                        }
+                    }
                 }
                 $(nTd).html(html);
             }

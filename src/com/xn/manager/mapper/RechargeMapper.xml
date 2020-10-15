@@ -380,9 +380,10 @@
             <if test="accountId != 0 and accountId >0 " >
                 a.account_id = #{accountId},
             </if>
-            <if test="cardSiteId != 0 and cardSiteId >0 " >
-                a.card_site_id = #{cardSiteId},
-            </if>
+            <!--<if test="cardSiteId != 0 and cardSiteId >0 " >-->
+                <!--a.card_site_id = #{cardSiteId},-->
+            <!--</if>-->
+            a.card_site_id = #{cardSiteId},
             <if test="orderNo != null and orderNo != '' " >
                 a.order_no = #{orderNo},
             </if>
