@@ -24,4 +24,13 @@ public interface RechargeDao<T> extends BaseDao<T> {
      * @date 2020/9/27 15:46
      */
     public int updateOrderStatus(RechargeModel model);
+
+    /**
+     * @Description: 管理员更新预付款、平台订单的审核信息
+     * @param model
+     * @return
+     * @author yoko
+     * @date 2020/10/15 16:27
+     */
+    public int updateCheck(RechargeModel model);
 }

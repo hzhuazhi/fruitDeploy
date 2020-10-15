@@ -489,4 +489,21 @@
         and a.yn = 0
     </update>
 
+    <!-- 更新充值的审核信息 -->
+    <update id="updateCheck" parameterType="Object">
+        UPDATE tb_fr_merchant_recharge a
+        <trim prefix="set" suffixOverrides=",">
+            a.check_status = #{checkStatus},
+            <if test="orderStatus != 0 and orderStatus >0 " >
+                a.order_status = #{orderStatus},
+            </if>
+            a.check_info = #{checkInfo},
+            <if test="remark != null and remark != '' " >
+                a.remark = #{remark},
+            </if>
+        </trim>
+        where 1=1
+        and a.id = #{id}
+    </update>
+
 </mapper>

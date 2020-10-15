@@ -234,12 +234,6 @@ public class AdminRechargeController extends BaseController {
     public void delete(HttpServletRequest request, HttpServletResponse response, RechargeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            RechargeModel query = new RechargeModel();
-            query.setId(bean.getId());
-            RechargeModel rechargeModel = rechargeService.queryByCondition(query);
-            if (rechargeModel.getOrderStatus() == 3){
-
-            }
             rechargeService.delete(bean);
             sendSuccessMessage(response, "删除成功");
         }else{
@@ -285,10 +279,16 @@ public class AdminRechargeController extends BaseController {
             RechargeModel model = new RechargeModel();
             model.setId(bean.getId());
             model.setCheckStatus(bean.getCheckStatus());
+            if (bean.getCheckStatus() != 3){
+                model.setOrderStatus(2);
+            }
             if (!StringUtils.isBlank(bean.getCheckInfo())){
                 model.setCheckInfo(bean.getCheckInfo());
             }
-            rechargeService.update(model);
+            if (!StringUtils.isBlank(bean.getRemark())){
+                model.setRemark(bean.getRemark());
+            }
+            rechargeService.updateCheck(model);
             sendSuccessMessage(response, "保存成功~");
         }else {
             sendFailureMessage(response, "登录超时,请重新登录在操作!");

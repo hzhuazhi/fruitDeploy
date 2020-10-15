@@ -39,7 +39,8 @@ var account = {
                 }else if(oData.orderStatus==2){
                     html='<span>驳回</span>';
                 }else if(oData.orderStatus==3){
-                    html='<span>成功</span>';
+                    // html='<span>成功</span>';
+                    html='<span><font color="red">成功</font></span>';
                 }
                 $(nTd).html(html);
             }
@@ -70,7 +71,8 @@ var account = {
                 }else if(oData.checkStatus==2){
                     html='<span>失败</span>';
                 }else if(oData.checkStatus==3){
-                    html='<span>成功</span>';
+                    // html='<span>成功</span>';
+                    html='<span><font color="red">成功</font></span>';
                 }
                 $(nTd).html(html);
             }
