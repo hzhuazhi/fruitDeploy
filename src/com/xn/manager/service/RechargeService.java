@@ -33,4 +33,6 @@ public interface RechargeService<T> extends BaseService<T> {
      * @date 2020/10/15 16:27
     */
     public int updateCheck(RechargeModel model);
+
+
 }
