@@ -506,4 +506,15 @@
         and a.id = #{id}
     </update>
 
+
+    <!-- 分派卡站点 -->
+    <update id="updateCardSite" parameterType="Object">
+        UPDATE tb_fr_merchant_recharge a
+        <trim prefix="set" suffixOverrides=",">
+            a.card_site_id = #{cardSiteId},
+        </trim>
+        where 1=1
+        and a.id = #{id}
+    </update>
+
 </mapper>

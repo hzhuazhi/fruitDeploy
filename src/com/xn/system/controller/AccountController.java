@@ -1,5 +1,6 @@
 package com.xn.system.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -87,6 +88,32 @@ public class AccountController extends BaseController{
 		List<Account> dataList = accountService.queryByList(model);
 		HtmlUtil.writerJson(response, model.getPage(), dataList);
 	}
+
+
+
+	/**
+	 *
+	 * 获取表格数据列表-无分页
+	 */
+	@RequestMapping("/dataAllList")
+	public void dataAllList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<Account> dataList = new ArrayList<Account>();
+		Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+		if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+			if (account.getRoleId() <= ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
+				HtmlUtil.writerJson(response, dataList);
+				return;
+			}
+			Account query = new Account();
+			query.setCreateUser(account.getId());
+			dataList = accountService.queryAllList(query);
+		}
+//		HtmlUtil.writerJson(response, dataList);
+		sendSuccessMessage(response, "", dataList);
+	}
+
+
+
 	/**
 	 * 添加数据
 	 */

@@ -130,13 +130,41 @@ public class RechargeController extends BaseController {
     */
     @RequestMapping("/getId")
     public void getId(Long id, HttpServletResponse response) throws Exception {
-        RechargeModel bean = rechargeService.queryById(id);
+        RechargeModel query = new RechargeModel();
+        query.setId(id);
+        RechargeModel bean = rechargeService.queryById(query);
         if (bean == null) {
             sendFailureMessage(response, "没有找到对应的记录!");
             return;
         }
         sendSuccessMessage(response, "", bean);
     }
+
+
+    /**
+     * 分派订单给卡站点
+     */
+    @RequestMapping("/distribution")
+    public void distribution(HttpServletRequest request, HttpServletResponse response, RechargeModel bean) throws Exception {
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            if (account.getRoleId() > 2){
+                sendFailureMessage(response, "只有卡商可分派订单给卡站点!");
+                return;
+            }
+            RechargeModel updateModel = new RechargeModel();
+            updateModel.setId(bean.getId());
+            updateModel.setCardSiteId(bean.getCardSiteId());
+            rechargeService.updateCardSite(updateModel);
+            sendSuccessMessage(response, "保存成功~");
+        }else {
+            sendFailureMessage(response, "登录超时,请重新登录在操作!");
+            return;
+        }
+
+    }
+
+
 
 
     /**
