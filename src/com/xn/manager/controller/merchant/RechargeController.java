@@ -228,16 +228,55 @@ public class RechargeController extends BaseController {
 
     /**
      * 启用/禁用
+     * 这里是锁定、放弃
      */
     @RequestMapping("/manyOperation")
     public void manyOperation(HttpServletRequest request, HttpServletResponse response, RechargeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-
-            rechargeService.manyOperation(bean);
+            if (account.getRoleId() == 1){
+                sendFailureMessage(response, "管理员无法操作!");
+                return;
+            }
+            RechargeModel query = new RechargeModel();
+            query.setId(bean.getId());
+            RechargeModel rechargeModel = rechargeService.queryByCondition(query);
+            if (rechargeModel == null || rechargeModel.getId() <= 0){
+                sendFailureMessage(response, "操作有误,请重试!");
+                return;
+            }
+            if (rechargeModel.getOrderType() != 3){
+                if (bean.getOperateStatus() == 3){
+                    sendFailureMessage(response, "此订单无法放弃,请下发完毕!");
+                    return;
+                }
+            }
+            if (rechargeModel.getOperateStatus() == bean.getOperateStatus()){
+                if (bean.getOperateStatus() == 3){
+                    sendFailureMessage(response, "已经放弃,无需重复操作!");
+                    return;
+                }
+                if (bean.getOperateStatus() == 4){
+                    sendFailureMessage(response, "已经锁定,无需重复操作!");
+                    return;
+                }
+            }
+            if (bean.getOperateStatus() == 3){
+                if (rechargeModel.getLockAccountId() > 0){
+                    if (account.getId() != rechargeModel.getLockAccountId()){
+                        sendFailureMessage(response, "操作放弃需要有点击锁定的人来操作放弃!");
+                        return;
+                    }
+                }
+            }else if(bean.getOperateStatus() == 4){
+                bean.setLockAccountId(account.getId());
+            }
+            rechargeService.updateOperateStatus(bean);
             sendSuccessMessage(response, "状态更新成功");
+            return;
         }else{
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
+            return;
         }
     }
 

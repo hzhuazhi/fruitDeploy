@@ -43,5 +43,14 @@ public interface RechargeService<T> extends BaseService<T> {
     */
     public int updateCardSite(RechargeModel model);
 
+    /**
+     * @Description: 更新操作状态
+     * @param model
+     * @return
+     * @author yoko
+     * @date 2020/10/20 15:03
+    */
+    public int updateOperateStatus(RechargeModel model);
+
 
 }

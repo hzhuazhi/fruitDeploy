@@ -127,10 +127,10 @@ var account = {
                     }
                 } 
                 if (oData.operateStatus == 1){
-                    html += '<a class = "dataTableBtn dataTableDeleteBtn" id = "edit" directkey="' + oData.id + '" directkey1="4" href = "javascript:void(0);"> 锁定 </a>'
+                    html += '<a class = "dataTableBtn dataTableOperateBtn" directkey="' + oData.id + '" directkey1="4" href = "javascript:void(0);"> 锁定 </a>'
                 } else if(oData.operateStatus == 4){
                     if (oData.orderType == 3){
-                        html += '<a class = "dataTableBtn dataTableDeleteBtn" id = "edit" directkey="' + oData.id + '" directkey1="3" href = "javascript:void(0);"> 放弃 </a>'
+                        html += '<a class = "dataTableBtn dataTableOperateBtn" directkey="' + oData.id + '" directkey1="3" href = "javascript:void(0);"> 放弃 </a>'
                     }
                 }
                 html += '<a class = "dataTableBtn dataTableDeleteBtn " href="'+ctx+'/recharge/jumpInfo.do?id='+oData.id+'"> 详情 </a>';
@@ -254,14 +254,58 @@ var account = {
         });
 
         //启用/禁用
-        $(".dataTableEnableBtn").live("click",function(){
+        $(".dataTableOperateBtn").live("click",function(){
             var id = $(this).attr('directkey');
-            var isEnable = $(this).attr('directValue');
+            var operateStatus = $(this).attr('directkey1');
             var data = {
                 id:id,
-                isEnable:isEnable
+                operateStatus:operateStatus
             }
-            common.manyOperation(data);
+            // common.manyOperation(data);
+            //更多操作：提示语
+            var showMsg = '';
+            if (data.operateStatus == 4){
+                if(!confirm("确认要锁定吗？")){
+                    return;
+                }
+                showMsg = '锁定成功!';
+            }else if(data.operateStatus == 3){
+                if(!confirm("确认要放弃吗？")){
+                    return;
+                }
+                showMsg = '放弃成功!';
+            }
+            // this.ajax(account.url.manyOperation_url,data,function(data){
+            //     if (data.success) {
+            //         promptMessage (showMsg,'success',false);
+            //         common.goList();
+            //     } else {
+            //         art.alert(data.msg);
+            //     }
+            // });
+
+            $.ajax({url : account.url.manyOperation_url,
+                type : 'post',
+                dataType : 'json',
+                data :{
+                    id:id,
+                    operateStatus:operateStatus
+                },
+                success : function(data) {
+                    if (data.success) {
+                        promptMessage (showMsg,'success',false);
+                        common.goList();
+                    } else {
+                        art.alert(data.msg);
+                    }
+                },
+                error : function(data) {
+                    art.alert(data.info);
+                }
+            });
+
+
+
         });
     }
 

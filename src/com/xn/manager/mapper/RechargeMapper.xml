@@ -517,4 +517,17 @@
         and a.id = #{id}
     </update>
 
+
+    <!-- 更新操作状态 -->
+    <update id="updateOperateStatus" parameterType="Object">
+        update tb_fr_merchant_recharge a
+        <trim prefix="set" suffixOverrides=",">
+            a.operate_status = #{operateStatus},
+            a.lock_account_id = #{lockAccountId},
+        </trim>
+        where 1=1
+        and a.id = #{id}
+        and a.yn = 0
+    </update>
+
 </mapper>

@@ -42,4 +42,9 @@ public class RechargeServiceImpl<T> extends BaseServiceImpl<T> implements Rechar
     public int updateCardSite(RechargeModel model) {
         return rechargeDao.updateCardSite(model);
     }
+
+    @Override
+    public int updateOperateStatus(RechargeModel model) {
+        return rechargeDao.updateOperateStatus(model);
+    }
 }
