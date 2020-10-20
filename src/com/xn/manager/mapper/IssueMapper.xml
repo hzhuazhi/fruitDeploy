@@ -398,6 +398,10 @@
             <if test="myBankInfo != null and myBankInfo != '' " >
                 a.my_bank_info = #{myBankInfo},
             </if>
+            <if test="checkStatusStr != null and checkStatusStr != '' " >
+                a.check_status = 1,
+            </if>
+
             a.send_num = 0,
             a.send_status = 0,
             a.update_time = NOW()

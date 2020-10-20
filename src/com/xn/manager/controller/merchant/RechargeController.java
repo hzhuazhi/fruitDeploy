@@ -188,6 +188,19 @@ public class RechargeController extends BaseController {
     public void update(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile files, RechargeModel bean) throws Exception {
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            RechargeModel query = new RechargeModel();
+            query.setId(bean.getId());
+            RechargeModel rechargeModel = rechargeService.queryByCondition(query);
+            if (rechargeModel == null || rechargeModel.getId() <= 0){
+                sendFailureMessage(response, "操作有误,请重试!");
+                return;
+            }
+            if (rechargeModel.getLockAccountId() > 0){
+                if (rechargeModel.getLockAccountId() != account.getId()){
+                    sendFailureMessage(response, "不是锁定人,无法操作下发!");
+                    return;
+                }
+            }
             RechargeModel updateModel = new RechargeModel();
             if (!files.isEmpty()){
                 String pictureAds = OssUploadUtil.localMethod(files);
@@ -198,6 +211,7 @@ public class RechargeController extends BaseController {
                     updateModel.setId(bean.getId());
                     updateModel.setOrderStatus(3);
                     updateModel.setPictureAds(pictureAds);
+                    updateModel.setCheckStatusStr("1");
                 }
             }else {
                 sendFailureMessage(response, "请上传转账凭证图片");
@@ -205,6 +219,7 @@ public class RechargeController extends BaseController {
             }
             rechargeService.updateOrderStatus(updateModel);
             sendSuccessMessage(response, "保存成功~");
+            return;
         }else {
             sendFailureMessage(response, "登录超时,请重新登录在操作!");
             return;

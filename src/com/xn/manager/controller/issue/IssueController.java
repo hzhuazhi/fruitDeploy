@@ -138,6 +138,8 @@ public class IssueController extends BaseController {
             }else {
                 bean.setOrderStatus(3);
                 bean.setPictureAds(pictureAds);
+                bean.setCheckStatus(0);
+                bean.setCheckStatusStr("1");
             }
             issueService.updateOrderStatus(bean);
             sendSuccessMessage(response, "保存成功~");

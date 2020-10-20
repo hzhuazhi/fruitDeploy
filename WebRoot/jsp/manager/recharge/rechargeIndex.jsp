@@ -102,16 +102,17 @@
         <thead>
         <tr>
             <th width="100">卡商</th>
-            <th width="100">卡站点</th>
-            <th width="150">订单号</th>
+            <th width="110">卡站点</th>
+            <th width="120">订单号</th>
             <th width="100">订单金额</th>
             <th width="100">订单状态</th>
             <%--<th width="100">银行</th>--%>
             <%--<th width="150">银行卡号</th>--%>
             <th width="100">开户人</th>
             <th width="100">操作状态</th>
+            <th width="100">锁定人</th>
             <th width="100">审核状态</th>
-            <th width="150">创建时间</th>
+            <th width="130">创建时间</th>
             <th width="250">操作</th>
 
         </tr>

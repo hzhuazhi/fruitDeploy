@@ -210,6 +210,8 @@ public class RechargeModel extends BasePage implements Serializable {
 
     private String lockAccountName;
 
+    private String checkStatusStr;
+
     public long getId() {
         return id;
     }
@@ -553,5 +555,13 @@ public class RechargeModel extends BasePage implements Serializable {
 
     public void setLockAccountName(String lockAccountName) {
         this.lockAccountName = lockAccountName;
+    }
+
+    public String getCheckStatusStr() {
+        return checkStatusStr;
+    }
+
+    public void setCheckStatusStr(String checkStatusStr) {
+        this.checkStatusStr = checkStatusStr;
     }
 }

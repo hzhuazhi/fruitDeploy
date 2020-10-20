@@ -163,6 +163,8 @@ public class IssueModel extends BasePage implements Serializable {
     private int curdayStart;
     private int curdayEnd;
 
+    private String checkStatusStr;
+
     public long getId() {
         return id;
     }
@@ -402,5 +404,13 @@ public class IssueModel extends BasePage implements Serializable {
 
     public void setCurdayEnd(int curdayEnd) {
         this.curdayEnd = curdayEnd;
+    }
+
+    public String getCheckStatusStr() {
+        return checkStatusStr;
+    }
+
+    public void setCheckStatusStr(String checkStatusStr) {
+        this.checkStatusStr = checkStatusStr;
     }
 }
