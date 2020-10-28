@@ -69,12 +69,72 @@ public class OrderController extends BaseController {
                 //不是管理员，只能查询自己的数据
                 model.setAccountId(account.getId());
             }
-//            else if(account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
-//                model.setCardSiteId(account.getId());
-//            }
+            else if(account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+                model.setCardSiteId(account.getId());
+            }
 
 
             dataList = orderService.queryByList(model);
+        }
+        HtmlUtil.writerJson(response, model.getPage(), dataList);
+    }
+
+
+    /**
+     *
+     * 获取表格数据列表
+     */
+    @RequestMapping("/dataListBankCard")
+    public void dataListBankCard(HttpServletRequest request, HttpServletResponse response, OrderModel model) throws Exception {
+        List<OrderModel> dataList = new ArrayList<OrderModel>();
+        if (model.getCurday()==null||model.getCurday() == 0 ){
+            model.setCurday(DateUtil.getDayNumber(new Date()));
+            model.setCurday(DateUtil.getDayNumber(new Date()));
+        }
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+
+            if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                //不是管理员，只能查询自己的数据
+                model.setAccountId(account.getId());
+            }
+            else if(account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+                model.setCardSiteId(account.getId());
+            }
+            System.out.println("==========:"+model.getPage().getStartIndex());
+            dataList = orderService.queryByListRelease(model);
+
+
+        }
+        HtmlUtil.writerJson(response, model.getPage(), dataList);
+    }
+
+
+    /***
+     * 无分页
+     * @param request
+     * @param response
+     * @param model
+     * @throws Exception
+     */
+    @RequestMapping("/dataListBankCardByCount")
+    public void dataListBankCardByCount(HttpServletRequest request, HttpServletResponse response, OrderModel model) throws Exception {
+        List<OrderModel> dataList = new ArrayList<OrderModel>();
+        if (model.getCurday()==null||model.getCurday() == 0 ){
+            model.setCurday(DateUtil.getDayNumber(new Date()));
+            model.setCurday(DateUtil.getDayNumber(new Date()));
+        }
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+
+            if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_MERCHANTS_VALUE){
+                //不是管理员，只能查询自己的数据
+                model.setAccountId(account.getId());
+            }
+            else if(account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
+                model.setCardSiteId(account.getId());
+            }
+            dataList = orderService.queryByListReleaseByCount(model);
         }
         HtmlUtil.writerJson(response, model.getPage(), dataList);
     }

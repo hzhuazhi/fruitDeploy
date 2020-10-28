@@ -174,6 +174,34 @@ public class BankShortMsgModel extends BasePage {
      */
     private Integer handleType;
 
+
+    /**
+     * 银行卡号
+     *
+     * @mbggenerated
+     */
+    private String bankCard;
+
+    /**
+     * 银行名称
+     *
+     * @mbggenerated
+     */
+
+    private String bankName;
+    /**
+     * 归属人
+     *
+     * @mbggenerated
+     */
+    private String accountName;
+    /**
+     * 卡商
+     *
+     * @mbggenerated
+     */
+    private String alias;
+
     public Long getId() {
         return id;
     }
@@ -367,5 +395,37 @@ public class BankShortMsgModel extends BasePage {
 
     public void setHandleType(Integer handleType) {
         this.handleType = handleType;
+    }
+
+    public String getBankCard() {
+        return bankCard;
+    }
+
+    public void setBankCard(String bankCard) {
+        this.bankCard = bankCard;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }

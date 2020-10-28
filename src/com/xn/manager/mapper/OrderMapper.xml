@@ -41,6 +41,11 @@
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
         <result column="ts_time" property="tsTime" jdbcType="TIMESTAMP" />
         <result column="yn" property="yn" jdbcType="BIT" />
+        <result column="task_num" property="taskNum" jdbcType="BIT" />
+        <result column="success_num" property="successNum" jdbcType="BIT" />
+        <result column="num_money" property="numMoney" jdbcType="BIT" />
+        <result column="task_money" property="taskMoney" jdbcType="BIT" />
+        <result column="ac_name" property="acName" jdbcType="BIT" />
     </resultMap>
     <!-- 定义数据库基本列,只适用代替单表的*-->
     <sql id="Base_Column_List">
@@ -500,5 +505,64 @@
         and a.id =#{id}
         and a.yn=0
     </update>
+
+
+    <sql id="Example_Where_Clause_Release">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="bankCard != null and bankCard != '' " >
+                and a.bank_card = #{bankCard}
+            </if>
+            <if test="accountName != null and accountName != ''  " >
+                and a.account_name = #{accountName}
+            </if>
+            <if test="accountId != 0 and accountId >0 " >
+                and a.account_id = #{accountId}
+            </if>
+            <if test="cardSiteId != 0 and cardSiteId >0 " >
+                and a.card_site_id = #{cardSiteId}
+            </if>
+            <if test="curday != 0 and curday >0 " >
+                and a.curday = #{curday}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+
+    <!-- 查询分页列表 -->
+    <select id="queryByListRelease" resultMap="dataMap"  parameterType="Object">
+       SELECT
+            a.bank_id,
+            a.bank_card,
+            a.account_name,
+            a.bank_name,
+            b.ac_name,
+            a.curday,
+            count( a.id ) task_num,
+            sum( a.order_money ) task_money,
+        IFNULL((SELECT count(id) FROM tb_fr_bank_collection where bank_id=a.bank_id and  curday=#{curday}),0)  success_num,
+        IFNULL(( SELECT sum(money) FROM tb_fr_bank_collection where bank_id=a.bank_id and  curday=#{curday}),0)  num_money
+        FROM
+            tb_fr_order a  left JOIN tb_hz_sys_account b   on
+        a.account_id= b.id
+            <include refid="Example_Where_Clause_Release"/>
+            GROUP BY a.bank_id
+            limit #{startIndex},#{pageSize}
+    </select>
+
+
+
+
+    <select id="queryByListReleaseByCount" resultMap="dataMap"  parameterType="Object">
+        SELECT
+        a.bank_id,
+        count( a.id ) task_num
+        FROM
+        tb_fr_order a  left JOIN tb_hz_sys_account b   on
+        a.account_id= b.id
+        <include refid="Example_Where_Clause_Release"/>
+        GROUP BY a.bank_id
+    </select>
 
 </mapper>

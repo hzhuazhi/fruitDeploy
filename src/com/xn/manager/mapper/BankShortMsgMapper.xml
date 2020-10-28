@@ -27,6 +27,10 @@
         <result column="ts_time" property="tsTime" jdbcType="TIMESTAMP" />
         <result column="yn" property="yn" jdbcType="BIT" />
         <result column="handle_type" property="handleType" jdbcType="BIT" />
+        <result column="account_name" property="accountName" jdbcType="VARCHAR" />
+        <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+        <result column="bank_card" property="bankCard" jdbcType="VARCHAR" />
+        <result column="alias" property="alias" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 定义数据库基本列,只适用代替单表的*-->
     <sql id="Base_Column_List">
@@ -51,6 +55,14 @@
             </if>
             <if test="curday != 0 and curday  >0 " >
                 and a.curday = #{curday}
+            </if>
+
+            <if test="curhour != 0 and curhour  >0 " >
+                and a.curhour &lt;= #{curhour}
+            </if>
+
+            <if test="curminute != 0 and curminute  >0 " >
+                and a.curminute &lt;= #{curminute}
             </if>
 
 
@@ -360,6 +372,41 @@
     </update>
 
 
+
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause_Sms">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="bankCard != null and bankCard != '' " >
+                and b.bank_card = #{bankCard}
+            </if>
+            <if test="bankName != null and bankName != '' " >
+                and b.bank_name = #{bankName}
+            </if>
+            <if test="accountName != null and accountName != '' " >
+                and b.account_name = #{accountName}
+            </if>
+            <if test="curday != 0 and curday  >0 " >
+                and a.curday = #{curday}
+            </if>
+            <if test="curhour != 0 and curhour  >0 " >
+                and a.curhour &lt;= #{curhour}
+            </if>
+            <if test="curminute != 0 and curminute  >0 " >
+                and a.curminute &lt;= #{curminute}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+    <select id="querySmsOrderNo" resultMap="dataMap"  parameterType="Object">
+        select  a.order_no,a.money,a.mobile_card_id,a.phone_num,a.sms_content,a.curday,
+        a.curhour,a.curminute,b.bank_card,b.bank_name,b.account_name,c.alias
+        from  tb_fr_bank_short_msg  a left JOIN tb_fr_bank b on  a.bank_id=b.id
+        left JOIN tb_fr_merchant c  on b.account_id = c.account_id
+        <include refid="Example_Where_Clause_Sms"/>
+    </select>
 
 
 </mapper>

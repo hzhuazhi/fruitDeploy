@@ -281,6 +281,51 @@ public class OrderModel extends BasePage {
      * @mbggenerated
      */
     private Integer beginCurday;
+    /**
+     * 任务数
+     *
+     * @mbggenerated
+     */
+    private Integer taskNum;
+
+    /**
+     * 成功数
+     *
+     * @mbggenerated
+     */
+    private Integer successNum;
+    /**
+     * 订单金额
+     *
+     * @mbggenerated
+     */
+    private Integer taskMoney;
+    /**
+     * 放量数量成功
+     *
+     * @mbggenerated
+     */
+    private Integer numMoney;
+    /**
+     * 任务成功率
+     *
+     * @mbggenerated
+     */
+    private String  successRateTask;
+
+    /**
+     * 金额成功率
+     *
+     * @mbggenerated
+     */
+    private String  successRateMoney;
+
+    /**
+     * 卡商
+     *
+     * @mbggenerated
+     */
+    private String  acName;
 
 
 
@@ -602,5 +647,61 @@ public class OrderModel extends BasePage {
 
     public void setDistributionMoney(String distributionMoney) {
         this.distributionMoney = distributionMoney;
+    }
+
+    public Integer getTaskNum() {
+        return taskNum;
+    }
+
+    public void setTaskNum(Integer taskNum) {
+        this.taskNum = taskNum;
+    }
+
+    public Integer getSuccessNum() {
+        return successNum;
+    }
+
+    public void setSuccessNum(Integer successNum) {
+        this.successNum = successNum;
+    }
+
+    public Integer getTaskMoney() {
+        return taskMoney;
+    }
+
+    public void setTaskMoney(Integer taskMoney) {
+        this.taskMoney = taskMoney;
+    }
+
+    public Integer getNumMoney() {
+        return numMoney;
+    }
+
+    public void setNumMoney(Integer numMoney) {
+        this.numMoney = numMoney;
+    }
+
+    public String getSuccessRateTask() {
+        return successRateTask;
+    }
+
+    public void setSuccessRateTask(String successRateTask) {
+        this.successRateTask = successRateTask;
+    }
+
+    public String getSuccessRateMoney() {
+        return successRateMoney;
+    }
+
+    public void setSuccessRateMoney(String successRateMoney) {
+        this.successRateMoney = successRateMoney;
+    }
+
+    public String getAcName() {
+        return acName;
+    }
+
+    public void setAcName(String acName) {
+        this.acName = acName;
     }
 }

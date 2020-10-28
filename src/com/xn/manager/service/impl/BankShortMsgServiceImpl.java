@@ -8,6 +8,7 @@ import com.xn.manager.dao.BankShortMsgDao;
 import com.xn.manager.dao.BankTypeDao;
 import com.xn.manager.dao.MobileCardDao;
 import com.xn.manager.model.BankModel;
+import com.xn.manager.model.BankShortMsgModel;
 import com.xn.manager.model.BankTypeModel;
 import com.xn.manager.model.MobileCardModel;
 import com.xn.manager.service.BankService;
@@ -40,5 +41,8 @@ public class BankShortMsgServiceImpl<T> extends BaseServiceImpl<T> implements Ba
         return bankShortMsgDao;
     }
 
-
+    @Override
+    public List<BankShortMsgModel> querySms(BankShortMsgModel bankShortMsgModel) {
+        return bankShortMsgDao.querySmsOrderNo(bankShortMsgModel);
+    }
 }

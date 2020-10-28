@@ -64,6 +64,25 @@ public class BankShortMsgController extends BaseController {
     }
 
 
+
+    /**
+     *
+     * 获取表格数据列表
+     */
+    @RequestMapping("/dataListMsg")
+    public void dataListMsg(HttpServletRequest request, HttpServletResponse response, BankShortMsgModel model) throws Exception {
+        List<BankShortMsgModel> dataList = new ArrayList<BankShortMsgModel>();
+//        model.setUseStatus(1);
+//        model.setIsEnable(ManagerConstant.PUBLIC_CONSTANT.IS_ENABLE_ZC);
+        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
+        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            dataList = bankShortMsgService.querySms(model);
+        }
+        HtmlUtil.writerJson(response, model.getPage(), dataList);
+    }
+
+
+
     /**
      *
      * 获取表格数据列表-无分页
