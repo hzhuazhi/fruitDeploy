@@ -101,7 +101,6 @@ public class OrderController extends BaseController {
             else if(account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.CARD_SITE_VALUE){
                 model.setCardSiteId(account.getId());
             }
-            System.out.println("==========:"+model.getPage().getStartIndex());
             dataList = orderService.queryByListRelease(model);
 
 
