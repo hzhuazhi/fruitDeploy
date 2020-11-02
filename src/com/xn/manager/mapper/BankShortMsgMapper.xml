@@ -391,10 +391,10 @@
                 and a.curday = #{curday}
             </if>
             <if test="curhour != 0 and curhour  >0 " >
-                and a.curhour &lt;= #{curhour}
+                and a.curhour = #{curhour}
             </if>
             <if test="curminute != 0 and curminute  >0 " >
-                and a.curminute &lt;= #{curminute}
+                and a.curminute &gt;= #{curminute}
             </if>
             and a.yn =  0
         </trim>
